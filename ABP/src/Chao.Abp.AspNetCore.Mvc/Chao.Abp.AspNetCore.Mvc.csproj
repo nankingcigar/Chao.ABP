@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="7.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chao.Abp.AspNetCore\Chao.Abp.AspNetCore.csproj" />
+    <ProjectReference Include="..\Chao.Abp.Json.SystemTextJson\Chao.Abp.Json.SystemTextJson.csproj" />
+  </ItemGroup>
+
+</Project>

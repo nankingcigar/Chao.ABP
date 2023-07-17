@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="7.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chao.Abp.Authorization\Chao.Abp.Authorization.csproj" />
+    <ProjectReference Include="..\Chao.Abp.Ddd.Domain\Chao.Abp.Ddd.Domain.csproj" />
+    <ProjectReference Include="..\Chao.Abp.ResultHandling\Chao.Abp.ResultHandling.csproj" />
+  </ItemGroup>
+
+</Project>

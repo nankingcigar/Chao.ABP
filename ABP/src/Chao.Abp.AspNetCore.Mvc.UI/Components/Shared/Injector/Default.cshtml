@@ -1,0 +1,7 @@
+﻿@if (Model.EnableInjector == true)
+{
+    <script>
+        var abp = abp || {};
+        abp.appPath = '@Model.InjectorUri';
+    </script>
+}

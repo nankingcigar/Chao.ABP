@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="7.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chao.Abp.Ddd.Domain\Chao.Abp.Ddd.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Chao.Abp.MultiTenancy\Chao.Abp.MultiTenancy.csproj" />
+  </ItemGroup>
+
+</Project>
