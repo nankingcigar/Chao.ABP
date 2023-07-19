@@ -9,6 +9,8 @@ using Chao.Abp.Json.SystemTextJson.JsonConverters;
 using Chao.Abp.Timing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
+using System.Text.Json.Serialization;
 using Volo.Abp.Json.SystemTextJson;
 using Volo.Abp.Json.SystemTextJson.JsonConverters;
 using Volo.Abp.Modularity;
@@ -25,5 +27,20 @@ public class ChaoAbpJsonSystemTextJsonModule : AbpModule
     {
         context.Services.Replace(ServiceDescriptor.Transient<AbpDateTimeConverter, ChaoAbpDateTimeConverter>());
         context.Services.Replace(ServiceDescriptor.Transient<AbpNullableDateTimeConverter, ChaoAbpNullableDateTimeConverter>());
+        context.Services.AddOptions<AbpSystemTextJsonSerializerOptions>()
+            .Configure<IServiceProvider>((options, rootServiceProvider) =>
+            {
+                options.JsonSerializerOptions.Converters.Clear();
+                options.JsonSerializerOptions.Converters.Add(new ObjectToInferredTypesConverter());
+                options.JsonSerializerOptions.Converters.Add(rootServiceProvider
+                    .GetRequiredService<ChaoAbpDateTimeConverter>());
+                options.JsonSerializerOptions.Converters.Add(rootServiceProvider
+                    .GetRequiredService<ChaoAbpNullableDateTimeConverter>());
+                options.JsonSerializerOptions.Converters.Add(rootServiceProvider
+                    .GetRequiredService<ChaoDateTimeOffsetConverter>());
+                options.JsonSerializerOptions.Converters.Add(rootServiceProvider
+                    .GetRequiredService<ChaoNullableDateTimeOffsetConverter>());
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
     }
 }

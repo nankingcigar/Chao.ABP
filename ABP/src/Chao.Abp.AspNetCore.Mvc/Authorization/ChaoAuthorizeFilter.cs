@@ -31,9 +31,9 @@ public class ChaoAuthorizeFilter : IAsyncAuthorizationFilter, ITransientDependen
     public virtual IAuthorizationPolicyProvider PolicyProvider { get; set; }
     public virtual string[] Policys { get; set; }
 
-    public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
+    public virtual async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
-        if (context.Filters.Any(item => item is IAllowAnonymousFilter))
+        if (context.ActionDescriptor.EndpointMetadata.Any(item => item is IAllowAnonymous))
         {
             return;
         }
