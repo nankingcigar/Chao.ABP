@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 
@@ -31,6 +33,10 @@ public class ChaoAuthorizeFilter : IAsyncAuthorizationFilter, ITransientDependen
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
+        if (context.Filters.Any(item => item is IAllowAnonymousFilter))
+        {
+            return;
+        }
         if (Policys == null || Policys.Length == 0)
         {
             var defaultPolicy = await PolicyProvider.GetDefaultPolicyAsync();
