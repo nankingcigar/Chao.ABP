@@ -6,6 +6,8 @@ $commands = (
   "cd dist\nankingcigar\ng.core",
   "npm publish",
   "cd ..\ng.translate",
+  "npm publish",
+  "cd ..\ng-zorro-antd",
   "npm publish"
 )
 

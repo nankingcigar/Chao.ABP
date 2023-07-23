@@ -1,0 +1,15 @@
+{
+  "name": "@nankingcigar/ng-zorro-antd",
+  "version": "16.1.2",
+  "peerDependencies": {
+    "ng-zorro-antd": "^16.1.0"
+  },
+  "dependencies": {
+    "tslib": "^2.6.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "LGPL-3.0"
+}

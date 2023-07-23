@@ -68,6 +68,39 @@
           }
         }
       }
+    },
+    "@nankingcigar/ng-zorro-antd": {
+      "projectType": "library",
+      "root": "packages/antd",
+      "sourceRoot": "packages/antd/src",
+      "prefix": "chao",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/antd/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/antd/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/antd/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "packages/antd/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

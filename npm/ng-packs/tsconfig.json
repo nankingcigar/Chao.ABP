@@ -3,6 +3,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@nankingcigar/ng-zorro-antd": [
+        "packages/antd"
+      ],
       "@nankingcigar/ng.core": [
         "packages/core"
       ],

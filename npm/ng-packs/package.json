@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-module": "ng build @nankingcigar/ng.core && ng build @nankingcigar/ng.translate",
+    "build-module": "ng build @nankingcigar/ng.core && ng build @nankingcigar/ng.translate && ng build @nankingcigar/ng-zorro-antd",
     "publish-core": "cd dist\nankingcigar\ng.core && npm publish",
     "publish-translate": "cd dist\nankingcigar\ng.translate && npm publish"
   },
@@ -24,6 +24,7 @@
     "angular-oauth2-oidc": "^15.0.1",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "ng-zorro-antd": "^16.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
