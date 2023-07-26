@@ -4,7 +4,7 @@
  * @LastEditor: Chao Yang
  * @LastEditTime: 2022-11-26 16:32:46
  */
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientXsrfModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   AuthConfig,

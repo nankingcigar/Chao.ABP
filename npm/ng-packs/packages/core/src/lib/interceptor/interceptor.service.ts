@@ -8,7 +8,10 @@ import { HttpEvent, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Observable, throwError } from 'rxjs';
-import { AuthenticationConfig, AuthenticationMode } from '../model/authentication/index';
+import {
+  AuthenticationConfig,
+  AuthenticationMode,
+} from '../model/authentication/index';
 
 @Injectable()
 export class InterceptorService {
@@ -16,7 +19,10 @@ export class InterceptorService {
   loginUrl: string;
   issuer: string;
 
-  constructor(protected authenticationConfig: AuthenticationConfig, protected oAuthService: OAuthService) {
+  constructor(
+    protected authenticationConfig: AuthenticationConfig,
+    protected oAuthService: OAuthService
+  ) {
     switch (this.authenticationConfig.authenticationMode) {
       case AuthenticationMode.Cookie:
         this.redirectUri = this.authenticationConfig.cookieConfig.redirectUri;
@@ -24,8 +30,10 @@ export class InterceptorService {
         this.issuer = this.authenticationConfig.cookieConfig.issuer;
         break;
       case AuthenticationMode.Token:
-        this.redirectUri = this.authenticationConfig.tokenConfig.redirectUri as string;
-        this.loginUrl = this.authenticationConfig.tokenConfig.loginUrl as string;
+        this.redirectUri = this.authenticationConfig.tokenConfig
+          .redirectUri as string;
+        this.loginUrl = this.authenticationConfig.tokenConfig
+          .loginUrl as string;
         this.issuer = this.authenticationConfig.tokenConfig.issuer as string;
         break;
       default:
@@ -37,8 +45,11 @@ export class InterceptorService {
   }
 
   handleBeforeRequest(request: HttpRequest<any>): HttpRequest<any> {
+    const headers = {} as any;
+    this.setXsrfToekn(headers);
     const requestGhost = request.clone({
-      url: this.handleUrl(request.url)
+      setHeaders: headers,
+      url: this.handleUrl(request.url),
     });
     return requestGhost;
   }
@@ -62,7 +73,10 @@ export class InterceptorService {
       location.href = this.loginUrl;
     } else if (errorResponse.status === 403) {
       location.href = this.redirectUri;
-    } else if (errorResponse.error !== null && errorResponse.error !== undefined) {
+    } else if (
+      errorResponse.error !== null &&
+      errorResponse.error !== undefined
+    ) {
       if (errorResponse.error.__chao === true) {
         return throwError(() => errorResponse.error.error);
       }
@@ -84,5 +98,20 @@ export class InterceptorService {
       return this.issuer + url;
     }
     return url;
+  }
+
+  setXsrfToekn(headers: { [key: string]: string }) {
+    if (
+      this.authenticationConfig.authenticationMode ===
+        AuthenticationMode.Cookie &&
+      this.authenticationConfig.cookieConfig.xsrf === true
+    ) {
+      const xsrf = sessionStorage.getItem(
+        this.authenticationConfig.cookieConfig.xsrfHeaderKey
+      );
+      if (xsrf !== undefined && xsrf !== null) {
+        headers[this.authenticationConfig.cookieConfig.xsrfHeaderKey] = xsrf;
+      }
+    }
   }
 }

@@ -23,6 +23,9 @@ export class AuthenticationConfig {
       redirectUri: '',
       logoutApiUrl: '',
       issuer: '',
+      xsrf: true,
+      xsrfEndPoint: '',
+      xsrfHeaderKey: 'RequestVerificationToken'
     };
     this.sessionValidationUrl = '';
   }

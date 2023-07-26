@@ -10,4 +10,7 @@ export interface ICookieConfig {
   redirectUri: string;
   logoutApiUrl: string;
   issuer: string;
+  xsrf: boolean;
+  xsrfEndPoint: string;
+  xsrfHeaderKey: string;
 }
