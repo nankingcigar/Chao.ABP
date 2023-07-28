@@ -1,6 +1,6 @@
 {
   "name": "@nankingcigar/ng-zorro-antd",
-  "version": "16.1.3",
+  "version": "16.1.4",
   "peerDependencies": {
     "ng-zorro-antd": "^16.1.0"
   },

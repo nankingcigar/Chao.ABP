@@ -122,7 +122,7 @@ export class AuthService {
 
   xsrfToken() {
     this.httpClient
-      .get<string>(this.authenticationConfig.cookieConfig.xsrfEndPoint)
+      .post<string>(this.authenticationConfig.cookieConfig.xsrfEndPoint, undefined)
       .subscribe((r) => {
         sessionStorage.setItem(
           this.authenticationConfig.cookieConfig.xsrfHeaderKey,
