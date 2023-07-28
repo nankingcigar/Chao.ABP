@@ -19,7 +19,6 @@ using System.Text.Json.Serialization;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.ExceptionHandling;
 using Volo.Abp.AspNetCore.Mvc.ModelBinding;
-using Volo.Abp.Json.SystemTextJson.JsonConverters;
 using Volo.Abp.Modularity;
 
 namespace Chao.Abp.AspNetCore.Mvc;
@@ -44,8 +43,6 @@ public class ChaoAbpAspNetCoreMvcModule : AbpModule
         context.Services.AddOptions<JsonOptions>()
             .Configure<IServiceProvider>((options, rootServiceProvider) =>
             {
-                options.JsonSerializerOptions.Converters.Clear();
-                options.JsonSerializerOptions.Converters.Add(new ObjectToInferredTypesConverter());
                 options.JsonSerializerOptions.Converters.Add(rootServiceProvider
                     .GetRequiredService<ChaoAbpDateTimeConverter>());
                 options.JsonSerializerOptions.Converters.Add(rootServiceProvider

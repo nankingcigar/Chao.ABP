@@ -30,8 +30,6 @@ public class ChaoAbpJsonSystemTextJsonModule : AbpModule
         context.Services.AddOptions<AbpSystemTextJsonSerializerOptions>()
             .Configure<IServiceProvider>((options, rootServiceProvider) =>
             {
-                options.JsonSerializerOptions.Converters.Clear();
-                options.JsonSerializerOptions.Converters.Add(new ObjectToInferredTypesConverter());
                 options.JsonSerializerOptions.Converters.Add(rootServiceProvider
                     .GetRequiredService<ChaoAbpDateTimeConverter>());
                 options.JsonSerializerOptions.Converters.Add(rootServiceProvider
