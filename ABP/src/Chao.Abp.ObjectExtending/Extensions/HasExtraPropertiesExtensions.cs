@@ -40,11 +40,25 @@ public static class HasExtraPropertiesExtensions
         }
         else if (conversionType.IsClass == true)
         {
-            return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            if (value is JsonElement)
+            {
+                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            }
+            else
+            {
+                return (TProperty)value;
+            }
         }
         else if (conversionType.IsGenericType == true)
         {
-            return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            if (value is JsonElement)
+            {
+                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            }
+            else
+            {
+                return (TProperty)value;
+            }
         }
 
         throw new AbpException("GetProperty<TProperty> does not support non-primitive or non-class types. Use non-generic GetProperty method and handle type casting manually.");
