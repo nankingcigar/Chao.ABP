@@ -8,6 +8,8 @@ $commands = (
   "cd ..\ng.translate",
   "npm publish",
   "cd ..\ng-zorro-antd",
+  "npm publish",
+  "cd ..\ng-monaco-editor",
   "npm publish"
 )
 

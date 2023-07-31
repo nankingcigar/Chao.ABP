@@ -3,6 +3,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "@nankingcigar/ng-monaco-editor": [
+        "packages/monaco-editor"
+      ],
       "@nankingcigar/ng-zorro-antd": [
         "packages/antd"
       ],
