@@ -1,6 +1,6 @@
 {
   "name": "@chao-ng-packs",
-  "version": "16.0.1",
+  "version": "16.1.13",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "@nankingcigar/ng.core": "file:dist/nankingcigar/ng.core",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "angular-oauth2-oidc": "^15.0.1",

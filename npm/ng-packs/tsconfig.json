@@ -2,20 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "paths": {
-      "@nankingcigar/ng-monaco-editor": [
-        "packages/monaco-editor"
-      ],
-      "@nankingcigar/ng-zorro-antd": [
-        "packages/antd"
-      ],
-      "@nankingcigar/ng.core": [
-        "packages/core"
-      ],
-      "@nankingcigar/ng.translate": [
-        "packages/translate"
-      ]
-    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

@@ -19,8 +19,6 @@ foreach ($command in $commands) {
   Invoke-Expression $command
   if ($LASTEXITCODE -ne '0' -And $command -notlike '*cd *') {
     Write-Host ("Process failed! " + $command)
-    Set-Location $RootFolder
-    exit $LASTEXITCODE
   }
   $timer.Stop()
   $total = $timer.Elapsed

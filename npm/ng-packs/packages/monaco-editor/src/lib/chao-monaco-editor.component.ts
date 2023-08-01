@@ -5,7 +5,6 @@ import {
   forwardRef,
   Input,
   OnDestroy,
-  OnInit,
   ViewChild,
   NgZone,
 } from '@angular/core';
@@ -20,12 +19,12 @@ declare var monaco: any;
 
 @Component({
   selector: 'chao-monaco-editor',
-  template: `<div class="editor-container" #editorContainer></div>`,
+  template: `<div remove-host-tag class="editor-container" #editorContainer></div>`,
   styles: [
     `
       .editor-container {
         width: 100%;
-        height: 30rem;
+        height: 100%;
       }
     `,
   ],
@@ -38,8 +37,7 @@ declare var monaco: any;
   ],
 })
 export class ChaoMonacoEditorComponent
-  implements AfterViewInit, ControlValueAccessor, OnInit, OnDestroy
-{
+  implements AfterViewInit, ControlValueAccessor, OnDestroy {
   @ViewChild('editorContainer', { static: true })
   editorContainer!: ElementRef;
   editor: any;
@@ -58,22 +56,12 @@ export class ChaoMonacoEditorComponent
   }
 
   _value: string = '';
-  propagateChange = (_: any) => {};
-  onTouched = () => {};
+  propagateChange = (_: any) => { };
+  onTouched = () => { };
 
   windowResizeSubscription!: Subscription;
 
-  constructor(private zone: NgZone, private el: ElementRef) {}
-
-  ngOnInit() {
-    var nativeElement: HTMLElement = this.el.nativeElement,
-      parentElement: HTMLElement = nativeElement.parentElement as HTMLElement;
-
-    while (nativeElement.firstChild) {
-      parentElement.insertBefore(nativeElement.firstChild, nativeElement);
-    }
-    parentElement.removeChild(nativeElement);
-  }
+  constructor(private zone: NgZone) { }
 
   ngAfterViewInit(): void {
     if (loadedMonaco === true) {

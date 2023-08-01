@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 publish-nupkg-chao.bat
 !**/packages/*
+/test
