@@ -1,5 +1,4 @@
 import { editor } from 'monaco-editor';
 
-import IStandAloneEditorConstructionOptions = editor.IStandaloneEditorConstructionOptions;
-
-export type EditorOptions = IStandAloneEditorConstructionOptions;
+export type EditorOptions = editor.IStandaloneEditorConstructionOptions;
+export type IStandaloneCodeEditor = editor.IStandaloneCodeEditor;

@@ -5,12 +5,11 @@ import {
   forwardRef,
   Input,
   OnDestroy,
-  ViewChild,
-  NgZone,
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { fromEvent, Subscription } from 'rxjs';
-import { EditorOptions } from './typings';
+import { EditorOptions, IStandaloneCodeEditor } from './typings';
 
 let loadedMonaco = false;
 let loadPromise: Promise<void>;
@@ -20,14 +19,7 @@ declare var monaco: any;
 @Component({
   selector: 'chao-monaco-editor',
   template: `<div remove-host-tag class="chao-monaco-editor" #editorContainer></div>`,
-  styles: [
-    `
-      .editor-container {
-        width: 100%;
-        height: 100%;
-      }
-    `,
-  ],
+  styles: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -36,11 +28,10 @@ declare var monaco: any;
     },
   ],
 })
-export class ChaoMonacoEditorComponent
-  implements AfterViewInit, ControlValueAccessor, OnDestroy {
+export class ChaoMonacoEditorComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
   @ViewChild('editorContainer', { static: true })
   editorContainer!: ElementRef;
-  editor: any;
+  editor!: IStandaloneCodeEditor;
 
   _options!: EditorOptions;
   @Input('options')
@@ -63,7 +54,7 @@ export class ChaoMonacoEditorComponent
 
   windowResizeSubscription!: Subscription;
 
-  constructor(private zone: NgZone) { }
+  constructor() { }
 
   ngAfterViewInit(): void {
     if (loadedMonaco === true) {
@@ -151,7 +142,7 @@ export class ChaoMonacoEditorComponent
     }
     if (this.editor) {
       this.editor.dispose();
-      this.editor = undefined;
+      this.editor = undefined as any;
     }
   }
 }

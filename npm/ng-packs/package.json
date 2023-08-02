@@ -1,13 +1,13 @@
 {
   "name": "@chao-ng-packs",
-  "version": "16.1.14",
+  "version": "16.1.15",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-module": "ng build @nankingcigar/ng.core && ng build @nankingcigar/ng.translate && ng build @nankingcigar/ng-zorro-antd && ng build @nankingcigar/ng-monaco-editor",
+    "build-module": "ng build @nankingcigar/ng.core && ng build @nankingcigar/ng.translate && ng build @nankingcigar/ng-zorro-antd && ng build @nankingcigar/ng-monaco-editor  && ng build @nankingcigar/ng-wang-editor",
     "publish-core": "cd dist\nankingcigar\ng.core && npm publish",
     "publish-translate": "cd dist\nankingcigar\ng.translate && npm publish"
   },
@@ -24,6 +24,8 @@
     "@nankingcigar/ng.core": "file:dist/nankingcigar/ng.core",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/plugin-formula": "^1.0.11",
     "angular-oauth2-oidc": "^15.0.1",
     "monaco-editor": "^0.40.0",
     "ng-zorro-antd": "^16.1.0",

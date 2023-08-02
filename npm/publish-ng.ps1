@@ -10,6 +10,8 @@ $commands = (
   "cd ..\ng-zorro-antd",
   "npm publish",
   "cd ..\ng-monaco-editor",
+  "npm publish",
+  "cd ..\ng-wang-editor",
   "npm publish"
 )
 

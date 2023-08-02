@@ -134,6 +134,39 @@
           }
         }
       }
+    },
+    "@nankingcigar/ng-wang-editor": {
+      "projectType": "library",
+      "root": "packages/wang-editor",
+      "sourceRoot": "packages/wang-editor/src",
+      "prefix": "chao",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/wang-editor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/wang-editor/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/wang-editor/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "packages/wang-editor/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

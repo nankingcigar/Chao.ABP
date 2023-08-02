@@ -1,0 +1,1 @@
+export { IDomEditor, IToolbarConfig, Toolbar, IEditorConfig } from '@wangeditor/editor';
