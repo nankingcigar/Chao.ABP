@@ -19,7 +19,7 @@ declare var monaco: any;
 
 @Component({
   selector: 'chao-monaco-editor',
-  template: `<div remove-host-tag class="editor-container" #editorContainer></div>`,
+  template: `<div remove-host-tag class="chao-monaco-editor" #editorContainer></div>`,
   styles: [
     `
       .editor-container {
@@ -54,6 +54,8 @@ export class ChaoMonacoEditorComponent
   get options(): any {
     return this._options;
   }
+  @Input()
+  language: 'de' | 'es' | 'fr' | 'it' | 'ja' | 'ko' | 'ru' | 'zh-cn' | 'zh-tw' = 'zh-cn';
 
   _value: string = '';
   propagateChange = (_: any) => { };
@@ -80,6 +82,9 @@ export class ChaoMonacoEditorComponent
         const onGotAmdLoader: any = () => {
           (<any>window).require.config({
             paths: { vs: `${baseUrl}/monaco/min/vs` },
+          });
+          (<any>window).require.config({
+            'vs/nls': { availableLanguages: { '*': this.language } },
           });
           (<any>window).require([`vs/editor/editor.main`], () => {
             this.initMonaco(this._options);
