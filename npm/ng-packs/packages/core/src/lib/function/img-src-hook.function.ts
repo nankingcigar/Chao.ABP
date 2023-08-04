@@ -5,6 +5,16 @@ export function ImgSrcHookFunction(httpClient: HttpClient, lazyImage: string | A
   const nativeSet: any = property?.set;
   function srcHook(this: any, url: any) {
     const img = this;
+    if (url === null || url === undefined || url === '') {
+      nativeSet.call(img, url);
+      return;
+    }
+    try {
+      window.atob(url);
+      nativeSet.call(img, url);
+      return;
+    } catch {
+    }
     httpClient.get(url, { responseType: 'blob' }).subscribe((blob: any) => {
       const reader = new FileReader();
       reader.readAsDataURL(blob);
