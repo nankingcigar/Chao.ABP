@@ -9,11 +9,10 @@ export function ImgSrcHookFunction(httpClient: HttpClient, lazyImage: string | A
       nativeSet.call(img, url);
       return;
     }
-    try {
-      window.atob(url);
+    const base64 = /^data:image[/][a-zA-Z*]+;base64/;
+    if (base64.test(url) === true) {
       nativeSet.call(img, url);
       return;
-    } catch {
     }
     httpClient.get(url, { responseType: 'blob' }).subscribe((blob: any) => {
       const reader = new FileReader();
