@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ChaoWangEditorComponent } from './chao-wang-editor.component';
 import { Boot } from '@wangeditor/editor';
 import formulaModule from '@wangeditor/plugin-formula';
-Boot.registerModule(formulaModule);
+Boot.registerModule((formulaModule as any).default);
 
 @NgModule({
   declarations: [
@@ -16,4 +16,5 @@ Boot.registerModule(formulaModule);
     ChaoWangEditorComponent
   ]
 })
-export class ChaoWangEditorModule { }
+export class ChaoWangEditorModule {
+}
