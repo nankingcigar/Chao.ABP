@@ -67,7 +67,7 @@ export class InterceptorService {
     return response;
   }
 
-  handleErrorResponse(errorResponse: any): Observable<never> {
+  handleErrorResponse(errorResponse: any): any {
     if (errorResponse.status === 401) {
       this.clearFor401();
       location.href = this.loginUrl;
@@ -78,11 +78,11 @@ export class InterceptorService {
       errorResponse.error !== undefined
     ) {
       if (errorResponse.error.__chao === true) {
-        return throwError(() => errorResponse.error.error);
+        return errorResponse.error.error;
       }
-      return throwError(() => new Error(errorResponse.error));
+      return new Error(errorResponse.error);
     }
-    return throwError(() => new Error(errorResponse));
+    return errorResponse;
   }
 
   clearFor401(): void {
@@ -103,7 +103,7 @@ export class InterceptorService {
   setXsrfToekn(headers: { [key: string]: string }) {
     if (
       this.authenticationConfig.authenticationMode ===
-        AuthenticationMode.Cookie &&
+      AuthenticationMode.Cookie &&
       this.authenticationConfig.cookieConfig.xsrf === true
     ) {
       const xsrf = sessionStorage.getItem(

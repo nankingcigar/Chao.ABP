@@ -9,8 +9,8 @@ export function ImgSrcHookFunction(httpClient: HttpClient, lazyImage: string | A
       nativeSet.call(img, url);
       return;
     }
-    const base64 = /^data:image[/][a-zA-Z*]+;base64/;
-    if (base64.test(url) === true) {
+    const base64Regex = /^data:image[/][a-zA-Z*]+;base64/;
+    if (base64Regex.test(url) === true) {
       nativeSet.call(img, url);
       return;
     }
