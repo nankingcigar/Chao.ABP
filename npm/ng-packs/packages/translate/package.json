@@ -1,6 +1,6 @@
 {
   "name": "@nankingcigar/ng.translate",
-  "version": "16.1.19",
+  "version": "16.2.1",
   "homepage": "https://github.com/nankingcigar/Chao.ABP",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
     "@ngx-translate/http-loader": "^8.0.0"
   },
   "dependencies": {
-    "tslib": "^2.6.0"
+    "tslib": "^2.6.2"
   },
   "sideEffects": false,
   "publishConfig": {

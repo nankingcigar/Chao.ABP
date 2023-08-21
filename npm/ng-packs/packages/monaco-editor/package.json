@@ -1,17 +1,17 @@
 {
   "name": "@nankingcigar/ng-monaco-editor",
-  "version": "16.1.19",
+  "version": "16.2.1",
   "homepage": "https://github.com/nankingcigar/Chao.ABP",
   "repository": {
     "type": "git",
     "url": "https://github.com/nankingcigar/Chao.ABP.git"
   },
   "peerDependencies": {
-    "@nankingcigar/ng.core": "^16.1.19",
-    "monaco-editor": "^0.40.0"
+    "@nankingcigar/ng.core": "^16.2.1",
+    "monaco-editor": "^0.40.1"
   },
   "dependencies": {
-    "tslib": "^2.6.0"
+    "tslib": "^2.6.2"
   },
   "sideEffects": false,
   "publishConfig": {
