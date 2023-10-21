@@ -1,5 +1,4 @@
 ﻿using Chao.Abp.Timing;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
