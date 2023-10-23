@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\Administrator\.nuget\packages\volo.abp.openiddict.aspnetcore\7.4.0\contentFiles\any\net7.0\Volo.Abp.OpenIddict.AspNetCore.abppkg.analyze.json" />
+    <Content Remove="C:\Users\Administrator\.nuget\packages\volo.abp.openiddict.aspnetcore\7.4.0\contentFiles\any\net7.0\Volo.Abp.OpenIddict.AspNetCore.abppkg.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" Version="7.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\CAS\src\Chao.CAS\Chao.CAS.csproj" />
+  </ItemGroup>
+
+</Project>

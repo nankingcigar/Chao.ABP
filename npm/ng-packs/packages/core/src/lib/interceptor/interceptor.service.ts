@@ -46,7 +46,7 @@ export class InterceptorService {
 
   handleBeforeRequest(request: HttpRequest<any>): HttpRequest<any> {
     const headers = {} as any;
-    this.setXsrfToekn(headers);
+    this.setXsrfToken(headers);
     const requestGhost = request.clone({
       setHeaders: headers,
       url: this.handleUrl(request.url),
@@ -100,7 +100,7 @@ export class InterceptorService {
     return url;
   }
 
-  setXsrfToekn(headers: { [key: string]: string }) {
+  setXsrfToken(headers: { [key: string]: string }) {
     if (
       this.authenticationConfig.authenticationMode ===
       AuthenticationMode.Cookie &&

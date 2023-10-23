@@ -29,7 +29,11 @@ export class AuthGuard implements CanActivate {
   ) {
     return this.authService.sessionIsValid().pipe(map(valid => {
       if (valid == false) {
-        this.router.navigateByUrl(this.authService.loginUrl);
+        if (this.authService.loginUrl.toLowerCase().startsWith("http") === false) {
+          this.router.navigateByUrl(this.authService.loginUrl);
+        } else {
+          location.href = this.authService.loginUrl;
+        }
       }
       return valid == true;
     }));

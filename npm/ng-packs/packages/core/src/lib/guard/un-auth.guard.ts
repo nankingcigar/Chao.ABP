@@ -29,7 +29,11 @@ export class UnAuthGuard implements CanActivate {
   ) {
     return this.authService.sessionIsValid().pipe(map(valid => {
       if (valid == true) {
-        this.router.navigateByUrl(this.authService.redirectUri);
+        if (this.authService.redirectUri.toLowerCase().startsWith("http") === false) {
+          this.router.navigateByUrl(this.authService.redirectUri);
+        } else {
+          location.href = this.authService.redirectUri;
+        }
       }
       return valid == false;
     }));
