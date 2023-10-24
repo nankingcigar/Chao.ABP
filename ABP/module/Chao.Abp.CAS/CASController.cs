@@ -14,9 +14,7 @@ namespace Chao.Abp.Identity.CAS;
 public class CASController : AbpController
 {
     public virtual CASHandler CASHandler { get; set; }
-    public virtual ChaoCASOption ChaoAbpCASOption => ChaoAbpCASOptions.Value;
-    public virtual IOptions<ChaoCASOption> ChaoAbpCASOptions { get; set; }
-    public virtual ChaoCASOption ChaoCASOption { get; set; }
+    public virtual ChaoCASOption ChaoCASOption => ChaoCASOptions.Value;
     public virtual IOptions<ChaoCASOption> ChaoCASOptions { get; set; }
     public virtual ChaoIdentitySSOOption ChaoIdentitySSOOption => ChaoIdentitySSOOptions.Value;
     public virtual IOptions<ChaoIdentitySSOOption> ChaoIdentitySSOOptions { get; set; }
@@ -33,7 +31,7 @@ public class CASController : AbpController
             var user = await IdentityUserRepository.FindByNormalizedUserNameAsync(userName.Normalize());
             await SignInManager.SignInAsync(user, isPersistent: false);
         }
-        ViewData["LandingUri"] = ChaoAbpCASOption.LandingUri;
+        ViewData["LandingUri"] = ChaoCASOption.LandingUri;
         return View();
     }
 
@@ -43,13 +41,13 @@ public class CASController : AbpController
         var userName = profile?.UserInfo?.UserName;
         if (userName.IsNullOrEmpty() == false)
         {
-            var token = await TokenApi.Get(ChaoAbpCASOption.TokenUri, CurrentTenant?.Id?.ToString() ?? "", ChaoAbpCASOption.GrantType, ChaoAbpCASOption.Scope, ChaoAbpCASOption.ClientId, userName, ChaoIdentitySSOOption.ProviderName);
+            var token = await TokenApi.Get(ChaoCASOption.TokenUri, CurrentTenant?.Id?.ToString() ?? "", ChaoCASOption.GrantType, ChaoCASOption.Scope, ChaoCASOption.ClientId, userName, ChaoIdentitySSOOption.ProviderName);
             ViewData["access_token"] = token.access_token;
             ViewData["token_type"] = token.token_type;
             ViewData["expires_in"] = token.expires_in;
             ViewData["refresh_token"] = token.refresh_token;
         }
-        ViewData["LandingUri"] = ChaoAbpCASOption.LandingUri;
+        ViewData["LandingUri"] = ChaoCASOption.LandingUri;
         return View();
     }
 }

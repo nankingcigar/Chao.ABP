@@ -2,5 +2,5 @@
 
 public class ChaoIdentitySSOOption
 {
-    public virtual string ProviderName { get; set; } = nameof(SSOLoginProvider);
+    public virtual string ProviderName { get; set; } = "⌡ÿ⌠ΩΦSSOLoginProvider⌡ÿ⌠ΩΦ";
 }
