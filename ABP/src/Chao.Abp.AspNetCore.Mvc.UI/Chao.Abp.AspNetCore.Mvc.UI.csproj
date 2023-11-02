@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI" Version="7.4.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI" Version="7.4.1" />
     <ProjectReference Include="..\Chao.Abp.AspNetCore.Mvc\Chao.Abp.AspNetCore.Mvc.csproj" />
   </ItemGroup>
 
