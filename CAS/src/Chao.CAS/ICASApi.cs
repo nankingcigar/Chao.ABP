@@ -8,6 +8,6 @@ namespace Chao.CAS;
 public interface ICASApi
 {
     [XmlReturn(EnsureMatchAcceptContentType = false)]
-    [WebApiClientCore.Attributes.HttpGet()]
+    [HttpGet()]
     Task<Profile> Get([Uri] string url);
 }
