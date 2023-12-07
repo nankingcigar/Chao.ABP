@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <Version>7.4.7</Version>
+    <Version>7.4.8</Version>
     <NoWarn>$(NoWarn);CS1591;CS0436</NoWarn>
     <PackageIconUrl>https://www.nankingcigar.com/wp-content/uploads/2023/08/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230813193903.jpg</PackageIconUrl>
     <PackageProjectUrl>https://github.com/nankingcigar/Chao.ABP.git</PackageProjectUrl>
