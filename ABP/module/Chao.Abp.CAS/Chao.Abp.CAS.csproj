@@ -2,15 +2,15 @@
   <Import Project="..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="7.4.1" />
-    <PackageReference Include="Volo.Abp.Identity.Web" Version="7.4.1" />
-    <PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" Version="7.4.1" />
+    <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.Identity.Web" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
