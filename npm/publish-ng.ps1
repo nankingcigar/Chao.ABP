@@ -1,7 +1,7 @@
 
 $commands = (
   "cd ng-packs",
-  "npm install --force",
+  "npm install",
   "npm run build-module",
   "cd dist\nankingcigar\ng.core",
   "npm publish",
