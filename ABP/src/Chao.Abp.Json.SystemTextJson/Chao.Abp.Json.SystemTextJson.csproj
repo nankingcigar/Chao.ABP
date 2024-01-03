@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Json.SystemTextJson" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.Json.SystemTextJson" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
