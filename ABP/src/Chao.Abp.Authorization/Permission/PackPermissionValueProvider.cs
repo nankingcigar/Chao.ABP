@@ -14,7 +14,7 @@ namespace Chao.Abp.Authorization.Permission;
 
 public class PackPermissionValueProvider : PermissionValueProvider
 {
-    public const string ProviderName = "Pack";
+    public static string ProviderName = "Pack";
 
     public PackPermissionValueProvider(IPermissionStore permissionStore)
         : base(permissionStore)

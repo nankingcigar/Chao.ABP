@@ -7,10 +7,11 @@
 
 using Microsoft.Extensions.Logging;
 using System.Runtime.Serialization;
+using Volo.Abp;
 
 namespace Chao.Abp.Core.Exception;
 
-public class CodeException : System.Exception, ICodeException
+public class CodeException : BusinessException
 {
     public CodeException(
         string code = null,
@@ -18,27 +19,12 @@ public class CodeException : System.Exception, ICodeException
         string details = null,
         System.Exception innerException = null,
         LogLevel logLevel = LogLevel.Warning)
-        : base(message, innerException)
+        : base(code, message, details, innerException, logLevel)
     {
-        Code = code;
-        Details = details;
-        LogLevel = logLevel;
     }
 
     public CodeException(SerializationInfo serializationInfo, StreamingContext context)
         : base(serializationInfo, context)
     {
-    }
-
-    public string Code { get; set; }
-
-    public string Details { get; set; }
-
-    public LogLevel LogLevel { get; set; }
-
-    public CodeException WithData(string name, object value)
-    {
-        Data[name] = value;
-        return this;
     }
 }
