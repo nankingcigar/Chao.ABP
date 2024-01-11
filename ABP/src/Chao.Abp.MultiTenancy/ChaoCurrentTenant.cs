@@ -12,7 +12,7 @@ public class ChaoCurrentTenant(ICurrentTenantAccessor currentTenantAccessor) : I
 
     public virtual ChaoAbpMultiTenancyOptions ChaoAbpMultiTenancyOptions => ChaoAbpMultiTenancyOptionsOptions!.Value;
     public virtual IOptions<ChaoAbpMultiTenancyOptions>? ChaoAbpMultiTenancyOptionsOptions { get; set; }
-    public virtual Guid? Id => _currentTenantAccessor.Current!.TenantId;
+    public virtual Guid? Id => _currentTenantAccessor.Current?.TenantId;
     public virtual bool IsAvailable => Id.HasValue;
     public virtual string? Name => GetName();
 
@@ -23,7 +23,7 @@ public class ChaoCurrentTenant(ICurrentTenantAccessor currentTenantAccessor) : I
 
     public virtual string? GetName()
     {
-        var name = _currentTenantAccessor.Current!.Name;
+        var name = _currentTenantAccessor.Current?.Name;
         if (string.IsNullOrWhiteSpace(name) == true)
         {
             return ChaoAbpMultiTenancyOptions.DefaultTenantName;
