@@ -14,27 +14,18 @@ using Volo.Abp.TenantManagement;
 
 namespace Chao.Abp.TenantManagement.Domain.Data;
 
-public class DbMigrationService : ITransientDependency
+public class DbMigrationService(
+    IDataSeeder dataSeeder,
+    IEnumerable<IDbSchemaMigrator> dbSchemaMigrators,
+    ITenantRepository tenantRepository,
+    ICurrentTenant currentTenant) : ITransientDependency
 {
-    private readonly ICurrentTenant _currentTenant;
-    private readonly IDataSeeder _dataSeeder;
-    private readonly IEnumerable<IDbSchemaMigrator> _dbSchemaMigrators;
-    private readonly ITenantRepository _tenantRepository;
+    private readonly ICurrentTenant _currentTenant = currentTenant;
+    private readonly IDataSeeder _dataSeeder = dataSeeder;
+    private readonly IEnumerable<IDbSchemaMigrator> _dbSchemaMigrators = dbSchemaMigrators;
+    private readonly ITenantRepository _tenantRepository = tenantRepository;
 
-    public DbMigrationService(
-        IDataSeeder dataSeeder,
-        IEnumerable<IDbSchemaMigrator> dbSchemaMigrators,
-        ITenantRepository tenantRepository,
-        ICurrentTenant currentTenant)
-    {
-        _dataSeeder = dataSeeder;
-        _dbSchemaMigrators = dbSchemaMigrators;
-        _tenantRepository = tenantRepository;
-        _currentTenant = currentTenant;
-        Logger = NullLogger<DbMigrationService>.Instance;
-    }
-
-    public ILogger<DbMigrationService> Logger { get; set; }
+    public ILogger<DbMigrationService> Logger { get; set; } = NullLogger<DbMigrationService>.Instance;
 
     public async Task MigrateAsync()
     {
@@ -157,20 +148,13 @@ public class DbMigrationService : ITransientDependency
 
     private string GetEntityFrameworkCoreProjectFolderPath()
     {
-        var slnDirectoryPath = GetSolutionDirectoryPath();
-
-        if (slnDirectoryPath == null)
-        {
-            throw new Exception("Solution folder not found!");
-        }
-
+        var slnDirectoryPath = GetSolutionDirectoryPath() ?? throw new Exception("Solution folder not found!");
         var srcDirectoryPath = Path.Combine(slnDirectoryPath, "src");
-
         return Directory.GetDirectories(srcDirectoryPath)
             .FirstOrDefault(d => d.EndsWith(".EntityFrameworkCore"));
     }
 
-    private string GetSolutionDirectoryPath()
+    private string? GetSolutionDirectoryPath()
     {
         var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
 
@@ -187,7 +171,7 @@ public class DbMigrationService : ITransientDependency
         return null;
     }
 
-    private async Task MigrateDatabaseSchemaAsync(Tenant tenant = null)
+    private async Task MigrateDatabaseSchemaAsync(Tenant? tenant = null)
     {
         Logger.LogInformation(
             $"Migrating schema for {(tenant == null ? "host" : tenant.Name + " tenant")} database...");
@@ -205,7 +189,7 @@ public class DbMigrationService : ITransientDependency
         return Directory.Exists(Path.Combine(dbMigrationsProjectFolder, "Migrations"));
     }
 
-    private async Task SeedDataAsync(Tenant tenant = null)
+    private async Task SeedDataAsync(Tenant? tenant = null)
     {
         Logger.LogInformation($"Executing {(tenant == null ? "host" : tenant.Name + " tenant")} database seed...");
 

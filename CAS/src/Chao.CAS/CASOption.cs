@@ -2,5 +2,5 @@
 
 public class CASOption
 {
-    public virtual string APIUri { get; set; }
+    public virtual string? APIUri { get; set; }
 }

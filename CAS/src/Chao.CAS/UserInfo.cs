@@ -6,5 +6,5 @@ namespace Chao.CAS;
 public class UserInfo
 {
     [XmlElement("user")]
-    public virtual string UserName { get; set; }
+    public virtual string? UserName { get; set; }
 }

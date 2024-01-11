@@ -72,7 +72,17 @@ export class InterceptorService {
       this.clearFor401();
       location.href = this.loginUrl;
     } else if (errorResponse.status === 403) {
-      location.href = this.redirectUri;
+      if (
+        errorResponse.error !== null &&
+        errorResponse.error !== undefined
+      ) {
+        if (errorResponse.error.__chao === true) {
+          return errorResponse.error.error;
+        }
+        return new Error(errorResponse.error);
+      } else {
+        location.href = this.redirectUri;
+      }
     } else if (
       errorResponse.error !== null &&
       errorResponse.error !== undefined

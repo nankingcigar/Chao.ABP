@@ -9,6 +9,7 @@ public class ChaoAuthorizeAttribute : AuthorizeAttribute, IFilterFactory
 {
     public ChaoAuthorizeAttribute()
     {
+        Policys = [];
     }
 
     public ChaoAuthorizeAttribute(params string[] policys)
@@ -24,7 +25,7 @@ public class ChaoAuthorizeAttribute : AuthorizeAttribute, IFilterFactory
     {
         var chaoAuthorizeFilter = serviceProvider.GetRequiredService<ChaoAuthorizeFilter>();
         chaoAuthorizeFilter.And = And;
-        chaoAuthorizeFilter.AuthenticationSchemes = AuthenticationSchemes;
+        chaoAuthorizeFilter.AuthenticationSchemes = AuthenticationSchemes!;
         chaoAuthorizeFilter.Policys = Policys;
         return chaoAuthorizeFilter;
     }

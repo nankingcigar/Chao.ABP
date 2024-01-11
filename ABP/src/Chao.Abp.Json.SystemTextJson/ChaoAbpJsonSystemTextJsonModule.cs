@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-12-12 01:26:17
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-12-12 11:56:55
- */
-
-using Chao.Abp.Json.SystemTextJson.JsonConverters;
+﻿using Chao.Abp.Json.SystemTextJson.JsonConverters;
 using Chao.Abp.Timing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

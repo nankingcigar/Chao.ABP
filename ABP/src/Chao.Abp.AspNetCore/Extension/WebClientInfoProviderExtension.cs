@@ -9,7 +9,7 @@ public static class WebClientInfoProviderExtension
 {
     private delegate IPHostEntry GetHostEntryHandler(string ip);
 
-    public static string GetComputerName(this IWebClientInfoProvider webClientInfoProvider, ChaoAbpAspNetCoreAuditingOptions option)
+    public static string? GetComputerName(this IWebClientInfoProvider webClientInfoProvider, ChaoAbpAspNetCoreAuditingOptions option)
     {
         if (option.DisableAuditClientName == true)
         {
@@ -17,8 +17,8 @@ public static class WebClientInfoProviderExtension
         }
         try
         {
-            GetHostEntryHandler callback = new GetHostEntryHandler(Dns.GetHostEntry);
-            IAsyncResult result = callback.BeginInvoke(webClientInfoProvider.ClientIpAddress, null, null);
+            GetHostEntryHandler callback = new(Dns.GetHostEntry);
+            IAsyncResult result = callback.BeginInvoke(webClientInfoProvider.ClientIpAddress!, null, null);
             if (result.AsyncWaitHandle.WaitOne(option.DnsResolverTimeoutMillisecond, false))
             {
                 return callback.EndInvoke(result).HostName;

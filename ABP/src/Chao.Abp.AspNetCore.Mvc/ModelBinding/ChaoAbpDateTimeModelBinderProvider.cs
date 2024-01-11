@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-11-18 03:43:30
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-11-18 07:30:00
- */
-
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using System;
 using System.Linq;
@@ -15,7 +8,7 @@ namespace Chao.Abp.AspNetCore.Mvc.ModelBinding;
 
 public class ChaoAbpDateTimeModelBinderProvider : IModelBinderProvider
 {
-    public IModelBinder GetBinder(ModelBinderProviderContext context)
+    public IModelBinder? GetBinder(ModelBinderProviderContext context)
     {
         if (context.Metadata.ModelType != typeof(DateTime) &&
             context.Metadata.ModelType != typeof(DateTime?))
@@ -35,7 +28,7 @@ public class ChaoAbpDateTimeModelBinderProvider : IModelBinderProvider
             var dateNormalizationDisabledForClass =
                 context.Metadata.ContainerType.IsDefined(typeof(DisableDateTimeNormalizationAttribute), true);
             var dateNormalizationDisabledForProperty = context.Metadata.ContainerType
-                .GetProperty(context.Metadata.PropertyName)
+                .GetProperty(context.Metadata.PropertyName!)
                 ?.IsDefined(typeof(DisableDateTimeNormalizationAttribute), true);
             if (!dateNormalizationDisabledForClass &&
                 dateNormalizationDisabledForProperty != null &&

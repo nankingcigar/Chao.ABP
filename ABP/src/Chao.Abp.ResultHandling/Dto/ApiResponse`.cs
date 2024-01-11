@@ -1,20 +1,10 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-12-12 08:26:20
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-12-12 08:53:23
- */
+﻿namespace Chao.Abp.ResultHandling.Dto;
 
-namespace Chao.Abp.ResultHandling.Dto;
-
-public class ApiResponse<TResult>
+public class ApiResponse<TResult>(TResult result)
 {
-    public ApiResponse(TResult result)
-    {
-        Result = result;
-    }
-
+#pragma warning disable IDE1006 // 命名样式
     public bool __chao { get; } = true;
-    public TResult Result { get; set; }
+#pragma warning restore IDE1006 // 命名样式
+    public TResult Result { get; set; } = result;
     public bool Success { get; } = true;
 }

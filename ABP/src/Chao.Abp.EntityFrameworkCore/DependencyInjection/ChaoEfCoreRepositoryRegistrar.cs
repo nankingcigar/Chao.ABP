@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-11-17 10:15:28
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-11-17 10:29:01
- */
-
-using Chao.Abp.EntityFrameworkCore.Domain.Repository;
+﻿using Chao.Abp.EntityFrameworkCore.Domain.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Volo.Abp.EntityFrameworkCore.DependencyInjection;

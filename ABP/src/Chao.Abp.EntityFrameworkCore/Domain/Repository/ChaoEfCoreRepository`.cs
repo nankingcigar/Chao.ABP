@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-11-16 17:20:40
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-11-29 03:36:09
- */
-
-using Chao.Abp.Ddd.Domain.IRepository;
+﻿using Chao.Abp.Ddd.Domain.IRepository;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using Nito.AsyncEx;
@@ -20,14 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace Chao.Abp.EntityFrameworkCore.Domain.Repository;
 
-public class ChaoEfCoreRepository<TDbContext, TEntity> : EfCoreRepository<TDbContext, TEntity>, IChaoRepository<TEntity>
+public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbContext> dbContextProvider) : EfCoreRepository<TDbContext, TEntity>(dbContextProvider), IChaoRepository<TEntity>
     where TDbContext : IEfCoreDbContext
     where TEntity : class, IEntity
 {
-    public ChaoEfCoreRepository(IDbContextProvider<TDbContext> dbContextProvider) : base(dbContextProvider)
-    {
-    }
-
     public virtual Type ElementType => QueryableEntity.ElementType;
     public virtual Expression Expression => QueryableEntity.Expression;
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
@@ -55,7 +44,7 @@ public class ChaoEfCoreRepository<TDbContext, TEntity> : EfCoreRepository<TDbCon
 
     public virtual async Task<DbContext> GetDbContext()
     {
-        return (await GetDbContextAsync()) as DbContext;
+        return ((await GetDbContextAsync()) as DbContext)!;
     }
 
     public virtual IEnumerator<TEntity> GetEnumerator()
@@ -69,14 +58,10 @@ public class ChaoEfCoreRepository<TDbContext, TEntity> : EfCoreRepository<TDbCon
     }
 }
 
-public class ChaoEfCoreRepository<TDbContext, TEntity, TKey> : EfCoreRepository<TDbContext, TEntity, TKey>, IChaoRepository<TEntity, TKey>
+public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<TDbContext> dbContextProvider) : EfCoreRepository<TDbContext, TEntity, TKey>(dbContextProvider), IChaoRepository<TEntity, TKey>
     where TDbContext : IEfCoreDbContext
     where TEntity : class, IEntity<TKey>
 {
-    public ChaoEfCoreRepository(IDbContextProvider<TDbContext> dbContextProvider) : base(dbContextProvider)
-    {
-    }
-
     public virtual Type ElementType => QueryableEntity.ElementType;
     public virtual Expression Expression => QueryableEntity.Expression;
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
@@ -99,7 +84,7 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey> : EfCoreRepository<
 
     public virtual async Task<DbContext> GetDbContext()
     {
-        return (await GetDbContextAsync()) as DbContext;
+        return ((await GetDbContextAsync()) as DbContext)!;
     }
 
     public virtual IEnumerator<TEntity> GetEnumerator()

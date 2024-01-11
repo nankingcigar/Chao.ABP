@@ -21,23 +21,23 @@ namespace Chao.Abp.Identity.CAS;
 
 public class CASController : AbpController
 {
-    public virtual CASHandler CASHandler { get; set; }
-    public virtual ChaoCASOption ChaoCASOption => ChaoCASOptions.Value;
-    public virtual IOptions<ChaoCASOption> ChaoCASOptions { get; set; }
-    public virtual IIdentityUserRepository IdentityUserRepository { get; set; }
-    public virtual AbpOpenIddictClaimsPrincipalManager OpenIddictClaimsPrincipalManager { get; set; }
-    public virtual IOptionsMonitor<OpenIddictServerOptions> OpenIddictServerOptions { get; set; }
-    public virtual IOpenIddictScopeManager ScopeManager { get; set; }
-    public virtual AbpSignInManager SignInManager { get; set; }
+    public virtual CASHandler? CASHandler { get; set; }
+    public virtual ChaoCASOption ChaoCASOption => ChaoCASOptions!.Value;
+    public virtual IOptions<ChaoCASOption>? ChaoCASOptions { get; set; }
+    public virtual IIdentityUserRepository? IdentityUserRepository { get; set; }
+    public virtual AbpOpenIddictClaimsPrincipalManager? OpenIddictClaimsPrincipalManager { get; set; }
+    public virtual IOptionsMonitor<OpenIddictServerOptions>? OpenIddictServerOptions { get; set; }
+    public virtual IOpenIddictScopeManager? ScopeManager { get; set; }
+    public virtual AbpSignInManager? SignInManager { get; set; }
 
     public async Task<IActionResult> Cookie(string ticket)
     {
-        var profile = await CASHandler.GetProfile(ticket);
+        var profile = await CASHandler!.GetProfile(ticket);
         var userName = profile?.UserInfo?.UserName;
         if (userName.IsNullOrEmpty() == false)
         {
-            var user = await IdentityUserRepository.FindByNormalizedUserNameAsync(userName.Normalize());
-            await SignInManager.SignInAsync(user, isPersistent: false);
+            var user = await IdentityUserRepository!.FindByNormalizedUserNameAsync(userName.Normalize());
+            await SignInManager!.SignInAsync(user, isPersistent: false);
         }
         ViewData["LandingUri"] = ChaoCASOption.LandingUri;
         return View();
@@ -45,29 +45,29 @@ public class CASController : AbpController
 
     public async Task<IActionResult> Token(string ticket)
     {
-        var profile = await CASHandler.GetProfile(ticket);
+        var profile = await CASHandler!.GetProfile(ticket);
         var userName = profile?.UserInfo?.UserName;
         if (userName.IsNullOrEmpty() == false)
         {
-            var user = await IdentityUserRepository.FindByNormalizedUserNameAsync(userName.Normalize());
-            var principal = await SignInManager.CreateUserPrincipalAsync(user);
+            var user = await IdentityUserRepository!.FindByNormalizedUserNameAsync(userName.Normalize());
+            var principal = await SignInManager!.CreateUserPrincipalAsync(user);
             principal.SetScopes(ChaoCASOption.Scope);
-            var scopes = new ImmutableArray<string>().AddRange(ChaoCASOption.Scope);
+            var scopes = new ImmutableArray<string>().AddRange(ChaoCASOption.Scope!);
             var resources = new List<string>();
-            await foreach (var resource in ScopeManager.ListResourcesAsync(scopes))
+            await foreach (var resource in ScopeManager!.ListResourcesAsync(scopes))
             {
                 resources.Add(resource);
             }
             principal.SetResources(resources);
-            await OpenIddictClaimsPrincipalManager.HandleAsync(null, principal);
-            var options = OpenIddictServerOptions.CurrentValue;
-            var claims = new Dictionary<string, object>(StringComparer.Ordinal) { { OpenIddictConstants.Claims.Audience, ChaoCASOption.ClientId } };
-            if (ChaoCASOption.Scope.Any())
+            await OpenIddictClaimsPrincipalManager!.HandleAsync(null, principal);
+            var options = OpenIddictServerOptions!.CurrentValue;
+            var claims = new Dictionary<string, object>(StringComparer.Ordinal) { { OpenIddictConstants.Claims.Audience, ChaoCASOption.ClientId! } };
+            if (ChaoCASOption.Scope!.Any())
             {
-                claims.Add(OpenIddictConstants.Claims.Scope, string.Join(" ", ChaoCASOption.Scope));
+                claims.Add(OpenIddictConstants.Claims.Scope, string.Join(" ", ChaoCASOption.Scope!));
             }
             claims.Add(OpenIddictConstants.Claims.JwtId, Guid.NewGuid().ToString());
-            var transaction = HttpContext.Features.Get<OpenIddictServerAspNetCoreFeature>().Transaction;
+            var transaction = HttpContext.Features.Get<OpenIddictServerAspNetCoreFeature>()!.Transaction!;
             var descriptor = new SecurityTokenDescriptor
             {
                 Claims = claims,
@@ -76,9 +76,9 @@ public class CASController : AbpController
                     : options.EncryptionCredentials.First(),
                 Expires = DateTimeOffset.Now.UtcDateTime + options.AccessTokenLifetime,
                 IssuedAt = DateTimeOffset.Now.UtcDateTime,
-                Issuer = transaction.BaseUri.AbsoluteUri,
+                Issuer = transaction.BaseUri!.AbsoluteUri,
                 SigningCredentials = options.SigningCredentials.First(),
-                Subject = (ClaimsIdentity)principal.Identity,
+                Subject = (ClaimsIdentity)principal.Identity!,
                 TokenType = OpenIddictConstants.JsonWebTokenTypes.AccessToken,
             };
             var accessToken = options.JsonWebTokenHandler.CreateToken(descriptor);

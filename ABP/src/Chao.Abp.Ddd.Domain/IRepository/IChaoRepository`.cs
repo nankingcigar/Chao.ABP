@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-11-16 16:56:45
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-11-17 09:02:12
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;

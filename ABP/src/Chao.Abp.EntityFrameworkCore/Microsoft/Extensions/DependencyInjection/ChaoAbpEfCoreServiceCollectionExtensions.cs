@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-11-17 09:14:52
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-11-17 10:28:53
- */
-
-using Chao.Abp.EntityFrameworkCore.DependencyInjection;
+﻿using Chao.Abp.EntityFrameworkCore.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
@@ -21,7 +14,7 @@ public static class ChaoAbpEfCoreServiceCollectionExtensions
 {
     public static IServiceCollection AddChaoAbpDbContext<TDbContext>(
         this IServiceCollection services,
-        Action<IAbpDbContextRegistrationOptionsBuilder> optionsBuilder = null)
+        Action<IAbpDbContextRegistrationOptionsBuilder>? optionsBuilder = null)
         where TDbContext : AbpDbContext<TDbContext>
     {
         services.AddMemoryCache();
@@ -48,9 +41,9 @@ public static class ChaoAbpEfCoreServiceCollectionExtensions
             services.Configure<AbpDbContextOptions>(opts =>
             {
                 var dbContextReplacementsProperty = typeof(AbpDbContextOptions).GetProperty("DbContextReplacements", BindingFlags.NonPublic | BindingFlags.Instance);
-                var dbContextReplacements = dbContextReplacementsProperty.GetValue(opts, null) as Dictionary<MultiTenantDbContextType, Type>;
+                var dbContextReplacements = dbContextReplacementsProperty!.GetValue(opts, null) as Dictionary<MultiTenantDbContextType, Type>;
                 var multiTenantDbContextType = new MultiTenantDbContextType(originalDbContextType, entry.Key.MultiTenancySide);
-                dbContextReplacements[multiTenantDbContextType] = targetDbContextType;
+                dbContextReplacements![multiTenantDbContextType] = targetDbContextType;
             });
         }
         new ChaoEfCoreRepositoryRegistrar(options).AddRepositories();

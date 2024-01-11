@@ -7,10 +7,10 @@ namespace Chao.Abp.Identity.SSO;
 
 public class SSOLoginProvider : IExternalLoginProvider, ITransientDependency
 {
-    public virtual ChaoIdentitySSOOption ChaoIdentitySSOOption => ChaoIdentitySSOOptions.Value;
-    public virtual IOptions<ChaoIdentitySSOOption> ChaoIdentitySSOOptions { get; set; }
-    public virtual IdentitySecurityLogManager IdentitySecurityLogManager { get; set; }
-    public virtual IdentityUserStore IdentityUserStore { get; set; }
+    public virtual ChaoIdentitySSOOption ChaoIdentitySSOOption => ChaoIdentitySSOOptions!.Value;
+    public virtual IOptions<ChaoIdentitySSOOption>? ChaoIdentitySSOOptions { get; set; }
+    public virtual IdentitySecurityLogManager? IdentitySecurityLogManager { get; set; }
+    public virtual IdentityUserStore? IdentityUserStore { get; set; }
 
     public virtual Task<IdentityUser> CreateUserAsync(string userName, string providerName)
     {
@@ -26,7 +26,7 @@ public class SSOLoginProvider : IExternalLoginProvider, ITransientDependency
     {
         if (plainPassword == ChaoIdentitySSOOption.ProviderName)
         {
-            var identityUser = await IdentityUserStore.FindByNameAsync(userName);
+            var identityUser = await IdentityUserStore!.FindByNameAsync(userName);
             if (identityUser != null)
             {
                 return true;

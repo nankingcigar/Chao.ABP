@@ -13,7 +13,7 @@ public static class ChaoAbpSwaggerGenServiceCollectionExtensions
         this IServiceCollection services,
         [NotNull] IEnumerable<AuthorityOption> authorityOptions,
         [NotNull] Dictionary<string, string> scopes,
-        Action<SwaggerGenOptions> setupAction = null,
+        Action<SwaggerGenOptions>? setupAction = null,
         string authorizationEndpoint = "/connect/authorize",
         string tokenEndpoint = "/connect/token")
     {
@@ -24,7 +24,7 @@ public static class ChaoAbpSwaggerGenServiceCollectionExtensions
                 {
                     foreach (var authorityOption in authorityOptions)
                     {
-                        var authorizationUrl = new Uri($"{authorityOption.Authority.TrimEnd('/')}{authorizationEndpoint.EnsureStartsWith('/')}");
+                        var authorizationUrl = new Uri($"{authorityOption.Authority!.TrimEnd('/')}{authorizationEndpoint.EnsureStartsWith('/')}");
                         var tokenUrl = new Uri($"{authorityOption.Authority.TrimEnd('/')}{tokenEndpoint.EnsureStartsWith('/')}");
                         options.AddSecurityDefinition(authorityOption.Name, new OpenApiSecurityScheme
                         {
@@ -40,7 +40,6 @@ public static class ChaoAbpSwaggerGenServiceCollectionExtensions
                             }
                         });
                     }
-
                     options.AddSecurityRequirement(new OpenApiSecurityRequirement
                     {
                             {
@@ -55,7 +54,6 @@ public static class ChaoAbpSwaggerGenServiceCollectionExtensions
                                 Array.Empty<string>()
                             }
                     });
-
                     setupAction?.Invoke(options);
                 });
     }

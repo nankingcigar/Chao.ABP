@@ -15,13 +15,13 @@ namespace Chao.Abp.AspNetCore.Mvc.AntiForgery;
 [Route("api/antiforgery")]
 public class AntiForgeryController : AbpControllerBase
 {
-    public virtual IAbpAntiForgeryManager AbpAntiForgeryManager { get; set; }
+    public virtual IAbpAntiForgeryManager? AbpAntiForgeryManager { get; set; }
 
     [IgnoreAntiforgeryToken]
     [HttpPost, Route("")]
     public virtual string Get()
     {
-        var token = AbpAntiForgeryManager.GenerateToken();
+        var token = AbpAntiForgeryManager!.GenerateToken();
         return token;
     }
 }

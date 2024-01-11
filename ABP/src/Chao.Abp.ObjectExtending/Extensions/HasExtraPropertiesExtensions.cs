@@ -9,7 +9,7 @@ namespace Volo.Abp.Data;
 
 public static class HasExtraPropertiesExtensions
 {
-    public static TProperty GetPropertyEnhancement<TProperty>(this IHasExtraProperties source, string name, TProperty defaultValue = default)
+    public static TProperty GetPropertyEnhancement<TProperty>(this IHasExtraProperties source, string name, TProperty defaultValue = default!)
     {
         var value = source.GetProperty(name);
         if (value == null)
@@ -42,7 +42,7 @@ public static class HasExtraPropertiesExtensions
         {
             if (value is JsonElement)
             {
-                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
             }
             else
             {
@@ -53,7 +53,7 @@ public static class HasExtraPropertiesExtensions
         {
             if (value is JsonElement)
             {
-                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
             }
             else
             {

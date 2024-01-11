@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-12-12 03:43:42
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-12-12 07:29:57
- */
-
-using Chao.Abp.Timing;
+﻿using Chao.Abp.Timing;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,19 +8,14 @@ using System.Threading.Tasks;
 
 namespace Chao.Abp.AspNetCore.Mvc.ModelBinding;
 
-public class ChaoAbpDateTimeModelBinder : IModelBinder
+public class ChaoAbpDateTimeModelBinder(ModelBinderProviderContext context) : IModelBinder
 {
-    private readonly IChaoClock _clock;
-    private readonly SimpleTypeModelBinder _simpleTypeModelBinder;
-    private readonly Type _type;
+    private readonly IChaoClock _clock = context.Services.GetRequiredService<IChaoClock>();
 
-    public ChaoAbpDateTimeModelBinder(ModelBinderProviderContext context)
-    {
-        _type = context.Metadata.ModelType;
-        _clock = context.Services.GetRequiredService<IChaoClock>();
-        _simpleTypeModelBinder = new SimpleTypeModelBinder(context.Metadata.ModelType,
+    private readonly SimpleTypeModelBinder _simpleTypeModelBinder = new(context.Metadata.ModelType,
             context.Services.GetRequiredService<ILoggerFactory>());
-    }
+
+    private readonly Type _type = context.Metadata.ModelType;
 
     public async Task BindModelAsync(ModelBindingContext bindingContext)
     {
@@ -46,7 +34,7 @@ public class ChaoAbpDateTimeModelBinder : IModelBinder
         }
         if (_type == typeof(DateTime))
         {
-            var dateTime = (DateTime)bindingContext.Result.Model;
+            var dateTime = (DateTime)bindingContext.Result.Model!;
             bindingContext.Result = ModelBindingResult.Success(_clock.Normalize(dateTime));
         }
         else

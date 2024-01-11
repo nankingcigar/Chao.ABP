@@ -5,6 +5,8 @@ Enhancing certain modules of ABP by incorporating additional functionalities suc
 
 🔗GitHub Repository: https://github.com/nankingcigar/Chao.ABP.git
 
+🔗Nanking Cigar Blog: https://nankingcigar.com
+
 ## 🚀 Key Features of the ABP Framework
 
 🟡 DateTime Json Return Numeric (base on 1970/01/01 UTC)

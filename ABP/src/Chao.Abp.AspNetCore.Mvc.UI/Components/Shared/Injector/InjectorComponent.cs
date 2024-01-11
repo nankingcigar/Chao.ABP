@@ -6,8 +6,8 @@ namespace Chao.Abp.AspNetCore.Mvc.UI.Components.Shared.Injector;
 
 public class InjectorComponent : AbpViewComponent
 {
-    public virtual ChaoAbpMvcUiOptions ChaoAbpMvcUiOptions => ChaoAbpMvcUiOptionsOptions.Value;
-    public virtual IOptions<ChaoAbpMvcUiOptions> ChaoAbpMvcUiOptionsOptions { get; set; }
+    public virtual ChaoAbpMvcUiOptions ChaoAbpMvcUiOptions => ChaoAbpMvcUiOptionsOptions!.Value;
+    public virtual IOptions<ChaoAbpMvcUiOptions>? ChaoAbpMvcUiOptionsOptions { get; set; }
 
     public IViewComponentResult Invoke()
     {

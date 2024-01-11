@@ -6,5 +6,5 @@ public class ChaoAbpAspNetCoreMvcAuthorizeOption
     {
     }
 
-    public virtual string AuthenticationSchemes { get; set; }
+    public virtual string? AuthenticationSchemes { get; set; }
 }

@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-11-18 02:10:42
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-11-18 02:18:14
- */
-
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using System;
 using Volo.Abp.Timing;
 

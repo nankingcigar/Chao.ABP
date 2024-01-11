@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Volo.Abp.AspNetCore.TestBase;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Modularity;
-using Volo.Abp.Testing;
 
-namespace Chao.Abp.TestBase;
+namespace Chao.Abp.AspNetCore.TestBase;
 
-public abstract class ChaoAbpIntegratedTest<TStartupModule> : AbpIntegratedTest<TStartupModule>
-    where TStartupModule : IAbpModule
+public abstract class ChaoAbpWebApplicationFactoryIntegratedTest<TProgram> : AbpWebApplicationFactoryIntegratedTest<TProgram> where TProgram : class
 {
-    public ChaoAbpIntegratedTest()
+    public ChaoAbpWebApplicationFactoryIntegratedTest()
         : base()
     {
         LazyServiceProvider = new AbpLazyServiceProvider(this.ServiceProvider);

@@ -7,5 +7,5 @@ namespace Chao.CAS;
 public class Profile
 {
     [XmlElement("authenticationSuccess")]
-    public UserInfo UserInfo { get; set; }
+    public UserInfo? UserInfo { get; set; }
 }

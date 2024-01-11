@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-12-12 03:42:01
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-12-12 07:32:04
- */
-
-using Chao.Abp.AspNetCore.Auditing;
+﻿using Chao.Abp.AspNetCore.Auditing;
 using Chao.Abp.AspNetCore.Authentication;
 using Chao.Abp.AspNetCore.ExceptionHandling;
 using Chao.Abp.Authorization;

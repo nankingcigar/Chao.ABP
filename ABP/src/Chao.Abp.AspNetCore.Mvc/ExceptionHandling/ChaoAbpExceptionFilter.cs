@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-12-12 08:36:16
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-12-12 08:53:16
- */
-
-using Chao.Abp.ResultHandling.Dto;
+﻿using Chao.Abp.ResultHandling.Dto;
 using Chao.Abp.ResultHandling.Model;
 using Chao.Abp.ResultHandling.Option;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +13,9 @@ using Volo.Abp.Reflection;
 
 namespace Chao.Abp.AspNetCore.Mvc.ExceptionHandling;
 
-public class ChaoAbpExceptionFilter : AbpExceptionFilter
+public class ChaoAbpExceptionFilter(IOptions<ChaoAbpResultHandlingOption> chaoAbpResultHandlingOptionOptions) : AbpExceptionFilter()
 {
-    private ChaoAbpResultHandlingOption _chaoAbpResultHandlingOption;
-
-    public ChaoAbpExceptionFilter(IOptions<ChaoAbpResultHandlingOption> chaoAbpResultHandlingOptionOptions)
-    : base()
-    {
-        _chaoAbpResultHandlingOption = chaoAbpResultHandlingOptionOptions.Value;
-    }
+    private readonly ChaoAbpResultHandlingOption _chaoAbpResultHandlingOption = chaoAbpResultHandlingOptionOptions.Value;
 
     protected override async Task HandleAndWrapException(ExceptionContext context)
     {
@@ -39,8 +26,8 @@ public class ChaoAbpExceptionFilter : AbpExceptionFilter
             {
                 return;
             }
-            var result = context.Result as ObjectResult;
-            var error = (result.Value as RemoteServiceErrorResponse).Error;
+            var result = (context.Result as ObjectResult)!;
+            var error = (result.Value as RemoteServiceErrorResponse)!.Error;
             result.Value = new ApiResponseError(error);
         }
     }

@@ -10,25 +10,18 @@ using Volo.Abp.DependencyInjection;
 
 namespace Chao.Abp.AspNetCore.Mvc.Authorization;
 
-public class ChaoAuthorizeFilter : IAsyncAuthorizationFilter, ITransientDependency
-{
-    public ChaoAuthorizeFilter(
-        IAuthorizationService authorizationService
+public class ChaoAuthorizeFilter(
+    IAuthorizationService authorizationService
         , IOptions<ChaoAbpAspNetCoreMvcAuthorizeOption> options
         , IAuthorizationPolicyProvider policyProvider
-        )
-    {
-        AuthorizationService = authorizationService;
-        Option = options.Value;
-        PolicyProvider = policyProvider;
-    }
-
+        ) : IAsyncAuthorizationFilter, ITransientDependency
+{
     public virtual bool And { get; set; }
-    public virtual string AuthenticationSchemes { get; set; }
-    public virtual IAuthorizationService AuthorizationService { get; set; }
-    public virtual ChaoAbpAspNetCoreMvcAuthorizeOption Option { get; set; }
-    public virtual IAuthorizationPolicyProvider PolicyProvider { get; set; }
-    public virtual string[] Policys { get; set; }
+    public virtual string? AuthenticationSchemes { get; set; }
+    public virtual IAuthorizationService AuthorizationService { get; set; } = authorizationService;
+    public virtual ChaoAbpAspNetCoreMvcAuthorizeOption Option { get; set; } = options.Value;
+    public virtual IAuthorizationPolicyProvider PolicyProvider { get; set; } = policyProvider;
+    public virtual string[] Policys { get; set; } = [];
 
     public virtual async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {

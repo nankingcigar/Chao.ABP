@@ -1,11 +1,4 @@
-﻿/*
- * @Author: Chao Yang
- * @Date: 2020-12-12 07:47:25
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-12-12 08:53:11
- */
-
-using Chao.Abp.ResultHandling.Dto;
+﻿using Chao.Abp.ResultHandling.Dto;
 using Chao.Abp.ResultHandling.Model;
 using Chao.Abp.ResultHandling.Option;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +13,9 @@ using Volo.Abp.Reflection;
 
 namespace Chao.Abp.AspNetCore.Mvc.ResultHandler;
 
-public class ChaoResultFilter : IAsyncActionFilter, ITransientDependency
+public class ChaoResultFilter(IOptions<ChaoAbpResultHandlingOption> chaoAbpResultHandlingOptionOptions) : IAsyncActionFilter, ITransientDependency
 {
-    private ChaoAbpResultHandlingOption _chaoAbpResultHandlingOption;
-
-    public ChaoResultFilter(IOptions<ChaoAbpResultHandlingOption> chaoAbpResultHandlingOptionOptions)
-    {
-        _chaoAbpResultHandlingOption = chaoAbpResultHandlingOptionOptions.Value;
-    }
+    private readonly ChaoAbpResultHandlingOption _chaoAbpResultHandlingOption = chaoAbpResultHandlingOptionOptions.Value;
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
@@ -36,8 +24,7 @@ public class ChaoResultFilter : IAsyncActionFilter, ITransientDependency
         {
             return;
         }
-        var result = executedContext.Result as ObjectResult;
-        if (result != null && !result.StatusCode.HasValue)
+        if (executedContext.Result is ObjectResult result && !result.StatusCode.HasValue)
         {
             result.Value = new ApiResponse(result.Value);
             result.DeclaredType = typeof(ApiResponse);

@@ -2,5 +2,5 @@
 
 public class ChaoAbpPermissionOption
 {
-    public string PackClaimType { get; set; }
+    public virtual string? PackClaimType { get; set; }
 }

@@ -1,10 +1,3 @@
-/*
- * @Author: Chao Yang
- * @Date: 2020-12-08 11:10:05
- * @LastEditor: Chao Yang
- * @LastEditTime: 2020-12-08 11:56:38
- */
-
 using Chao.Abp.Timing;
 using Microsoft.Extensions.Options;
 using System;
