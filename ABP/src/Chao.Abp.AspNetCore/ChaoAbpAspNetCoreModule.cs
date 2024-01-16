@@ -28,9 +28,5 @@ public class ChaoAbpAspNetCoreModule : AbpModule
         {
             options.Contributors.Add(new AspNetCoreAuditLogContributor());
         });
-        Configure<AbpAuthorizationExceptionHandlerOptions>(options =>
-        {
-            options.AuthenticationScheme = ChaoIdentityConst.AuthenticationSchema;
-        });
     }
 }
