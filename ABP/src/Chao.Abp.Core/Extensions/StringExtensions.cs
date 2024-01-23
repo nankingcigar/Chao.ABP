@@ -11,7 +11,7 @@ public static class StringExtensions
     public static TEntity GetDataFromJsonFile<TEntity>(this string jsonFilePath)
     {
         var entitesText = File.ReadAllText(jsonFilePath);
-        var entity = JsonSerializer.Deserialize<TEntity>(entitesText, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        var entity = JsonSerializer.Deserialize<TEntity>(entitesText, new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
         return entity;
     }
 
@@ -25,7 +25,7 @@ public static class StringExtensions
         return str;
     }
 
-    public static string GetFirstImageLink(this string str)
+    public static string? GetFirstImageLink(this string str)
     {
         if (str.IsNullOrWhiteSpace())
         {

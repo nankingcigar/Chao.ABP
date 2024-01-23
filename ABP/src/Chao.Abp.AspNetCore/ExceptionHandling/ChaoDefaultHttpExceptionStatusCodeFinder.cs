@@ -21,9 +21,9 @@ namespace Chao.Abp.AspNetCore.ExceptionHandling
             }
             if (exception is IBusinessException)
             {
-                if (ChaoAbpExceptionHttpStatusCodeOption.BusinessExceptionErrorCode.HasValue == true)
+                if (ChaoAbpExceptionHttpStatusCodeOption.BusinessExceptionHttpStatusCode.HasValue == true)
                 {
-                    return ChaoAbpExceptionHttpStatusCodeOption.BusinessExceptionErrorCode.Value;
+                    return ChaoAbpExceptionHttpStatusCodeOption.BusinessExceptionHttpStatusCode.Value;
                 }
             }
             return base.GetStatusCode(httpContext, exception);
