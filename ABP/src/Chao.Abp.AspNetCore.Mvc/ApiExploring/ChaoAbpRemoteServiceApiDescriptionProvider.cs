@@ -102,7 +102,7 @@ public class ChaoAbpRemoteServiceApiDescriptionProvider(
 
             foreach (var responseTypeMetadataProvider in _mvcOptions.OutputFormatters.OfType<IApiResponseTypeMetadataProvider>())
             {
-                var formatterSupportedContentTypes = responseTypeMetadataProvider.GetSupportedContentTypes(string.Empty, apiResponse.Type!);
+                var formatterSupportedContentTypes = responseTypeMetadataProvider.GetSupportedContentTypes(null!, apiResponse.Type!);
                 if (formatterSupportedContentTypes == null)
                 {
                     continue;

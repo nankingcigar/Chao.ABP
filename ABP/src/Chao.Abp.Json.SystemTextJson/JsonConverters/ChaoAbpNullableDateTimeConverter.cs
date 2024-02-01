@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Text.Json;
 using Volo.Abp.Json;
 using Volo.Abp.Json.SystemTextJson.JsonConverters;
@@ -25,30 +26,27 @@ public class ChaoAbpNullableDateTimeConverter : AbpNullableDateTimeConverter
         {
             return _clock.Genesis.AddMilliseconds(reader.GetInt64()).ToLocalTime();
         }
-        if (!_options.OutputDateTimeFormat.IsNullOrWhiteSpace())
+        if (_options.InputDateTimeFormats.Any())
         {
             if (reader.TokenType == JsonTokenType.String)
             {
-                var s = reader.GetString();
-                if (DateTime.TryParseExact(s, _options.OutputDateTimeFormat, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d1))
+                foreach (var format in _options.InputDateTimeFormats)
                 {
-                    return _clock.Normalize(d1).ToLocalTime();
+                    var s = reader.GetString();
+                    if (DateTime.TryParseExact(s, format, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d1))
+                    {
+                        return _clock.Normalize(d1);
+                    }
                 }
-                throw new JsonException($"'{s}' can't parse to DateTime({_options.OutputDateTimeFormat})!");
             }
-            throw new JsonException("Reader's TokenType is not String!");
+            else
+            {
+                throw new JsonException("Reader's TokenType is not String!");
+            }
         }
         if (reader.TryGetDateTime(out var d2))
         {
-            return _clock.Normalize(d2).ToLocalTime();
-        }
-        if (reader.TokenType == JsonTokenType.String)
-        {
-            var s = reader.GetString();
-            if (DateTime.TryParse(s, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d1))
-            {
-                return _clock.Normalize(d1).ToLocalTime();
-            }
+            return _clock.Normalize(d2);
         }
         return null;
     }
