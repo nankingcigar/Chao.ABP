@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-08-09 16:36:02
  */
 export * from './chao-core.module';
-export * from './guard/index';
+export * from './function/index';
 export * from './interceptor/index';
 export * from './service/index';
 export * from './model/authentication/index';
