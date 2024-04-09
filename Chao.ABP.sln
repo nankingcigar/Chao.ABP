@@ -61,7 +61,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chao.Abp.Identity.SSO", "AB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chao.Abp.CAS", "ABP\module\Chao.Abp.CAS\Chao.Abp.CAS.csproj", "{3F1B02AB-1AE3-4E94-BAC3-5BFA5A661FCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.AspNetCore.TestBase", "ABP\src\Chao.Abp.AspNetCore.TestBase\Chao.Abp.AspNetCore.TestBase.csproj", "{C3AD606D-C043-4569-AEEF-2D964C20FD02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chao.Abp.AspNetCore.TestBase", "ABP\src\Chao.Abp.AspNetCore.TestBase\Chao.Abp.AspNetCore.TestBase.csproj", "{C3AD606D-C043-4569-AEEF-2D964C20FD02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
