@@ -1,10 +1,10 @@
 {
   "name": "chao-ng-packs",
-  "version": "17.3.3",
+  "version": "17.3.8",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "npm run build-module",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build-module": "ng build @nankingcigar/ng.core && ng build @nankingcigar/ng.translate && ng build @nankingcigar/ng-zorro-antd && ng build @nankingcigar/ng-monaco-editor && ng build @nankingcigar/ng-wang-editor",
@@ -13,30 +13,30 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.3.3",
-    "@angular/common": "^17.3.3",
-    "@angular/compiler": "^17.3.3",
-    "@angular/core": "^17.3.3",
-    "@angular/forms": "^17.3.3",
-    "@angular/platform-browser": "^17.3.3",
-    "@angular/platform-browser-dynamic": "^17.3.3",
-    "@angular/router": "^17.3.3",
+    "@angular/animations": "^17.3.8",
+    "@angular/common": "^17.3.8",
+    "@angular/compiler": "^17.3.8",
+    "@angular/core": "^17.3.8",
+    "@angular/forms": "^17.3.8",
+    "@angular/platform-browser": "^17.3.8",
+    "@angular/platform-browser-dynamic": "^17.3.8",
+    "@angular/router": "^17.3.8",
     "@nankingcigar/ng.core": "file:dist/nankingcigar/ng.core",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/plugin-formula": "^1.0.11",
     "angular-oauth2-oidc": "^17.0.2",
-    "monaco-editor": "^0.47.0",
-    "ng-zorro-antd": "^17.3.0",
+    "monaco-editor": "^0.48.0",
+    "ng-zorro-antd": "^17.4.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "~0.14.4"
+    "zone.js": "~0.14.5"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.3",
-    "@angular/cli": "~17.3.3",
-    "@angular/compiler-cli": "^17.3.3",
+    "@angular-devkit/build-angular": "^17.3.7",
+    "@angular/cli": "~17.3.7",
+    "@angular/compiler-cli": "^17.3.8",
     "@types/jasmine": "~5.1.4",
     "jasmine-core": "~5.1.2",
     "karma": "~6.4.3",
@@ -45,6 +45,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^17.3.0",
-    "typescript": "~5.2.2"
+    "typescript": "~5.4.5"
   }
 }
