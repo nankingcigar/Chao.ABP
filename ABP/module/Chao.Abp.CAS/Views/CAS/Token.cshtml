@@ -4,9 +4,30 @@
 @{
     Layout = null;
 }
-<script type="text/javascript">
-    localStorage.setItem('access_token_stored_at', new Date((new Date()).getTime() + @ViewData["expires_in"] * 1000).getTime());
-    localStorage.setItem('access_token', '@ViewData["access_token"]');
-    localStorage.setItem('expires_at', new Date((new Date()).getTime() + @ViewData["expires_in"] * 1000).getTime());
-    location.href = '@ViewData["LandingUri"]';
-</script>
+@if (ViewData["LandingUri"] != null)
+{
+    <script type="text/javascript">
+        localStorage.setItem('access_token_stored_at', new Date((new Date()).getTime() + @ViewData["expires_in"] * 1000).getTime());
+        localStorage.setItem('access_token', '@ViewData["access_token"]');
+        localStorage.setItem('expires_at', new Date((new Date()).getTime() + @ViewData["expires_in"] * 1000).getTime());
+        location.href = '@ViewData["LandingUri"]';
+    </script>
+}
+else if (ViewData["ErrorUri"] != null)
+{
+    <script type="text/javascript">
+        location.href = '@ViewData["ErrorUri"]';
+    </script>
+}
+else if (ViewData["ErrorMessage"] != null)
+{
+    <p>
+        @ViewData["ErrorMessage"]
+    </p>
+}
+else
+{
+    <p>
+        尚未授权，请联系管理员授权登录！
+    </p>
+}

@@ -37,9 +37,34 @@ public class CASController : AbpController
         if (userName.IsNullOrEmpty() == false)
         {
             var user = await IdentityUserRepository!.FindByNormalizedUserNameAsync(userName.Normalize());
-            await SignInManager!.SignInAsync(user, isPersistent: false);
+            if (user != null)
+            {
+                await SignInManager!.SignInAsync(user, isPersistent: false);
+                ViewData["LandingUri"] = ChaoCASOption.LandingUri;
+            }
+            else
+            {
+                if (ChaoCASOption.ErrorUri.IsNullOrEmpty() == false)
+                {
+                    ViewData["ErrorUri"] = ChaoCASOption.ErrorUri;
+                }
+                else if (ChaoCASOption.ErrorMessage.IsNullOrEmpty() == false)
+                {
+                    ViewData["ErrorMessage"] = ChaoCASOption.ErrorMessage;
+                }
+            }
         }
-        ViewData["LandingUri"] = ChaoCASOption.LandingUri;
+        else
+        {
+            if (ChaoCASOption.ErrorUri.IsNullOrEmpty() == false)
+            {
+                ViewData["ErrorUri"] = ChaoCASOption.ErrorUri;
+            }
+            else if (ChaoCASOption.ErrorMessage.IsNullOrEmpty() == false)
+            {
+                ViewData["ErrorMessage"] = ChaoCASOption.ErrorMessage;
+            }
+        }
         return View();
     }
 
@@ -50,43 +75,68 @@ public class CASController : AbpController
         if (userName.IsNullOrEmpty() == false)
         {
             var user = await IdentityUserRepository!.FindByNormalizedUserNameAsync(userName.Normalize());
-            var principal = await SignInManager!.CreateUserPrincipalAsync(user);
-            principal.SetScopes(ChaoCASOption.Scope);
-            var scopes = new ImmutableArray<string>().AddRange(ChaoCASOption.Scope!);
-            var resources = new List<string>();
-            await foreach (var resource in ScopeManager!.ListResourcesAsync(scopes))
+            if (user != null)
             {
-                resources.Add(resource);
+                var principal = await SignInManager!.CreateUserPrincipalAsync(user);
+                principal.SetScopes(ChaoCASOption.Scope);
+                var scopes = new ImmutableArray<string>().AddRange(ChaoCASOption.Scope!);
+                var resources = new List<string>();
+                await foreach (var resource in ScopeManager!.ListResourcesAsync(scopes))
+                {
+                    resources.Add(resource);
+                }
+                principal.SetResources(resources);
+                await OpenIddictClaimsPrincipalManager!.HandleAsync(null, principal);
+                var options = OpenIddictServerOptions!.CurrentValue;
+                var claims = new Dictionary<string, object>(StringComparer.Ordinal) { { OpenIddictConstants.Claims.Audience, ChaoCASOption.ClientId! } };
+                if (ChaoCASOption.Scope!.Any())
+                {
+                    claims.Add(OpenIddictConstants.Claims.Scope, string.Join(" ", ChaoCASOption.Scope!));
+                }
+                claims.Add(OpenIddictConstants.Claims.JwtId, Guid.NewGuid().ToString());
+                var transaction = HttpContext.Features.Get<OpenIddictServerAspNetCoreFeature>()!.Transaction!;
+                var descriptor = new SecurityTokenDescriptor
+                {
+                    Claims = claims,
+                    EncryptingCredentials = options.DisableAccessTokenEncryption
+                        ? null
+                        : options.EncryptionCredentials.First(),
+                    Expires = DateTimeOffset.Now.UtcDateTime + options.AccessTokenLifetime,
+                    IssuedAt = DateTimeOffset.Now.UtcDateTime,
+                    Issuer = transaction.BaseUri!.AbsoluteUri,
+                    SigningCredentials = options.SigningCredentials.First(),
+                    Subject = (ClaimsIdentity)principal.Identity!,
+                    TokenType = OpenIddictConstants.JsonWebTokenTypes.AccessToken,
+                };
+                var accessToken = options.JsonWebTokenHandler.CreateToken(descriptor);
+                ViewData["access_token"] = accessToken;
+                ViewData["token_type"] = OpenIddictConstants.Schemes.Bearer;
+                ViewData["expires_in"] = descriptor.Expires;
+                ViewData["LandingUri"] = ChaoCASOption.LandingUri;
             }
-            principal.SetResources(resources);
-            await OpenIddictClaimsPrincipalManager!.HandleAsync(null, principal);
-            var options = OpenIddictServerOptions!.CurrentValue;
-            var claims = new Dictionary<string, object>(StringComparer.Ordinal) { { OpenIddictConstants.Claims.Audience, ChaoCASOption.ClientId! } };
-            if (ChaoCASOption.Scope!.Any())
+            else
             {
-                claims.Add(OpenIddictConstants.Claims.Scope, string.Join(" ", ChaoCASOption.Scope!));
+                if (ChaoCASOption.ErrorUri.IsNullOrEmpty() == false)
+                {
+                    ViewData["ErrorUri"] = ChaoCASOption.ErrorUri;
+                }
+                else if (ChaoCASOption.ErrorMessage.IsNullOrEmpty() == false)
+                {
+                    ViewData["ErrorMessage"] = ChaoCASOption.ErrorMessage;
+                }
             }
-            claims.Add(OpenIddictConstants.Claims.JwtId, Guid.NewGuid().ToString());
-            var transaction = HttpContext.Features.Get<OpenIddictServerAspNetCoreFeature>()!.Transaction!;
-            var descriptor = new SecurityTokenDescriptor
-            {
-                Claims = claims,
-                EncryptingCredentials = options.DisableAccessTokenEncryption
-                    ? null
-                    : options.EncryptionCredentials.First(),
-                Expires = DateTimeOffset.Now.UtcDateTime + options.AccessTokenLifetime,
-                IssuedAt = DateTimeOffset.Now.UtcDateTime,
-                Issuer = transaction.BaseUri!.AbsoluteUri,
-                SigningCredentials = options.SigningCredentials.First(),
-                Subject = (ClaimsIdentity)principal.Identity!,
-                TokenType = OpenIddictConstants.JsonWebTokenTypes.AccessToken,
-            };
-            var accessToken = options.JsonWebTokenHandler.CreateToken(descriptor);
-            ViewData["access_token"] = accessToken;
-            ViewData["token_type"] = OpenIddictConstants.Schemes.Bearer;
-            ViewData["expires_in"] = descriptor.Expires;
         }
-        ViewData["LandingUri"] = ChaoCASOption.LandingUri;
+        else
+        {
+            if (ChaoCASOption.ErrorUri.IsNullOrEmpty() == false)
+            {
+                ViewData["ErrorUri"] = ChaoCASOption.ErrorUri;
+            }
+            else if (ChaoCASOption.ErrorMessage.IsNullOrEmpty() == false)
+            {
+                ViewData["ErrorMessage"] = ChaoCASOption.ErrorMessage;
+            }
+        }
         return View();
     }
 }
