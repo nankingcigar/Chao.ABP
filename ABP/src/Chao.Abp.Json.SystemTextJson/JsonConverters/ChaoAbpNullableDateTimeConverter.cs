@@ -38,14 +38,14 @@ public class ChaoAbpNullableDateTimeConverter : AbpNullableDateTimeConverter
                         return _clock.Normalize(d1);
                     }
                 }
-                if (DateTime.TryParse(s, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d3))
-                {
-                    return d3;
-                }
             }
-            else
+        }
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            var s = reader.GetString();
+            if (DateTime.TryParse(s, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d3))
             {
-                throw new JsonException("Reader's TokenType is not String!");
+                return d3;
             }
         }
         if (reader.TryGetDateTime(out var d2))

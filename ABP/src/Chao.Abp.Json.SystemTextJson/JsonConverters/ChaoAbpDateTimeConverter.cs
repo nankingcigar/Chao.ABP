@@ -38,17 +38,16 @@ public class ChaoAbpDateTimeConverter : AbpDateTimeConverter
                         return _clock.Normalize(d1);
                     }
                 }
-                if (DateTime.TryParse(s, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d3))
-                {
-                    return d3;
-                }
-            }
-            else
-            {
-                throw new JsonException("Reader's TokenType is not String!");
             }
         }
-
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            var s = reader.GetString();
+            if (DateTime.TryParse(s, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d3))
+            {
+                return d3;
+            }
+        }
         if (reader.TryGetDateTime(out var d2))
         {
             return _clock.Normalize(d2);
