@@ -30,13 +30,17 @@ public class ChaoAbpDateTimeConverter : AbpDateTimeConverter
         {
             if (reader.TokenType == JsonTokenType.String)
             {
+                var s = reader.GetString();
                 foreach (var format in _options.InputDateTimeFormats)
                 {
-                    var s = reader.GetString();
                     if (DateTime.TryParseExact(s, format, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d1))
                     {
                         return _clock.Normalize(d1);
                     }
+                }
+                if (DateTime.TryParse(s, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d3))
+                {
+                    return d3;
                 }
             }
             else
@@ -45,9 +49,9 @@ public class ChaoAbpDateTimeConverter : AbpDateTimeConverter
             }
         }
 
-        if (reader.TryGetDateTime(out var d3))
+        if (reader.TryGetDateTime(out var d2))
         {
-            return _clock.Normalize(d3);
+            return _clock.Normalize(d2);
         }
         throw new JsonException("Can't get datetime from the reader!");
     }

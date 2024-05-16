@@ -30,13 +30,17 @@ public class ChaoAbpNullableDateTimeConverter : AbpNullableDateTimeConverter
         {
             if (reader.TokenType == JsonTokenType.String)
             {
+                var s = reader.GetString();
                 foreach (var format in _options.InputDateTimeFormats)
                 {
-                    var s = reader.GetString();
                     if (DateTime.TryParseExact(s, format, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d1))
                     {
                         return _clock.Normalize(d1);
                     }
+                }
+                if (DateTime.TryParse(s, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d3))
+                {
+                    return d3;
                 }
             }
             else
