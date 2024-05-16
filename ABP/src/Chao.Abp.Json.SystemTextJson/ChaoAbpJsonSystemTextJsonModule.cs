@@ -3,7 +3,7 @@ using Chao.Abp.Timing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Text.Json.Serialization;
+using Volo.Abp.Json;
 using Volo.Abp.Json.SystemTextJson;
 using Volo.Abp.Json.SystemTextJson.JsonConverters;
 using Volo.Abp.Modularity;
@@ -31,7 +31,15 @@ public class ChaoAbpJsonSystemTextJsonModule : AbpModule
                     .GetRequiredService<ChaoDateTimeOffsetConverter>());
                 options.JsonSerializerOptions.Converters.Add(rootServiceProvider
                     .GetRequiredService<ChaoNullableDateTimeOffsetConverter>());
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
+        Configure<AbpJsonOptions>(options =>
+        {
+            options.InputDateTimeFormats.Add("yyyy-MM-dd");
+            options.InputDateTimeFormats.Add("yyyy-MM-dd HH:mm:ss");
+            options.InputDateTimeFormats.Add("yyyy/MM/dd");
+            options.InputDateTimeFormats.Add("yyyy/MM/dd HH:mm:ss");
+            options.InputDateTimeFormats.Add("MM/dd/yyyy");
+            options.InputDateTimeFormats.Add("MM/dd/yyyy HH:mm:ss");
+        });
     }
 }
