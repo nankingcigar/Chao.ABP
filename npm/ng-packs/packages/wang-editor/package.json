@@ -1,13 +1,13 @@
 {
   "name": "@nankingcigar/ng-wang-editor",
-  "version": "17.3.8",
+  "version": "18.0.4",
   "peerDependencies": {
-    "@nankingcigar/ng.core": "^17.3.8",
+    "@nankingcigar/ng.core": "^18.0.4",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/plugin-formula": "^1.0.11"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.3"
   },
   "sideEffects": false,
   "publishConfig": {

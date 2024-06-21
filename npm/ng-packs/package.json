@@ -1,6 +1,6 @@
 {
   "name": "chao-ng-packs",
-  "version": "17.3.8",
+  "version": "18.0.4",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -13,30 +13,30 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.3.8",
-    "@angular/common": "^17.3.8",
-    "@angular/compiler": "^17.3.8",
-    "@angular/core": "^17.3.8",
-    "@angular/forms": "^17.3.8",
-    "@angular/platform-browser": "^17.3.8",
-    "@angular/platform-browser-dynamic": "^17.3.8",
-    "@angular/router": "^17.3.8",
+    "@angular/animations": "^18.0.4",
+    "@angular/common": "^18.0.4",
+    "@angular/compiler": "^18.0.4",
+    "@angular/core": "^18.0.4",
+    "@angular/forms": "^18.0.4",
+    "@angular/platform-browser": "^18.0.4",
+    "@angular/platform-browser-dynamic": "^18.0.4",
+    "@angular/router": "^18.0.4",
     "@nankingcigar/ng.core": "file:dist/nankingcigar/ng.core",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/plugin-formula": "^1.0.11",
     "angular-oauth2-oidc": "^17.0.2",
-    "monaco-editor": "^0.48.0",
-    "ng-zorro-antd": "^17.4.0",
+    "monaco-editor": "^0.50.0",
+    "ng-zorro-antd": "^18.0.0",
     "rxjs": "~7.8.1",
-    "tslib": "^2.6.2",
-    "zone.js": "~0.14.5"
+    "tslib": "^2.6.3",
+    "zone.js": "~0.14.7"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.3.7",
-    "@angular/cli": "~17.3.7",
-    "@angular/compiler-cli": "^17.3.8",
+    "@angular-devkit/build-angular": "^18.0.5",
+    "@angular/cli": "~18.0.5",
+    "@angular/compiler-cli": "^18.0.4",
     "@types/jasmine": "~5.1.4",
     "jasmine-core": "~5.1.2",
     "karma": "~6.4.3",
@@ -44,7 +44,7 @@
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "ng-packagr": "^17.3.0",
+    "ng-packagr": "^18.0.0",
     "typescript": "~5.4.5"
   }
 }
