@@ -146,11 +146,11 @@ public class DbMigrationService(
         return dbMigrationsProjectFolder != null;
     }
 
-    private string GetEntityFrameworkCoreProjectFolderPath()
+    private string? GetEntityFrameworkCoreProjectFolderPath()
     {
         var slnDirectoryPath = GetSolutionDirectoryPath() ?? throw new Exception("Solution folder not found!");
         var srcDirectoryPath = Path.Combine(slnDirectoryPath, "src");
-        return Directory.GetDirectories(srcDirectoryPath)
+        return Directory.GetDirectories(srcDirectoryPath!)
             .FirstOrDefault(d => d.EndsWith(".EntityFrameworkCore"));
     }
 
@@ -162,7 +162,7 @@ public class DbMigrationService(
         {
             currentDirectory = Directory.GetParent(currentDirectory.FullName);
 
-            if (Directory.GetFiles(currentDirectory.FullName).FirstOrDefault(f => f.EndsWith(".sln")) != null)
+            if (Directory.GetFiles(currentDirectory!.FullName).FirstOrDefault(f => f.EndsWith(".sln")) != null)
             {
                 return currentDirectory.FullName;
             }
@@ -186,7 +186,7 @@ public class DbMigrationService(
     {
         var dbMigrationsProjectFolder = GetEntityFrameworkCoreProjectFolderPath();
 
-        return Directory.Exists(Path.Combine(dbMigrationsProjectFolder, "Migrations"));
+        return Directory.Exists(Path.Combine(dbMigrationsProjectFolder!, "Migrations"));
     }
 
     private async Task SeedDataAsync(Tenant? tenant = null)
