@@ -76,7 +76,12 @@ export class InterceptorService {
         errorResponse.error !== null &&
         errorResponse.error !== undefined
       ) {
-        if (errorResponse.error.__chao === true) {
+        if (errorResponse.error.__chao === true ||
+          (
+            errorResponse.error.error !== null &&
+            errorResponse.error.error !== undefined
+          )
+        ) {
           return errorResponse.error.error;
         }
         return new Error(errorResponse.error);
@@ -87,7 +92,12 @@ export class InterceptorService {
       errorResponse.error !== null &&
       errorResponse.error !== undefined
     ) {
-      if (errorResponse.error.__chao === true) {
+      if (errorResponse.error.__chao === true ||
+        (
+          errorResponse.error.error !== null &&
+          errorResponse.error.error !== undefined
+        )
+      ) {
         return errorResponse.error.error;
       }
       return new Error(errorResponse.error);

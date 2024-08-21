@@ -1,8 +1,8 @@
 {
   "name": "@nankingcigar/ng-wang-editor",
-  "version": "18.0.4",
+  "version": "18.1.2",
   "peerDependencies": {
-    "@nankingcigar/ng.core": "^18.0.4",
+    "@nankingcigar/ng.core": "^18.1.2",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/plugin-formula": "^1.0.11"
   },
