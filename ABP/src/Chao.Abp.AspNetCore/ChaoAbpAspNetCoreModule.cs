@@ -1,5 +1,4 @@
 ﻿using Chao.Abp.AspNetCore.Auditing;
-using Chao.Abp.AspNetCore.Authentication;
 using Chao.Abp.AspNetCore.ExceptionHandling;
 using Chao.Abp.Authorization;
 using Chao.Abp.Ddd.Domain;

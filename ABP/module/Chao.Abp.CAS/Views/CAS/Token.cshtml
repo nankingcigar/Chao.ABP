@@ -7,9 +7,11 @@
 @if (ViewData["LandingUri"] != null)
 {
     <script type="text/javascript">
-        localStorage.setItem('access_token_stored_at', new Date((new Date()).getTime() + @ViewData["expires_in"] * 1000).getTime());
-        localStorage.setItem('access_token', '@ViewData["access_token"]');
-        localStorage.setItem('expires_at', new Date((new Date()).getTime() + @ViewData["expires_in"] * 1000).getTime());
+        var expires_in = '@ViewData["expires_in"]';
+        var access_token = '@ViewData["access_token"]';
+        localStorage.setItem('access_token_stored_at', new Date((new Date()).getTime() + expires_in * 1000).getTime());
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('expires_at', new Date((new Date()).getTime() + expires_in * 1000).getTime());
         location.href = '@ViewData["LandingUri"]';
     </script>
 }

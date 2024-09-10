@@ -1,5 +1,4 @@
-﻿using Chao.Abp.CAS;
-using Chao.CAS;
+﻿using Chao.CAS;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +16,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.OpenIddict;
 
-namespace Chao.Abp.Identity.CAS;
+namespace Chao.Abp.CAS;
 
 public class CASController : AbpController
 {
@@ -25,8 +24,8 @@ public class CASController : AbpController
     public virtual ChaoCASOption ChaoCASOption => ChaoCASOptions!.Value;
     public virtual IOptions<ChaoCASOption>? ChaoCASOptions { get; set; }
     public virtual IIdentityUserRepository? IdentityUserRepository { get; set; }
-    public virtual AbpOpenIddictClaimsPrincipalManager? OpenIddictClaimsPrincipalManager { get; set; }
-    public virtual IOptionsMonitor<OpenIddictServerOptions>? OpenIddictServerOptions { get; set; }
+    public virtual AbpOpenIddictClaimsPrincipalManager? OpenIdDictClaimsPrincipalManager { get; set; }
+    public virtual IOptionsMonitor<OpenIddictServerOptions>? OpenIdDictServerOptions { get; set; }
     public virtual IOpenIddictScopeManager? ScopeManager { get; set; }
     public virtual AbpSignInManager? SignInManager { get; set; }
 
@@ -86,8 +85,8 @@ public class CASController : AbpController
                     resources.Add(resource);
                 }
                 principal.SetResources(resources);
-                await OpenIddictClaimsPrincipalManager!.HandleAsync(null, principal);
-                var options = OpenIddictServerOptions!.CurrentValue;
+                await OpenIdDictClaimsPrincipalManager!.HandleAsync(null, principal);
+                var options = OpenIdDictServerOptions!.CurrentValue;
                 var claims = new Dictionary<string, object>(StringComparer.Ordinal) { { OpenIddictConstants.Claims.Audience, ChaoCASOption.ClientId! } };
                 if (ChaoCASOption.Scope!.Any())
                 {
