@@ -40,10 +40,6 @@ public class ChaoAbpAspNetCoreMvcModule : AbpModule
                     .GetRequiredService<ChaoAbpDateTimeConverter>());
                 options.JsonSerializerOptions.Converters.Add(rootServiceProvider
                     .GetRequiredService<ChaoAbpNullableDateTimeConverter>());
-                options.JsonSerializerOptions.Converters.Add(rootServiceProvider
-                    .GetRequiredService<ChaoDateTimeOffsetConverter>());
-                options.JsonSerializerOptions.Converters.Add(rootServiceProvider
-                    .GetRequiredService<ChaoNullableDateTimeOffsetConverter>());
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
     }
