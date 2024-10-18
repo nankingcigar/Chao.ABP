@@ -1,6 +1,6 @@
 {
   "name": "@nankingcigar/ng.core",
-  "version": "18.2.3",
+  "version": "18.2.8",
   "homepage": "https://github.com/nankingcigar/Chao.ABP",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
     "angular-oauth2-oidc": "^17.0.2"
   },
   "dependencies": {
-    "tslib": "^2.6.3"
+    "tslib": "^2.8.0"
   },
   "sideEffects": false,
   "publishConfig": {

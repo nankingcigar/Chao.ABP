@@ -1,12 +1,6 @@
-/*
- * @Author: Chao Yang
- * @Date: 2020-12-11 19:09:03
- * @LastEditor: Chao Yang
- * @LastEditTime: 2023-04-11 16:42:13
- */
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { from, map, Observable, of, Subject } from 'rxjs';
+import { forkJoin, from, map, Observable, of, Subject } from 'rxjs';
 import {
   AuthenticationConfig,
   AuthenticationMode,
@@ -97,13 +91,15 @@ export class AuthService {
   }
 
   cookieLogout(): Observable<any> {
-    return this.httpClient
-      .get<any>(this.authenticationConfig.cookieConfig.logoutApiUrl)
-      .pipe(
-        map((r) => {
-          return this.authenticationConfig.cookieConfig.loginUrl;
-        })
-      );
+    let logoutObservables: Observable<any>[] = [];
+    this.authenticationConfig.cookieConfig.logoutApiUrl.forEach(logoutUrl => {
+      logoutObservables.push(this.httpClient.get<any>(logoutUrl));
+    });
+    return forkJoin(logoutObservables).pipe(
+      map((r) => {
+        return this.authenticationConfig.cookieConfig.loginUrl;
+      })
+    );
   }
 
   tokenLogout(): Observable<any> {

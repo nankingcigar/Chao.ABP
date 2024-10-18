@@ -21,7 +21,7 @@ export class AuthenticationConfig {
       loginApiUrl: '',
       loginUrl: '',
       redirectUri: '',
-      logoutApiUrl: '',
+      logoutApiUrl: [''],
       issuer: '',
       xsrf: true,
       xsrfEndPoint: '',
