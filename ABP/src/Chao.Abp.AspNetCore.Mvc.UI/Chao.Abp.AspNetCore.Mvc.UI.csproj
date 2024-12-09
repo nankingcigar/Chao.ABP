@@ -3,13 +3,13 @@
   <Import Project="..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI" Version="8.3.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI" Version="9.0.1" />
     <ProjectReference Include="..\Chao.Abp.AspNetCore.Mvc\Chao.Abp.AspNetCore.Mvc.csproj" />
   </ItemGroup>
 
