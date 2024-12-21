@@ -25,8 +25,9 @@ declare var monaco: any;
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ChaoMonacoEditorComponent),
       multi: true,
-    },
+    }
   ],
+  standalone: false
 })
 export class ChaoMonacoEditorComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
   @ViewChild('editorContainer', { static: true })

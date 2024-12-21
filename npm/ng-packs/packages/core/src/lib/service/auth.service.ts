@@ -121,7 +121,7 @@ export class AuthService {
       .post<string>(this.authenticationConfig.cookieConfig.xsrfEndPoint, undefined)
       .subscribe((r) => {
         sessionStorage.setItem(
-          this.authenticationConfig.cookieConfig.xsrfHeaderKey,
+          this.authenticationConfig.cookieConfig.xsrfCacheKey,
           r
         );
       });

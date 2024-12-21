@@ -1,7 +1,8 @@
 import { Directive, ElementRef } from "@angular/core";
 
 @Directive({
-    selector: '[remove-host-tag]'
+    selector: '[remove-host-tag]',
+    standalone: false
 })
 export class RemoveHostTagDirective {
     constructor(private el: ElementRef) {

@@ -7,4 +7,5 @@ export interface ICookieConfig {
   xsrf: boolean;
   xsrfEndPoint: string;
   xsrfHeaderKey: string;
+  xsrfCacheKey: string;
 }

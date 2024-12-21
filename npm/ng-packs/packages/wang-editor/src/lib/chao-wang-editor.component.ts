@@ -19,6 +19,7 @@ import { createEditor, createToolbar, IDomEditor, IEditorConfig, IToolbarConfig,
       multi: true,
     }
   ],
+  standalone: false
 })
 export class ChaoWangEditorComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
   @ViewChild('editorContainer', { static: true })

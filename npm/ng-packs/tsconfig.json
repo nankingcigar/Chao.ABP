@@ -3,8 +3,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@nankingcigar/chao-wang-editor": [
-        "dist/nankingcigar/chao-wang-editor"
+      "@nankingcigar/ng.core": [
+        "dist/nankingcigar/ng.core"
       ]
     },
     "baseUrl": "./",
@@ -27,7 +27,8 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "skipLibCheck": true  // fix node_modules/@uppy/utils/types/index.d.ts:19:3 - error TS1203: Export assignment cannot be used when targeting ECMAScript modules. Consider using 'export default' or another module format instead.
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

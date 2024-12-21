@@ -127,7 +127,7 @@ export class InterceptorService {
       this.authenticationConfig.cookieConfig.xsrf === true
     ) {
       const xsrf = sessionStorage.getItem(
-        this.authenticationConfig.cookieConfig.xsrfHeaderKey
+        this.authenticationConfig.cookieConfig.xsrfCacheKey
       );
       if (xsrf !== undefined && xsrf !== null) {
         headers[this.authenticationConfig.cookieConfig.xsrfHeaderKey] = xsrf;

@@ -25,7 +25,8 @@ export class AuthenticationConfig {
       issuer: '',
       xsrf: true,
       xsrfEndPoint: '',
-      xsrfHeaderKey: 'RequestVerificationToken'
+      xsrfHeaderKey: 'RequestVerificationToken',
+      xsrfCacheKey: 'RequestVerificationToken'
     };
     this.sessionValidationUrl = '';
   }

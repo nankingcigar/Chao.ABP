@@ -4,7 +4,7 @@
  * @LastEditor: Chao Yang
  * @LastEditTime: 2022-11-26 16:32:46
  */
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   AuthConfig,
@@ -21,7 +21,6 @@ import { RemoveHostTagDirective } from './directive/index';
     RemoveHostTagDirective
   ],
   imports: [
-    HttpClientModule,
     OAuthModule.forRoot({
       resourceServer: {
         sendAccessToken: true,

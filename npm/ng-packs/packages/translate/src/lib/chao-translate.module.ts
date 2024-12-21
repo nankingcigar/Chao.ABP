@@ -1,10 +1,4 @@
-/*
- * @Author: Chao Yang
- * @Date: 2020-12-18 13:55:03
- * @LastEditor: Chao Yang
- * @LastEditTime: 2022-09-08 00:01:33
- */
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   TranslateLoader,
@@ -23,7 +17,6 @@ export function HttpLoaderFactory(http: HttpClient, folder: string) {
 
 @NgModule({
   imports: [
-    HttpClientModule,
     TranslateModule.forRoot({
       defaultLanguage: 'zh-cn',
       isolate: false,
