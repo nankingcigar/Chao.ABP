@@ -133,5 +133,8 @@ export class InterceptorService {
         headers[this.authenticationConfig.cookieConfig.xsrfHeaderKey] = xsrf;
       }
     }
+    if (this.authenticationConfig.xRequesteWith !== undefined && this.authenticationConfig.xRequesteWith !== null && this.authenticationConfig.xRequesteWith !== '') {
+      headers['X-Requested-With'] = this.authenticationConfig.xRequesteWith;
+    }
   }
 }

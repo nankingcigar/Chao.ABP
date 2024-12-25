@@ -13,6 +13,7 @@ export class AuthenticationConfig {
   tokenConfig: AuthConfig;
   cookieConfig: ICookieConfig;
   sessionValidationUrl: string;
+  xRequesteWith: string;
 
   constructor() {
     this.authenticationMode = 0;
@@ -29,5 +30,6 @@ export class AuthenticationConfig {
       xsrfCacheKey: 'RequestVerificationToken'
     };
     this.sessionValidationUrl = '';
+    this.xRequesteWith = 'XMLHttpRequest';
   }
 }
