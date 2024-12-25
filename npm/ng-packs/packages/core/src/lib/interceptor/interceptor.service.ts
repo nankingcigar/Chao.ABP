@@ -7,7 +7,6 @@
 import { HttpEvent, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Observable, throwError } from 'rxjs';
 import {
   AuthenticationConfig,
   AuthenticationMode,
@@ -133,8 +132,8 @@ export class InterceptorService {
         headers[this.authenticationConfig.cookieConfig.xsrfHeaderKey] = xsrf;
       }
     }
-    if (this.authenticationConfig.xRequesteWith !== undefined && this.authenticationConfig.xRequesteWith !== null && this.authenticationConfig.xRequesteWith !== '') {
-      headers['X-Requested-With'] = this.authenticationConfig.xRequesteWith;
+    if (this.authenticationConfig.xRequestedWith !== undefined && this.authenticationConfig.xRequestedWith !== null && this.authenticationConfig.xRequestedWith !== '') {
+      headers['X-Requested-With'] = this.authenticationConfig.xRequestedWith;
     }
   }
 }

@@ -30,13 +30,6 @@ export class AuthService {
         this.logout = this.cookieLogout;
         this.redirectUri = this.authenticationConfig.cookieConfig.redirectUri;
         this.loginUrl = this.authenticationConfig.cookieConfig.loginUrl;
-        if (this.authenticationConfig.cookieConfig.xsrf === true) {
-          this.sessionIsValid().subscribe((r) => {
-            if (r === true) {
-              this.xsrfToken();
-            }
-          });
-        }
         break;
       case AuthenticationMode.Token:
         this.oAuthService.configure(this.authenticationConfig.tokenConfig);
@@ -71,9 +64,6 @@ export class AuthService {
         map((abpLoginResult) => {
           if (abpLoginResult.result !== LoginResultType.Success) {
             throw new Error(abpLoginResult.description);
-          }
-          if (this.authenticationConfig.cookieConfig.xsrf === true) {
-            this.xsrfToken();
           }
           return this.authenticationConfig.cookieConfig.redirectUri;
         })
@@ -114,16 +104,5 @@ export class AuthService {
     return this.httpClient.get<boolean>(
       this.authenticationConfig.sessionValidationUrl
     );
-  }
-
-  xsrfToken() {
-    this.httpClient
-      .post<string>(this.authenticationConfig.cookieConfig.xsrfEndPoint, undefined)
-      .subscribe((r) => {
-        sessionStorage.setItem(
-          this.authenticationConfig.cookieConfig.xsrfCacheKey,
-          r
-        );
-      });
   }
 }

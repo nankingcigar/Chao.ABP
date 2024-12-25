@@ -20,6 +20,6 @@ export const AuthGuard: CanActivateFn =
           location.href = authService.loginUrl;
         }
       }
-      return valid == true;
+      return valid === true;
     }));
   };
