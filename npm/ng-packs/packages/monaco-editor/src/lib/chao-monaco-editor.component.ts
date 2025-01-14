@@ -7,9 +7,10 @@ import {
   OnDestroy,
   ViewChild
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { fromEvent, Subscription } from 'rxjs';
 import { EditorOptions, IStandaloneCodeEditor } from './typings';
+import { ChaoCoreModule } from '@nankingcigar/ng.core';
 
 let loadedMonaco = false;
 let loadPromise: Promise<void>;
@@ -17,6 +18,7 @@ let loadPromise: Promise<void>;
 declare var monaco: any;
 
 @Component({
+  imports: [FormsModule, ChaoCoreModule],
   selector: 'chao-monaco-editor',
   template: `<div remove-host-tag class="chao-monaco-editor" #editorContainer></div>`,
   styles: [],
@@ -26,8 +28,7 @@ declare var monaco: any;
       useExisting: forwardRef(() => ChaoMonacoEditorComponent),
       multi: true,
     }
-  ],
-  standalone: false
+  ]
 })
 export class ChaoMonacoEditorComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
   @ViewChild('editorContainer', { static: true })

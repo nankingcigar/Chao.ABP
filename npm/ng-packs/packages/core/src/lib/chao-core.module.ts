@@ -14,11 +14,9 @@ import {
 import { ApiInterceptor } from './interceptor/api.interceptor';
 import { InterceptorService } from './interceptor/interceptor.service';
 import { AuthenticationConfig } from './model/authentication/index';
-import { RemoveHostTagDirective } from './directive/index';
 
 @NgModule({
   declarations: [
-    RemoveHostTagDirective
   ],
   imports: [
     OAuthModule.forRoot({
@@ -28,7 +26,6 @@ import { RemoveHostTagDirective } from './directive/index';
     })
   ],
   exports: [
-    RemoveHostTagDirective
   ],
 })
 export class ChaoCoreModule {

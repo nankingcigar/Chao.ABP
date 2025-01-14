@@ -7,7 +7,8 @@
     "declarationMap": true,
     "inlineSources": true,
     "types": [],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true  // fix node_modules/@uppy/utils/types/index.d.ts:19:3 - error TS1203: Export assignment cannot be used when targeting ECMAScript modules. Consider using 'export default' or another module format instead.
   },
   "exclude": [
     "**/*.spec.ts"

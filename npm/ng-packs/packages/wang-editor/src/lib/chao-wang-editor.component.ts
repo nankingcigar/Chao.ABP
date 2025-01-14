@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnDestroy, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { createEditor, createToolbar, IDomEditor, IEditorConfig, IToolbarConfig, Toolbar, i18nChangeLanguage } from '@wangeditor/editor';
 
 @Component({
+  imports: [FormsModule],
   selector: 'chao-wang-editor',
   template: `
   <div remove-host-tag class="chao-wang-editor">
@@ -18,8 +19,7 @@ import { createEditor, createToolbar, IDomEditor, IEditorConfig, IToolbarConfig,
       useExisting: forwardRef(() => ChaoWangEditorComponent),
       multi: true,
     }
-  ],
-  standalone: false
+  ]
 })
 export class ChaoWangEditorComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
   @ViewChild('editorContainer', { static: true })
