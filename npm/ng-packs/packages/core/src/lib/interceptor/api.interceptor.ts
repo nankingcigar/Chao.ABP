@@ -1,9 +1,3 @@
-/*
- * @Author: Chao Yang
- * @Date: 2020-12-19 06:58:04
- * @LastEditor: Chao Yang
- * @LastEditTime: 2022-08-09 14:19:56
- */
 import { Injectable } from '@angular/core';
 import {
   HttpEvent,
@@ -14,7 +8,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
-import { catchError, delay, map } from 'rxjs/operators';
+import { catchError, delay, finalize, map } from 'rxjs/operators';
 import { InterceptorService } from './interceptor.service';
 
 @Injectable({
@@ -70,6 +64,9 @@ export class ApiInterceptor implements HttpInterceptor {
             this.error(key, error);
           }
           throw error;
+        }),
+        finalize(() => {
+          this.cancel(key);
         })
       );
   }
@@ -96,6 +93,13 @@ export class ApiInterceptor implements HttpInterceptor {
         delete this.cacheSubject[key];
         subscription.unsubscribe();
       });
+    }
+    delete this.cacheRequest[key];
+  }
+
+  cancel(key: string): void {
+    if (this.cacheSubject[key]) {
+      this.cacheSubject[key].unsubscribe();
     }
     delete this.cacheRequest[key];
   }
