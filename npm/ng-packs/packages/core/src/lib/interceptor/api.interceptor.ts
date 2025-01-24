@@ -73,33 +73,41 @@ export class ApiInterceptor implements HttpInterceptor {
 
   success(key: string, response: HttpEvent<any>): void {
     if (this.cacheSubject[key]) {
+      const cacheSubject = this.cacheSubject[key];
       const subscription = of(response).pipe(delay(0)).subscribe((response) => {
-        this.cacheSubject[key].next(response);
-        this.cacheSubject[key].complete();
-        this.cacheSubject[key].unsubscribe();
-        delete this.cacheSubject[key];
+        cacheSubject.next(response);
+        cacheSubject.complete();
+        cacheSubject.unsubscribe();
         subscription.unsubscribe();
       });
+      delete this.cacheSubject[key];
     }
     delete this.cacheRequest[key];
   }
 
   error(key: string, error: any): void {
     if (this.cacheSubject[key]) {
+      const cacheSubject = this.cacheSubject[key];
       const subscription = of(error).pipe(delay(0)).subscribe((error) => {
-        this.cacheSubject[key].error(error);
-        this.cacheSubject[key].complete();
-        this.cacheSubject[key].unsubscribe();
-        delete this.cacheSubject[key];
+        cacheSubject.error(error);
+        cacheSubject.complete();
+        cacheSubject.unsubscribe();
         subscription.unsubscribe();
       });
+      delete this.cacheSubject[key];
     }
     delete this.cacheRequest[key];
   }
 
   cancel(key: string): void {
     if (this.cacheSubject[key]) {
-      this.cacheSubject[key].unsubscribe();
+      const cacheSubject = this.cacheSubject[key];
+      const subscription = of(undefined).pipe(delay(0)).subscribe((n) => {
+        cacheSubject.complete();
+        cacheSubject.unsubscribe();
+        subscription.unsubscribe();
+      });
+      delete this.cacheSubject[key];
     }
     delete this.cacheRequest[key];
   }
