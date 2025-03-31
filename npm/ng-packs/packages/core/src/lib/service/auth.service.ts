@@ -87,7 +87,7 @@ export class AuthService {
     });
     return forkJoin(logoutObservables).pipe(
       map((r) => {
-        return this.authenticationConfig.cookieConfig.loginUrl;
+        return this.authenticationConfig.logoutUri;
       })
     );
   }
@@ -95,7 +95,7 @@ export class AuthService {
   tokenLogout(): Observable<any> {
     return from(this.oAuthService.revokeTokenAndLogout()).pipe(
       map((r) => {
-        return this.authenticationConfig.tokenConfig.loginUrl;
+        return this.authenticationConfig.logoutUri;
       })
     );
   }

@@ -17,6 +17,7 @@ export class InterceptorService {
   redirectUri: string;
   loginUrl: string;
   issuer: string;
+  logoutUrl: string;
 
   constructor(
     protected authenticationConfig: AuthenticationConfig,
@@ -41,6 +42,7 @@ export class InterceptorService {
         this.issuer = this.authenticationConfig.cookieConfig.issuer;
         break;
     }
+    this.logoutUrl = this.authenticationConfig.logoutUri;
   }
 
   handleBeforeRequest(request: HttpRequest<any>): HttpRequest<any> {
