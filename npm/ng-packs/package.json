@@ -1,6 +1,6 @@
 {
   "name": "chao-ng-packs",
-  "version": "19.2.0",
+  "version": "19.2.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

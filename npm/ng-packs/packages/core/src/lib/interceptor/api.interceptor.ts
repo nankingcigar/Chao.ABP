@@ -29,13 +29,15 @@ export class ApiInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const key = req.method + 'δ' + req.urlWithParams + 'δ' + JSON.stringify(req.body ?? '');
-    if (this.cacheRequest[key]) {
-      if (!this.cacheSubject[key]) {
-        this.cacheSubject[key] = new Subject<HttpEvent<any>>();
+    if (!req.headers.get('no-cache')) {
+      if (this.cacheRequest[key]) {
+        if (!this.cacheSubject[key]) {
+          this.cacheSubject[key] = new Subject<HttpEvent<any>>();
+        }
+        return this.cacheSubject[key].asObservable();
       }
-      return this.cacheSubject[key].asObservable();
+      this.cacheRequest[key] = true;
     }
-    this.cacheRequest[key] = true;
     req = this.interceptorService.handleBeforeRequest(req);
     return next
       .handle(
