@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <Version>9.0.4</Version>
+    <Version>9.1.3</Version>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
     <NoWarn>$(NoWarn);CS1591;CS0436</NoWarn>
@@ -17,7 +17,7 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <Authors>Chao Yang</Authors>
     <Company>Chao Yang</Company>
-    <Copyright>Chao Yang 2024</Copyright>
+    <Copyright>Chao Yang 2025</Copyright>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
