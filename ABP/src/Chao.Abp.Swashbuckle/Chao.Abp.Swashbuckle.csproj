@@ -8,9 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Swashbuckle" Version="9.1.3" />
+	<ProjectReference Include="..\Chao.Abp.AspNetCore.Mvc\Chao.Abp.AspNetCore.Mvc.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\Chao.Abp.AspNetCore.Mvc\Chao.Abp.AspNetCore.Mvc.csproj" />
-  </ItemGroup>
+	
 </Project>

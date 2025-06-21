@@ -8,9 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.MultiTenancy" Version="9.1.3" />
+	<ProjectReference Include="..\Chao.Abp.ObjectExtending\Chao.Abp.ObjectExtending.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Chao.Abp.ObjectExtending\Chao.Abp.ObjectExtending.csproj" />
-  </ItemGroup>
+	
 </Project>

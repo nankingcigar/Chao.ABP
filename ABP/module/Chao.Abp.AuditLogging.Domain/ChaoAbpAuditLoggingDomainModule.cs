@@ -1,4 +1,5 @@
-﻿using Chao.Abp.Ddd.Domain;
+﻿using Chao.Abp.AuditLogging.Domain.Store;
+using Chao.Abp.Ddd.Domain;
 using Chao.Abp.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -16,7 +17,6 @@ public class ChaoAbpAuditLoggingDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        base.ConfigureServices(context);
-        context.Services.Replace(ServiceDescriptor.Transient<IAuditLogInfoToAuditLogConverter, ChaoAuditLogInfoToAuditLogConverter>());
+        context.Services.Replace(ServiceDescriptor.Transient<AuditingStore, ChaoAuditingStore>());
     }
 }

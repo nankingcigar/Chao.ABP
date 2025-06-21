@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Json" Version="9.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Chao.Abp.Json.SystemTextJson\Chao.Abp.Json.SystemTextJson.csproj" />
+	<ProjectReference Include="..\Chao.Abp.Json.SystemTextJson\Chao.Abp.Json.SystemTextJson.csproj" />
   </ItemGroup>
   
 </Project>

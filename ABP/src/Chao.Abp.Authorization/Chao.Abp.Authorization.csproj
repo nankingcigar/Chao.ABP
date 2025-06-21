@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Authorization" Version="9.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Chao.Abp.MultiTenancy\Chao.Abp.MultiTenancy.csproj" />
+	<ProjectReference Include="..\Chao.Abp.MultiTenancy\Chao.Abp.MultiTenancy.csproj" />
   </ItemGroup>
 
 </Project>

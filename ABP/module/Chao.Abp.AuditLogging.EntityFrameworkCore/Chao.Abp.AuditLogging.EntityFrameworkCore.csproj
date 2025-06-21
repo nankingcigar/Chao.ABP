@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\..\common.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="9.1.3" />
+		<ProjectReference Include="..\..\src\Chao.Abp.EntityFrameworkCore\Chao.Abp.EntityFrameworkCore.csproj" />
+		<ProjectReference Include="..\Chao.Abp.AuditLogging.Domain\Chao.Abp.AuditLogging.Domain.csproj" />
+	</ItemGroup>
+
+</Project>
