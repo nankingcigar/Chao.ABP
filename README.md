@@ -11,23 +11,29 @@ Enhancing certain modules of ABP by incorporating additional functionalities suc
 
 🟡 DateTime Json Return Numeric (base on 1970/01/01 UTC)
 
-🟡 CAS to Cookie
-
-🟡 CAS to Token
-
-🟡 Api Return Wrapper
-
-🟡 Swagger Multiple Configruation
-
-🟡 DateTime Json Return Numeric
-
 🟡 SQL Server EF Bulk Operation
+
+🟡 Audit Log Bulk Insert
+
+🟡 PublishEntityUpdatedEventWhenNavigationChanges & SaveEntityHistoryWhenNavigationChanges default value false
+
+🟡 The `UpdateManyAsync` method is optimized to update only entities with changed properties; entities with no changes or only basic audit property changes will not be updated.
 
 🟡 Support ABP as Sub-Appilication
 
+🟡 Api Return Wrapper
+
 🟡 Tenant Json File Configuration
 
+🟡 WebApiClientCore Response 20x Cache
+
+🟡 Swagger Multiple Configruation
+
 🟡 Hangfire UnitTest by SQLite
+
+🟡 CAS to Cookie
+
+🟡 CAS to Token
 
 ## 📫 Bug & Support
 

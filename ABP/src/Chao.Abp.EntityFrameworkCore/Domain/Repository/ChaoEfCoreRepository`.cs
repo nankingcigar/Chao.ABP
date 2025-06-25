@@ -3,10 +3,14 @@ using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using Nito.AsyncEx;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
+using Volo.Abp;
+using Volo.Abp.Auditing;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -37,11 +41,6 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
         await (await GetDbContext()).BulkUpdateAsync(entities);
     }
 
-    public void DisableAutoDetectChangesEnabled()
-    {
-        throw new NotImplementedException();
-    }
-
     public virtual async Task<DbContext> GetDbContext()
     {
         return ((await GetDbContextAsync()) as DbContext)!;
@@ -55,6 +54,34 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
     public virtual async Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors)
     {
         return (await WithDetailsAsync(propertySelectors)).AsNoTracking();
+    }
+
+    public override async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    {
+        if (entities.Any() == false)
+        {
+            return;
+        }
+        string[] basePropertiesName = [nameof(IHasCreationTime.CreationTime), nameof(IMayHaveCreator.CreatorId), nameof(IMustHaveCreator.CreatorId), nameof(IHasModificationTime.LastModificationTime), nameof(IModificationAuditedObject.LastModifierId), nameof(ISoftDelete.IsDeleted), nameof(IHasDeletionTime.DeletionTime), nameof(IDeletionAuditedObject.DeleterId), nameof(IHasEntityVersion.EntityVersion), nameof(IHasConcurrencyStamp.ConcurrencyStamp)];
+        var updatedEntities = new ConcurrentBag<TEntity>();
+        var dbContext = await GetDbContextAsync();
+        Parallel.ForEach(entities, entity =>
+        {
+            var entityEntry = dbContext.Entry(entity);
+            if (entityEntry.Properties.Any(p => p.IsModified == true && basePropertiesName.Contains(p.Metadata.PropertyInfo?.Name) == false) == true)
+            {
+                updatedEntities.Add(entity);
+            }
+            else
+            {
+                entityEntry.State = EntityState.Detached;
+            }
+        });
+        if (updatedEntities.Any() == false)
+        {
+            return;
+        }
+        await base.UpdateManyAsync(updatedEntities.ToList(), autoSave, cancellationToken);
     }
 }
 
@@ -95,5 +122,33 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
     public virtual async Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors)
     {
         return (await WithDetailsAsync(propertySelectors)).AsNoTracking();
+    }
+
+    public override async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
+    {
+        if (entities.Any() == false)
+        {
+            return;
+        }
+        string[] basePropertiesName = [nameof(IHasCreationTime.CreationTime), nameof(IMayHaveCreator.CreatorId), nameof(IMustHaveCreator.CreatorId), nameof(IHasModificationTime.LastModificationTime), nameof(IModificationAuditedObject.LastModifierId), nameof(ISoftDelete.IsDeleted), nameof(IHasDeletionTime.DeletionTime), nameof(IDeletionAuditedObject.DeleterId), nameof(IHasEntityVersion.EntityVersion), nameof(IHasConcurrencyStamp.ConcurrencyStamp)];
+        var updatedEntities = new ConcurrentBag<TEntity>();
+        var dbContext = await GetDbContextAsync();
+        Parallel.ForEach(entities, entity =>
+        {
+            var entityEntry = dbContext.Entry(entity);
+            if (entityEntry.Properties.Any(p => p.IsModified == true && basePropertiesName.Contains(p.Metadata.PropertyInfo?.Name) == false) == true)
+            {
+                updatedEntities.Add(entity);
+            }
+            else
+            {
+                entityEntry.State = EntityState.Detached;
+            }
+        });
+        if (updatedEntities.Any() == false)
+        {
+            return;
+        }
+        await base.UpdateManyAsync(updatedEntities.ToList(), autoSave, cancellationToken);
     }
 }
