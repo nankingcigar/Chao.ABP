@@ -74,7 +74,7 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
             }
             else
             {
-                entityEntry.State = EntityState.Detached;
+                entityEntry.State = EntityState.Unchanged;
             }
         });
         if (updatedEntities.Any() == false)
@@ -142,7 +142,7 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
             }
             else
             {
-                entityEntry.State = EntityState.Detached;
+                entityEntry.State = EntityState.Unchanged;
             }
         });
         if (updatedEntities.Any() == false)
