@@ -1,4 +1,5 @@
-﻿using Chao.Abp.Timing;
+﻿using Chao.Abp.Json.Abstractions;
+using Chao.Abp.Timing;
 using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
@@ -10,18 +11,11 @@ using Volo.Abp.Json;
 
 namespace Chao.Abp.Json.SystemTextJson.JsonConverters;
 
-public class ChaoMicrosoftDateTimeConverter : JsonConverter<DateTime>, ITransientDependency
+public class ChaoMicrosoftDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions, IOptions<ChaoAbpJsonOption> chaoAbpJsonOptions) : JsonConverter<DateTime>, ITransientDependency
 {
     private static readonly DateTimeOffset Gensis = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
     private static readonly Regex Regex = new Regex(@"^\\?/Date\((-?\d+)([+-])(\d{2})(\d{2})\)\\?/$", RegexOptions.CultureInvariant | RegexOptions.Compiled);
-    private readonly IChaoClock _clock;
-    private readonly AbpJsonOptions _options;
-
-    public ChaoMicrosoftDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions)
-    {
-        _clock = clock;
-        _options = abpJsonOptions.Value;
-    }
+    private readonly AbpJsonOptions _options = abpJsonOptions.Value;
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -47,8 +41,22 @@ public class ChaoMicrosoftDateTimeConverter : JsonConverter<DateTime>, ITransien
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        var ticks = value.ToUniversalTime().Ticks - _clock.Genesis.Ticks;
-        ticks = (long)(TimeSpan.FromTicks(ticks).TotalMilliseconds);
-        writer.WriteNumberValue(ticks);
+        if (chaoAbpJsonOptions.Value.DateTimeNumericFormatEnable == true)
+        {
+            var ticks = value.ToUniversalTime().Ticks - clock.Genesis.Ticks;
+            ticks = (long)(TimeSpan.FromTicks(ticks).TotalMilliseconds);
+            writer.WriteNumberValue(ticks);
+        }
+        else
+        {
+            if (_options.OutputDateTimeFormat.IsNullOrWhiteSpace())
+            {
+                writer.WriteStringValue(clock.Normalize(value));
+            }
+            else
+            {
+                writer.WriteStringValue(clock.Normalize(value).ToString(_options.OutputDateTimeFormat, CultureInfo.CurrentUICulture));
+            }
+        }
     }
 }

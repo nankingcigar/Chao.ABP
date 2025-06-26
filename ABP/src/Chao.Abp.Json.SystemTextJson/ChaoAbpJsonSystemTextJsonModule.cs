@@ -1,4 +1,5 @@
-﻿using Chao.Abp.Json.SystemTextJson.JsonConverters;
+﻿using Chao.Abp.Json.Abstractions;
+using Chao.Abp.Json.SystemTextJson.JsonConverters;
 using Chao.Abp.Timing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -11,6 +12,7 @@ namespace Chao.Abp.Json;
 
 [DependsOn(
     typeof(ChaoAbpTimingModule),
+    typeof(ChaoAbpJsonAbstractionsModule),
     typeof(AbpJsonSystemTextJsonModule)
     )]
 public class ChaoAbpJsonSystemTextJsonModule : AbpModule

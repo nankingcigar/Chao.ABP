@@ -9,10 +9,15 @@ using Volo.Abp.Uow;
 
 namespace Chao.Abp.AuditLogging.Domain.Store;
 
-public class ChaoAuditingStore(IAuditLogRepository auditLogRepository, IChaoAuditLogRepository chaoAuditLogRepository, IChaoAuditLogActionRepository chaoAuditLogActionRepository, IChaoEntityChangeRepository chaoEntityChangeRepository, IChaoEntityPropertyChangeRepository chaoEntityPropertyChangeRepository, IUnitOfWorkManager unitOfWorkManager, IOptions<AbpAuditingOptions> options, IAuditLogInfoToAuditLogConverter converter) : AuditingStore(auditLogRepository, unitOfWorkManager, options, converter)
+public class ChaoAuditingStore(IAuditLogRepository auditLogRepository, IChaoAuditLogRepository chaoAuditLogRepository, IChaoAuditLogActionRepository chaoAuditLogActionRepository, IChaoEntityChangeRepository chaoEntityChangeRepository, IChaoEntityPropertyChangeRepository chaoEntityPropertyChangeRepository, IUnitOfWorkManager unitOfWorkManager, IOptions<AbpAuditingOptions> options, IAuditLogInfoToAuditLogConverter converter, IOptions<ChaoAbpAuditLoggingOption> chaoAbpAuditLoggingOptions) : AuditingStore(auditLogRepository, unitOfWorkManager, options, converter)
 {
     protected override async Task SaveLogAsync(AuditLogInfo auditInfo)
     {
+        if (chaoAbpAuditLoggingOptions.Value.AuditLogBulkInsertEnable == false)
+        {
+            await base.SaveLogAsync(auditInfo);
+            return;
+        }
         using var uow = UnitOfWorkManager.Begin(true);
         var auditLog = await Converter.ConvertAsync(auditInfo);
         IList<AuditLog> auditLogs = [auditLog];

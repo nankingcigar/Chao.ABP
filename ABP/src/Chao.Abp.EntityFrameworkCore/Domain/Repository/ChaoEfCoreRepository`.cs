@@ -1,6 +1,8 @@
 ﻿using Chao.Abp.Ddd.Domain.IRepository;
 using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Concurrent;
@@ -9,8 +11,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Volo.Abp;
-using Volo.Abp.Auditing;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -25,6 +25,7 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
     public virtual Expression Expression => QueryableEntity.Expression;
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
     protected virtual IQueryable<TEntity> QueryableEntity => AsyncContext.Run(async () => await GetQueryableAsync());
+    public virtual ChaoAbpEnittyFrameworkCoreOption ChaoAbpEnittyFrameworkCoreOption => LazyServiceProvider.GetRequiredService<IOptions<ChaoAbpEnittyFrameworkCoreOption>>().Value;
 
     public virtual async Task BulkDelete(IList<TEntity> entities)
     {
@@ -58,17 +59,22 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
 
     public override async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
     {
+        if (ChaoAbpEnittyFrameworkCoreOption.EnableUpdateManyOptimization == false)
+        {
+            await base.UpdateManyAsync(entities, autoSave, cancellationToken);
+            return;
+        }
         if (entities.Any() == false)
         {
             return;
         }
-        string[] basePropertiesName = [nameof(IHasCreationTime.CreationTime), nameof(IMayHaveCreator.CreatorId), nameof(IMustHaveCreator.CreatorId), nameof(IHasModificationTime.LastModificationTime), nameof(IModificationAuditedObject.LastModifierId), nameof(ISoftDelete.IsDeleted), nameof(IHasDeletionTime.DeletionTime), nameof(IDeletionAuditedObject.DeleterId), nameof(IHasEntityVersion.EntityVersion), nameof(IHasConcurrencyStamp.ConcurrencyStamp)];
+        string[] basePropertiesName = [];
         var updatedEntities = new ConcurrentBag<TEntity>();
         var dbContext = await GetDbContextAsync();
         Parallel.ForEach(entities, entity =>
         {
             var entityEntry = dbContext.Entry(entity);
-            if (entityEntry.Properties.Any(p => p.IsModified == true && basePropertiesName.Contains(p.Metadata.PropertyInfo?.Name) == false) == true)
+            if (entityEntry.Properties.Any(p => p.IsModified == true && ChaoAbpEnittyFrameworkCoreOption.BasicPropertyNames.Contains(p.Metadata.PropertyInfo?.Name ?? string.Empty) == false) == true)
             {
                 updatedEntities.Add(entity);
             }
@@ -93,6 +99,7 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
     public virtual Expression Expression => QueryableEntity.Expression;
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
     protected virtual IQueryable<TEntity> QueryableEntity => AsyncContext.Run(async () => await GetQueryableAsync());
+    public virtual ChaoAbpEnittyFrameworkCoreOption ChaoAbpEnittyFrameworkCoreOption => LazyServiceProvider.GetRequiredService<IOptions<ChaoAbpEnittyFrameworkCoreOption>>().Value;
 
     public virtual async Task BulkDelete(IList<TEntity> entities)
     {
@@ -126,17 +133,22 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
 
     public override async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
     {
+        if (ChaoAbpEnittyFrameworkCoreOption.EnableUpdateManyOptimization == false)
+        {
+            await base.UpdateManyAsync(entities, autoSave, cancellationToken);
+            return;
+        }
         if (entities.Any() == false)
         {
             return;
         }
-        string[] basePropertiesName = [nameof(IHasCreationTime.CreationTime), nameof(IMayHaveCreator.CreatorId), nameof(IMustHaveCreator.CreatorId), nameof(IHasModificationTime.LastModificationTime), nameof(IModificationAuditedObject.LastModifierId), nameof(ISoftDelete.IsDeleted), nameof(IHasDeletionTime.DeletionTime), nameof(IDeletionAuditedObject.DeleterId), nameof(IHasEntityVersion.EntityVersion), nameof(IHasConcurrencyStamp.ConcurrencyStamp)];
+        string[] basePropertiesName = [];
         var updatedEntities = new ConcurrentBag<TEntity>();
         var dbContext = await GetDbContextAsync();
         Parallel.ForEach(entities, entity =>
         {
             var entityEntry = dbContext.Entry(entity);
-            if (entityEntry.Properties.Any(p => p.IsModified == true && basePropertiesName.Contains(p.Metadata.PropertyInfo?.Name) == false) == true)
+            if (entityEntry.Properties.Any(p => p.IsModified == true && ChaoAbpEnittyFrameworkCoreOption.BasicPropertyNames.Contains(p.Metadata.PropertyInfo?.Name ?? string.Empty) == false) == true)
             {
                 updatedEntities.Add(entity);
             }

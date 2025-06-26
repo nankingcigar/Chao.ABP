@@ -1,3 +1,4 @@
+using Chao.Abp.Json.Abstractions;
 using Chao.Abp.Timing;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,22 +10,15 @@ using Volo.Abp.Json.SystemTextJson.JsonConverters;
 
 namespace Chao.Abp.Json.SystemTextJson.JsonConverters;
 
-public class ChaoAbpDateTimeConverter : AbpDateTimeConverter
+public class ChaoAbpDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions, IOptions<ChaoAbpJsonOption> chaoAbpJsonOptions) : AbpDateTimeConverter(clock, abpJsonOptions)
 {
-    private readonly IChaoClock _clock;
-    private readonly AbpJsonOptions _options;
-
-    public ChaoAbpDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions) : base(clock, abpJsonOptions)
-    {
-        _clock = clock;
-        _options = abpJsonOptions.Value;
-    }
+    private readonly AbpJsonOptions _options = abpJsonOptions.Value;
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Number)
         {
-            return _clock.Genesis.AddMilliseconds(reader.GetInt64()).ToLocalTime();
+            return clock.Genesis.AddMilliseconds(reader.GetInt64()).ToLocalTime();
         }
         if (_options.InputDateTimeFormats.Any())
         {
@@ -35,7 +29,7 @@ public class ChaoAbpDateTimeConverter : AbpDateTimeConverter
                 {
                     if (DateTime.TryParseExact(s, format, CultureInfo.CurrentUICulture, DateTimeStyles.None, out var d1))
                     {
-                        return _clock.Normalize(d1);
+                        return clock.Normalize(d1);
                     }
                 }
             }
@@ -50,15 +44,29 @@ public class ChaoAbpDateTimeConverter : AbpDateTimeConverter
         }
         if (reader.TryGetDateTime(out var d2))
         {
-            return _clock.Normalize(d2);
+            return clock.Normalize(d2);
         }
         throw new JsonException("Can't get datetime from the reader!");
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        var ticks = value.ToUniversalTime().Ticks - _clock.Genesis.Ticks;
-        ticks = (long)(TimeSpan.FromTicks(ticks).TotalMilliseconds);
-        writer.WriteNumberValue(ticks);
+        if (chaoAbpJsonOptions.Value.DateTimeNumericFormatEnable == true)
+        {
+            var ticks = value.ToUniversalTime().Ticks - clock.Genesis.Ticks;
+            ticks = (long)(TimeSpan.FromTicks(ticks).TotalMilliseconds);
+            writer.WriteNumberValue(ticks);
+        }
+        else
+        {
+            if (_options.OutputDateTimeFormat.IsNullOrWhiteSpace())
+            {
+                writer.WriteStringValue(clock.Normalize(value));
+            }
+            else
+            {
+                writer.WriteStringValue(clock.Normalize(value).ToString(_options.OutputDateTimeFormat, CultureInfo.CurrentUICulture));
+            }
+        }
     }
 }

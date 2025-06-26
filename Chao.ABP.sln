@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.WebApiClient", "AB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.AuditLogging.EntityFrameworkCore", "ABP\module\Chao.Abp.AuditLogging.EntityFrameworkCore\Chao.Abp.AuditLogging.EntityFrameworkCore.csproj", "{A4E945BB-11EE-40CF-4425-FEE663050232}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.Json.Abstractions", "ABP\src\Chao.Abp.Json.Abstractions\Chao.Abp.Json.Abstractions.csproj", "{E07B705E-9E80-40FB-B55F-AB2D6EED438D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,10 @@ Global
 		{A4E945BB-11EE-40CF-4425-FEE663050232}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4E945BB-11EE-40CF-4425-FEE663050232}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4E945BB-11EE-40CF-4425-FEE663050232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E07B705E-9E80-40FB-B55F-AB2D6EED438D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E07B705E-9E80-40FB-B55F-AB2D6EED438D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E07B705E-9E80-40FB-B55F-AB2D6EED438D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E07B705E-9E80-40FB-B55F-AB2D6EED438D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +213,7 @@ Global
 		{C3AD606D-C043-4569-AEEF-2D964C20FD02} = {0B9BC791-50A1-484C-9E78-3C76CF4B03C8}
 		{D2CD7FFB-0438-40B5-BF93-16BA9196F122} = {7711D87C-7E00-42A2-A1E6-B63931745893}
 		{A4E945BB-11EE-40CF-4425-FEE663050232} = {7711D87C-7E00-42A2-A1E6-B63931745893}
+		{E07B705E-9E80-40FB-B55F-AB2D6EED438D} = {0B9BC791-50A1-484C-9E78-3C76CF4B03C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {137AB619-25F6-4870-9EEF-E9450C829E13}
