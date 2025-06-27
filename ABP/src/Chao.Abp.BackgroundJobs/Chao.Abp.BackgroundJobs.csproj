@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.BackgroundJobs" Version="9.1.3" />
+		<ProjectReference Include="..\Chao.Abp.BackgroundJobs.Abstractions\Chao.Abp.BackgroundJobs.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

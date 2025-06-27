@@ -21,11 +21,11 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
     where TDbContext : IEfCoreDbContext
     where TEntity : class, IEntity
 {
+    public virtual ChaoAbpEnittyFrameworkCoreOption ChaoAbpEnittyFrameworkCoreOption => LazyServiceProvider.GetRequiredService<IOptions<ChaoAbpEnittyFrameworkCoreOption>>().Value;
     public virtual Type ElementType => QueryableEntity.ElementType;
     public virtual Expression Expression => QueryableEntity.Expression;
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
     protected virtual IQueryable<TEntity> QueryableEntity => AsyncContext.Run(async () => await GetQueryableAsync());
-    public virtual ChaoAbpEnittyFrameworkCoreOption ChaoAbpEnittyFrameworkCoreOption => LazyServiceProvider.GetRequiredService<IOptions<ChaoAbpEnittyFrameworkCoreOption>>().Value;
 
     public virtual async Task BulkDelete(IList<TEntity> entities)
     {
@@ -50,11 +50,6 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
     public virtual IEnumerator<TEntity> GetEnumerator()
     {
         return QueryableEntity.GetEnumerator();
-    }
-
-    public virtual async Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors)
-    {
-        return (await WithDetailsAsync(propertySelectors)).AsNoTracking();
     }
 
     public override async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
@@ -88,6 +83,11 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
             return;
         }
         await base.UpdateManyAsync(updatedEntities.ToList(), autoSave, cancellationToken);
+    }
+
+    public virtual async Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors)
+    {
+        return (await WithDetailsAsync(propertySelectors)).AsNoTracking();
     }
 }
 
@@ -95,11 +95,11 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
     where TDbContext : IEfCoreDbContext
     where TEntity : class, IEntity<TKey>
 {
+    public virtual ChaoAbpEnittyFrameworkCoreOption ChaoAbpEnittyFrameworkCoreOption => LazyServiceProvider.GetRequiredService<IOptions<ChaoAbpEnittyFrameworkCoreOption>>().Value;
     public virtual Type ElementType => QueryableEntity.ElementType;
     public virtual Expression Expression => QueryableEntity.Expression;
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
     protected virtual IQueryable<TEntity> QueryableEntity => AsyncContext.Run(async () => await GetQueryableAsync());
-    public virtual ChaoAbpEnittyFrameworkCoreOption ChaoAbpEnittyFrameworkCoreOption => LazyServiceProvider.GetRequiredService<IOptions<ChaoAbpEnittyFrameworkCoreOption>>().Value;
 
     public virtual async Task BulkDelete(IList<TEntity> entities)
     {
@@ -124,11 +124,6 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
     public virtual IEnumerator<TEntity> GetEnumerator()
     {
         return QueryableEntity.GetEnumerator();
-    }
-
-    public virtual async Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors)
-    {
-        return (await WithDetailsAsync(propertySelectors)).AsNoTracking();
     }
 
     public override async Task UpdateManyAsync(IEnumerable<TEntity> entities, bool autoSave = false, CancellationToken cancellationToken = default)
@@ -162,5 +157,10 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
             return;
         }
         await base.UpdateManyAsync(updatedEntities.ToList(), autoSave, cancellationToken);
+    }
+
+    public virtual async Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors)
+    {
+        return (await WithDetailsAsync(propertySelectors)).AsNoTracking();
     }
 }

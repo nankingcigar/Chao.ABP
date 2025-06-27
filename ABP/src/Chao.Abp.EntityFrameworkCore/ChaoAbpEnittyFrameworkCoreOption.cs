@@ -7,8 +7,6 @@ namespace Chao.Abp.EntityFrameworkCore;
 
 public class ChaoAbpEnittyFrameworkCoreOption
 {
-    public virtual bool EnableUpdateManyOptimization { get; set; } = true;
-
     public virtual IList<string> BasicPropertyNames { get; set; } = [
         nameof(IHasCreationTime.CreationTime),
         nameof(IMayHaveCreator.CreatorId),
@@ -21,4 +19,6 @@ public class ChaoAbpEnittyFrameworkCoreOption
         nameof(IHasEntityVersion.EntityVersion),
         nameof(IHasConcurrencyStamp.ConcurrencyStamp)
     ];
+
+    public virtual bool EnableUpdateManyOptimization { get; set; } = true;
 }
