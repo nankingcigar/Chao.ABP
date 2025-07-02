@@ -5,12 +5,14 @@ using System;
 using System.Threading.Tasks;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.BackgroundJobs.Quartz;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Json;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Security.Claims;
 
 namespace Chao.Abp.BackgroundJobs.Quartz;
 
+[Dependency(ReplaceServices = true)]
 public class ChaoQuartzBackgroundJobManager(IScheduler scheduler, IOptions<AbpBackgroundJobQuartzOptions> options, IJsonSerializer jsonSerializer, IOptions<ChaoAbpBackgroundJobOption> chaoAbpBackgroundJobOptions, ChaoBackgroundEventArgBuilder chaoBackgroundEventArgBuilder) : QuartzBackgroundJobManager(scheduler, options, jsonSerializer)
 {
     public override async Task<string> ReEnqueueAsync<TArgs>(TArgs args, int retryCount, int retryIntervalMillisecond, BackgroundJobPriority priority = BackgroundJobPriority.Normal, TimeSpan? delay = null)

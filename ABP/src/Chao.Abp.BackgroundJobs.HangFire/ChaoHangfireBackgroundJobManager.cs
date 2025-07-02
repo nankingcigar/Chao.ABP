@@ -5,10 +5,13 @@ using System;
 using System.Threading.Tasks;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.BackgroundJobs.Hangfire;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.Hangfire;
 
 namespace Chao.Abp.BackgroundJobs.HangFire;
 
-public class ChaoHangfireBackgroundJobManager(IOptions<AbpBackgroundJobOptions> options, IOptions<ChaoAbpBackgroundJobOption> chaoAbpBackgroundJobOptions, ChaoBackgroundEventArgBuilder chaoBackgroundEventArgBuilder) : HangfireBackgroundJobManager(options)
+[Dependency(ReplaceServices = true)]
+public class ChaoHangfireBackgroundJobManager(IOptions<AbpBackgroundJobOptions> backgroundJobOptions, IOptions<AbpHangfireOptions> hangfireOptions, IOptions<ChaoAbpBackgroundJobOption> chaoAbpBackgroundJobOptions, ChaoBackgroundEventArgBuilder chaoBackgroundEventArgBuilder) : HangfireBackgroundJobManager(backgroundJobOptions, hangfireOptions)
 {
     public override Task<string> EnqueueAsync<TArgs>(TArgs args, BackgroundJobPriority priority = BackgroundJobPriority.Normal, TimeSpan? delay = null)
     {

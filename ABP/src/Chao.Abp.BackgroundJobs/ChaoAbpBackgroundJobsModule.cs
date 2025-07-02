@@ -14,7 +14,6 @@ public class ChaoAbpBackgroundJobsModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.Replace(ServiceDescriptor.Transient<DefaultBackgroundJobManager, ChaoBackgroundJobManager>());
         context.Services.Replace(ServiceDescriptor.Transient<BackgroundJobWorker, ChaoBackgroundJobWorker>());
     }
 }

@@ -1,4 +1,5 @@
-﻿using Chao.Abp.ResultHandling;
+﻿using Chao.Abp.EventBus;
+using Chao.Abp.ResultHandling;
 using Chao.Abp.Timing;
 using Volo.Abp.Auditing;
 using Volo.Abp.Domain;
@@ -10,7 +11,8 @@ namespace Chao.Abp.Ddd.Domain;
 [DependsOn(
     typeof(ChaoAbpTimingModule),
     typeof(ChaoAbpResultHandlingModule),
-    typeof(AbpDddDomainModule)
+    typeof(AbpDddDomainModule),
+    typeof(ChaoAbpEventBusModule)
     )]
 public class ChaoAbpDddDomainModule : AbpModule
 {

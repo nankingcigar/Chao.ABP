@@ -7,8 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="9.2.1" />
-		<ProjectReference Include="..\Chao.Abp.BackgroundJobs.Abstractions\Chao.Abp.BackgroundJobs.Abstractions.csproj" />
+		<PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="9.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Chao.Abp.EventBus.Abstractions\Chao.Abp.EventBus.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>
