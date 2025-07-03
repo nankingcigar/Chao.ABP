@@ -24,6 +24,8 @@ public interface IChaoRepository<TEntity> : IRepository<TEntity>
     IEnumerator<TEntity> GetEnumerator();
 
     Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors);
+
+    IQueryable<TEntity> AsNoTracking(IQueryable<TEntity> entities);
 }
 
 public interface IChaoRepository<TEntity, TKey> : IChaoRepository<TEntity>, IRepository<TEntity, TKey>

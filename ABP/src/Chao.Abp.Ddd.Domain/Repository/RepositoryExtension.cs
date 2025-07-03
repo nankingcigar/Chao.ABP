@@ -96,4 +96,13 @@ public static class RepositoryExtension
         }
         throw new ArgumentException("Not IChaoRepository");
     }
+
+    public static IQueryable<TEntity> AsNoTracking<TEntity>(this IRepository<TEntity> repository, IQueryable<TEntity> entities) where TEntity : class, IEntity
+    {
+        if (repository is IChaoRepository<TEntity> chaoRepository)
+        {
+            return chaoRepository.AsNoTracking(entities);
+        }
+        throw new ArgumentException("Not IChaoRepository");
+    }
 }

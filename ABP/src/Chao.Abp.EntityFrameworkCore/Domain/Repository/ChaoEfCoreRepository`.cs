@@ -27,6 +27,11 @@ public class ChaoEfCoreRepository<TDbContext, TEntity>(IDbContextProvider<TDbCon
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
     protected virtual IQueryable<TEntity> QueryableEntity => AsyncContext.Run(async () => await GetQueryableAsync());
 
+    public virtual IQueryable<TEntity> AsNoTracking(IQueryable<TEntity> entities)
+    {
+        return entities.AsNoTracking();
+    }
+
     public virtual async Task BulkDelete(IList<TEntity> entities)
     {
         await (await GetDbContext()).BulkDeleteAsync(entities);
@@ -100,6 +105,11 @@ public class ChaoEfCoreRepository<TDbContext, TEntity, TKey>(IDbContextProvider<
     public virtual Expression Expression => QueryableEntity.Expression;
     public virtual IQueryProvider Provider => QueryableEntity.Provider;
     protected virtual IQueryable<TEntity> QueryableEntity => AsyncContext.Run(async () => await GetQueryableAsync());
+
+    public virtual IQueryable<TEntity> AsNoTracking(IQueryable<TEntity> entities)
+    {
+        return entities.AsNoTracking();
+    }
 
     public virtual async Task BulkDelete(IList<TEntity> entities)
     {
