@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -18,7 +17,7 @@ using Volo.Abp.Uow;
 namespace Chao.Abp.EventBus;
 
 [Dependency(ReplaceServices = true)]
-public class ChaoLocalEventBus(IOptions<AbpLocalEventBusOptions> options, IServiceScopeFactory serviceScopeFactory, ICurrentTenant currentTenant, IUnitOfWorkManager unitOfWorkManager, IEventHandlerInvoker eventHandlerInvoker, ICurrentPrincipalAccessor currentPrincipalAccessor) : LocalEventBus(options, serviceScopeFactory, currentTenant, unitOfWorkManager, eventHandlerInvoker)
+public class ChaoLocalEventBus(IOptions<AbpLocalEventBusOptions> options, IServiceScopeFactory serviceScopeFactory, ICurrentTenant currentTenant, IUnitOfWorkManager unitOfWorkManager, IEventHandlerInvoker eventHandlerInvoker, ICurrentPrincipalAccessor currentPrincipalAccessor, DefaultClaimBuilder defaultClaimBuilder) : LocalEventBus(options, serviceScopeFactory, currentTenant, unitOfWorkManager, eventHandlerInvoker)
 {
     protected override async Task TriggerHandlerAsync(IEventHandlerFactory asyncHandlerFactory, Type eventType, object eventData, List<Exception> exceptions, InboxConfig? inboxConfig = null)
     {
@@ -37,7 +36,7 @@ public class ChaoLocalEventBus(IOptions<AbpLocalEventBusOptions> options, IServi
                 {
                     using (CurrentTenant.Change(chaoEventEto.TenantId, chaoEventEto.TenantName))
                     {
-                        var claims = chaoEventEto.Claims.Select(c => new Claim(c.Key, c.Value)).ToArray();
+                        var claims = defaultClaimBuilder.Build(chaoEventEto.Claims);
                         var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims));
                         using (currentPrincipalAccessor.Change(claimsPrincipal))
                         {
