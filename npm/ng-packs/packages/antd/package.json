@@ -1,13 +1,13 @@
 {
   "name": "@nankingcigar/ng-zorro-antd",
-  "version": "19.2.2",
+  "version": "20.0.0",
   "homepage": "https://github.com/nankingcigar/Chao.ABP",
   "repository": {
     "type": "git",
     "url": "https://github.com/nankingcigar/Chao.ABP.git"
   },
   "peerDependencies": {
-    "ng-zorro-antd": "^19.2.2"
+    "ng-zorro-antd": "^20.0.0"
   },
   "dependencies": {
     "tslib": "^2.8.1"

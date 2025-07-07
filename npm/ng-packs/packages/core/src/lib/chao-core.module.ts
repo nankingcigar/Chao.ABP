@@ -1,9 +1,3 @@
-/*
- * @Author: Chao Yang
- * @Date: 2020-12-11 17:23:38
- * @LastEditor: Chao Yang
- * @LastEditTime: 2022-11-26 16:32:46
- */
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
@@ -32,6 +26,7 @@ export class ChaoCoreModule {
   static forRoot(options: {
     authenticationConfig: AuthenticationConfig;
     interceptor: typeof InterceptorService;
+    cacheUploadRequest?: boolean;
   }): ModuleWithProviders<ChaoCoreModule> {
     return {
       ngModule: ChaoCoreModule,
@@ -53,8 +48,12 @@ export class ChaoCoreModule {
           provide: InterceptorService,
           useClass: options.interceptor ?? InterceptorService,
         },
-        { provide: OAuthStorage, useValue: localStorage }
-      ],
+        { provide: OAuthStorage, useValue: localStorage },
+        {
+          provide: 'CACHE_UPLOAD_REQUEST',
+          useValue: options.cacheUploadRequest ?? false,
+        }
+      ]
     };
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpInterceptor,
@@ -22,14 +22,21 @@ export class ApiInterceptor implements HttpInterceptor {
     [key: string]: Subject<HttpEvent<any>>
   } = {};
 
-  constructor(private interceptorService: InterceptorService) { }
+  constructor(
+    public interceptorService: InterceptorService,
+    @Inject('CACHE_UPLOAD_REQUEST') public cacheUploadRequest: boolean
+  ) { }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const key = req.method + 'δ' + req.urlWithParams + 'δ' + JSON.stringify(req.body ?? '');
-    if (!req.headers.get('no-cache')) {
+    const isUpload =
+      req.headers.has('Content-Type') &&
+      req.headers.get('Content-Type')?.toLowerCase().includes('multipart/form-data');
+    const shouldCache = !req.headers.get('no-cache') && (!isUpload || this.cacheUploadRequest);
+    if (shouldCache === true) {
       if (this.cacheRequest[key]) {
         if (!this.cacheSubject[key]) {
           this.cacheSubject[key] = new Subject<HttpEvent<any>>();

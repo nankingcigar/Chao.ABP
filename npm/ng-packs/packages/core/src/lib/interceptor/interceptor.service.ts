@@ -1,9 +1,3 @@
-/*
- * @Author: Chao Yang
- * @Date: 2020-12-19 07:01:51
- * @LastEditor: Chao Yang
- * @LastEditTime: 2023-04-15 11:03:39
- */
 import { HttpEvent, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -20,8 +14,8 @@ export class InterceptorService {
   logoutUrl: string;
 
   constructor(
-    protected authenticationConfig: AuthenticationConfig,
-    protected oAuthService: OAuthService
+    public authenticationConfig: AuthenticationConfig,
+    public oAuthService: OAuthService
   ) {
     switch (this.authenticationConfig.authenticationMode) {
       case AuthenticationMode.Cookie:

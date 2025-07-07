@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class ChaoTranslateService {
-  constructor(private translateService: TranslateService) { }
+  constructor(public translateService: TranslateService) { }
 
   get(key: string | Array<string>, interpolateParams?: Object): Observable<string | string[] | any> {
     return this.translateService.get(key, interpolateParams).pipe(

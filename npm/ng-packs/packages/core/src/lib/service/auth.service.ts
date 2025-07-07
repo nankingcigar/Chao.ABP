@@ -20,9 +20,9 @@ export class AuthService {
   loginUrl: string;
 
   constructor(
-    private oAuthService: OAuthService,
-    private authenticationConfig: AuthenticationConfig,
-    private httpClient: HttpClient
+    public oAuthService: OAuthService,
+    public authenticationConfig: AuthenticationConfig,
+    public httpClient: HttpClient
   ) {
     switch (this.authenticationConfig.authenticationMode) {
       case AuthenticationMode.Cookie:
