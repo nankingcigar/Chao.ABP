@@ -11,7 +11,6 @@
     "publish-core": "cd dist\nankingcigar\ng.core && npm publish",
     "publish-translate": "cd dist\nankingcigar\ng.translate && npm publish"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^20.0.6",
     "@angular/common": "^20.0.6",

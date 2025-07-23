@@ -15,7 +15,7 @@ namespace Chao.Abp.AspNetCore.Mvc.ExceptionHandling;
 
 public class ChaoAbpExceptionFilter(IOptions<ChaoAbpResultHandlingOption> chaoAbpResultHandlingOptionOptions) : AbpExceptionFilter()
 {
-    private readonly ChaoAbpResultHandlingOption _chaoAbpResultHandlingOption = chaoAbpResultHandlingOptionOptions.Value;
+    public virtual ChaoAbpResultHandlingOption ChaoAbpResultHandlingOption => chaoAbpResultHandlingOptionOptions.Value;
 
     protected override async Task HandleAndWrapException(ExceptionContext context)
     {
@@ -34,16 +34,24 @@ public class ChaoAbpExceptionFilter(IOptions<ChaoAbpResultHandlingOption> chaoAb
 
     protected override bool ShouldHandleException(ExceptionContext context)
     {
-        var attribute = ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<WrapResultAttribute>(context.ActionDescriptor.GetMethodInfo());
+        var attribute = ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<WrapResultAttribute>(context.ActionDescriptor.GetMethodInfo(), WrapResultAttribute.Default);
         if (attribute != null && attribute.WrapOnError == false)
         {
             return false;
         }
         var controllerType = context.ActionDescriptor.AsControllerActionDescriptor().ControllerTypeInfo.AsType();
-        if (_chaoAbpResultHandlingOption.ExcludeControllerTypes.Any(c => c == controllerType) == true)
+        if (ChaoAbpResultHandlingOption.ExcludeControllerTypes.Any(c => c == controllerType) == true)
         {
             return false;
         }
-        return base.ShouldHandleException(context);
+        if (attribute != null && attribute.WrapOnError == true)
+        {
+            return true;
+        }
+        if (base.ShouldHandleException(context) == true)
+        {
+            return true;
+        }
+        return false;
     }
 }

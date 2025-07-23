@@ -15,16 +15,16 @@ namespace Chao.Abp.AspNetCore.Mvc.ResultHandler;
 
 public class ChaoResultFilter(IOptions<ChaoAbpResultHandlingOption> chaoAbpResultHandlingOptionOptions) : IAsyncActionFilter, ITransientDependency
 {
-    private readonly ChaoAbpResultHandlingOption _chaoAbpResultHandlingOption = chaoAbpResultHandlingOptionOptions.Value;
+    public virtual ChaoAbpResultHandlingOption ChaoAbpResultHandlingOption => chaoAbpResultHandlingOptionOptions.Value;
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var executedContext = await next();
-        if (!ShouldHandleResult(executedContext))
+        if (ShouldHandleResult(executedContext) == false)
         {
             return;
         }
-        if (executedContext.Result is ObjectResult result && !result.StatusCode.HasValue)
+        if (executedContext.Result is ObjectResult result && result.StatusCode.HasValue == false)
         {
             result.Value = new ApiResponse(result.Value);
             result.DeclaredType = typeof(ApiResponse);
@@ -37,13 +37,13 @@ public class ChaoResultFilter(IOptions<ChaoAbpResultHandlingOption> chaoAbpResul
         {
             return false;
         }
-        var attribute = ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault<WrapResultAttribute>(context.ActionDescriptor.GetMethodInfo());
+        var attribute = ReflectionHelper.GetSingleAttributeOfMemberOrDeclaringTypeOrDefault(context.ActionDescriptor.GetMethodInfo(), WrapResultAttribute.Default);
         if (attribute != null && attribute.WrapOnSuccess == false)
         {
             return false;
         }
         var controllerType = context.Controller.GetType();
-        if (_chaoAbpResultHandlingOption.ExcludeControllerTypes.Any(c => c == controllerType) == true)
+        if (ChaoAbpResultHandlingOption.ExcludeControllerTypes.Any(c => c == controllerType) == true)
         {
             return false;
         }

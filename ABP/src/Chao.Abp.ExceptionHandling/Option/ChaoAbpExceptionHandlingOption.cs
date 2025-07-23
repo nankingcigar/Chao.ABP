@@ -7,8 +7,10 @@ public class ChaoAbpExceptionHandlingOption
 {
     public ChaoAbpExceptionHandlingOption()
     {
-        ExcludeControllerTypes = new List<Type>();
+        ExcludeControllerTypes = [];
+        ExceptionCodeJoinString = ".";
     }
 
     public virtual IList<Type> ExcludeControllerTypes { get; set; }
+    public virtual string ExceptionCodeJoinString { get; set; }
 }
