@@ -71,7 +71,7 @@ public class ChaoDefaultExceptionToErrorInfoConverter(
         if (generatedTypeName.Contains("<") && generatedTypeName.Contains(">"))
         {
             var methodName = generatedTypeName.Split('<', '>')[1];
-            var realMethod = outerType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var realMethod = outerType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault(m => m.Name == methodName);
             return realMethod ?? method as MethodInfo;
         }
         return method as MethodInfo;
@@ -83,33 +83,33 @@ public class ChaoDefaultExceptionToErrorInfoConverter(
         if (exception is IHasErrorCode hasErrorCode)
         {
             var errorCodes = new List<string?>();
-            var st = new StackTrace(exception, true);
-            var frame = st.GetFrame(0);
-            if (frame != null)
+            var stackTrace = new StackTrace(exception, 0, false);
+            var frames = stackTrace.GetFrames()!;
+            foreach (var frame in frames)
             {
-                var method = frame.GetMethod();
-                method = GetRealMethodFromAsyncStateMachine(method);
-                var declaringType = method?.DeclaringType;
-                if (declaringType != null)
+                var method = GetRealMethodFromAsyncStateMachine(frame.GetMethod());
+                if (method == null) continue;
+                var methodAttr = method.GetCustomAttribute<ErrorCodeAttribute>();
+                var classAttr = method.DeclaringType?.GetCustomAttribute<ErrorCodeAttribute>();
+                if (methodAttr != null || classAttr != null)
                 {
-                    var classErrorCodeAttribute = declaringType.GetCustomAttribute<ErrorCodeAttribute>();
-                    var methodErrorCodeAttribute = method?.GetCustomAttribute<ErrorCodeAttribute>();
-                    if (classErrorCodeAttribute != null)
+                    if (classAttr != null)
                     {
-                        errorCodes.AddRange(classErrorCodeAttribute.Prefix);
+                        errorCodes.AddRange(classAttr.Prefix);
                     }
-                    else if (methodErrorCodeAttribute?.ClassName == true)
+                    else if (methodAttr?.ClassName == true)
                     {
-                        errorCodes.Add(declaringType.Name);
+                        errorCodes.Add(method.Name);
                     }
-                    if (methodErrorCodeAttribute != null)
+                    if (methodAttr != null)
                     {
-                        errorCodes.AddRange(methodErrorCodeAttribute.Prefix);
+                        errorCodes.AddRange(methodAttr.Prefix);
                     }
-                    else if (classErrorCodeAttribute?.MethodName == true)
+                    else if (classAttr?.MethodName == true)
                     {
                         errorCodes.Add(method?.Name);
                     }
+                    break;
                 }
             }
             errorCodes.Add(hasErrorCode.Code);

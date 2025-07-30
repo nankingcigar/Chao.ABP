@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore" Version="9.2.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore" Version="9.2.3" />
 	<ProjectReference Include="..\Chao.Abp.Authorization\Chao.Abp.Authorization.csproj" />
 	<ProjectReference Include="..\Chao.Abp.Ddd.Domain\Chao.Abp.Ddd.Domain.csproj" />
 	<ProjectReference Include="..\Chao.Abp.ResultHandling\Chao.Abp.ResultHandling.csproj" />
