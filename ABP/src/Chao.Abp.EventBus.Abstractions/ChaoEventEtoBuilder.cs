@@ -17,9 +17,12 @@ public class ChaoEventEtoBuilder(IOptions<ChaoAbpEventBusOption> chaoAbpEventBus
             Chao = true
         };
 
-        foreach (var claim in currentPrincipalAccessor.Principal.Claims)
+        if (currentPrincipalAccessor.Principal != null)
         {
-            newArg.Claims.Add(claim.Type, claim.Value);
+            foreach (var claim in currentPrincipalAccessor.Principal.Claims)
+            {
+                newArg.Claims.Add(claim.Type, claim.Value);
+            }
         }
 
         if (chaoAbpEventBusOptions.Value.DefaultConfigureClaim != null)

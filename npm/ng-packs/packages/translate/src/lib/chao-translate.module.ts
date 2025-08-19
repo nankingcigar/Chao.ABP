@@ -1,31 +1,20 @@
-import { HttpClient } from '@angular/common/http';
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import {
-  TranslateLoader,
-  TranslateModule,
-} from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateHttpLoader, TranslateHttpLoaderConfig } from '@ngx-translate/http-loader';
 import { ChaoTranslateService } from './service/chao-translate.service';
 
-export function HttpLoaderFactory(http: HttpClient, folder: string) {
-  if (folder === undefined) {
-    return new TranslateHttpLoader(http, `assets/i18n/`);
-  } else {
-    return new TranslateHttpLoader(http, `assets/i18n/${folder}/`);
-  }
+export function provideChaoTranslate(folder?: string): Provider[] {
+  return provideTranslateHttpLoader({
+    prefix: `assets/i18n/${folder ?? ''}`,
+    suffix: '.json',
+  } as Partial<TranslateHttpLoaderConfig>);
 }
 
 @NgModule({
   imports: [
     TranslateModule.forRoot({
-      defaultLanguage: 'zh-cn',
-      isolate: false,
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient, 'folder'],
-      },
-      useDefaultLang: true,
+      fallbackLang: 'zh-cn',
+      isolate: false
     }),
   ],
   exports: [TranslateModule],
@@ -36,13 +25,12 @@ export class ChaoTranslateModule {
     return {
       ngModule: ChaoTranslateModule,
       providers: [
-        {
-          provide: 'folder',
-          useValue: folder,
-        },
+        ...provideChaoTranslate(folder),
+        ChaoTranslateService,
       ],
     };
   }
+  
   static forChild(): ModuleWithProviders<TranslateModule> {
     return {
       ngModule: TranslateModule,

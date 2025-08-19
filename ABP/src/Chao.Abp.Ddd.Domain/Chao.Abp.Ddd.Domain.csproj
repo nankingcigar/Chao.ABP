@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="9.3.1" />
     <ProjectReference Include="..\Chao.Abp.EventBus\Chao.Abp.EventBus.csproj" />
 	<ProjectReference Include="..\Chao.Abp.ObjectExtending\Chao.Abp.ObjectExtending.csproj" />
 	<ProjectReference Include="..\Chao.Abp.ResultHandling\Chao.Abp.ResultHandling.csproj" />
