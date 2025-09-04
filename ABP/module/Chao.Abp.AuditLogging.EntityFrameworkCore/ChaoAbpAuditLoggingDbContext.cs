@@ -10,6 +10,7 @@ namespace Chao.Abp.AuditLogging.EntityFrameworkCore;
 public class ChaoAbpAuditLoggingDbContext(DbContextOptions<ChaoAbpAuditLoggingDbContext> options) : AbpDbContext<ChaoAbpAuditLoggingDbContext>(options), IChaoAuditLoggingDbContext
 {
     public virtual DbSet<AuditLogAction> AuditLogAction { get; set; }
+    public DbSet<AuditLogExcelFile> AuditLogExcelFiles { get; set; }
     public virtual DbSet<AuditLog> AuditLogs { get; set; }
     public virtual DbSet<EntityChange> EntityChange { get; set; }
     public virtual DbSet<EntityPropertyChange> EntityPropertyChange { get; set; }

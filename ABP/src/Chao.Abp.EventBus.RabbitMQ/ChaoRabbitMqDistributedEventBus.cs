@@ -58,6 +58,54 @@ public class ChaoRabbitMqDistributedEventBus(IOptions<AbpRabbitMqEventBusOptions
         SubscribeHandlers(AbpDistributedEventBusOptions.Handlers);
     }
 
+    public override async Task ProcessFromInboxAsync(
+        IncomingEventInfo incomingEvent,
+        InboxConfig inboxConfig)
+    {
+        var eventType = EventTypes.GetOrDefault(incomingEvent.EventName);
+        if (eventType == null)
+        {
+            return;
+        }
+
+        var newEventType = typeof(ChaoEventEto<>).MakeGenericType(eventType);
+        var eventData = Serializer.Deserialize(incomingEvent.EventData, newEventType);
+
+        if (eventData is IChaoEventEto chaoEventEto && chaoEventEto.Chao == true)
+        {
+            using (CurrentTenant.Change(chaoEventEto.TenantId, chaoEventEto.TenantName))
+            {
+                var claims = defaultClaimBuilder.Build(chaoEventEto.Claims);
+                var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims));
+                using (currentPrincipalAccessor.Change(claimsPrincipal))
+                {
+                    var exceptions = new List<Exception>();
+                    using (CorrelationIdProvider.Change(incomingEvent.GetCorrelationId()))
+                    {
+                        await TriggerHandlersFromInboxAsync(eventType, chaoEventEto.GetEventData(), exceptions, inboxConfig);
+                    }
+                    if (exceptions.Any())
+                    {
+                        ThrowOriginalExceptions(eventType, exceptions);
+                    }
+                }
+            }
+        }
+        else
+        {
+            eventData = Serializer.Deserialize(incomingEvent.EventData, eventType);
+            var exceptions = new List<Exception>();
+            using (CorrelationIdProvider.Change(incomingEvent.GetCorrelationId()))
+            {
+                await TriggerHandlersFromInboxAsync(eventType, eventData, exceptions, inboxConfig);
+            }
+            if (exceptions.Any())
+            {
+                ThrowOriginalExceptions(eventType, exceptions);
+            }
+        }
+    }
+
     public override async Task PublishAsync(Type eventType, object eventData, bool onUnitOfWorkComplete = true, bool useOutbox = true)
     {
         if (chaoAbpEventBusOptions.Value.BasicInfoEnable == false)
@@ -153,55 +201,7 @@ public class ChaoRabbitMqDistributedEventBus(IOptions<AbpRabbitMqEventBusOptions
         }
     }
 
-    public override async Task ProcessFromInboxAsync(
-        IncomingEventInfo incomingEvent,
-        InboxConfig inboxConfig)
-    {
-        var eventType = EventTypes.GetOrDefault(incomingEvent.EventName);
-        if (eventType == null)
-        {
-            return;
-        }
-
-        var newEventType = typeof(ChaoEventEto<>).MakeGenericType(eventType);
-        var eventData = Serializer.Deserialize(incomingEvent.EventData, newEventType);
-
-        if (eventData is IChaoEventEto chaoEventEto && chaoEventEto.Chao == true)
-        {
-            using (CurrentTenant.Change(chaoEventEto.TenantId, chaoEventEto.TenantName))
-            {
-                var claims = defaultClaimBuilder.Build(chaoEventEto.Claims);
-                var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims));
-                using (currentPrincipalAccessor.Change(claimsPrincipal))
-                {
-                    var exceptions = new List<Exception>();
-                    using (CorrelationIdProvider.Change(incomingEvent.GetCorrelationId()))
-                    {
-                        await TriggerHandlersFromInboxAsync(eventType, chaoEventEto.GetEventData(), exceptions, inboxConfig);
-                    }
-                    if (exceptions.Any())
-                    {
-                        ThrowOriginalExceptions(eventType, exceptions);
-                    }
-                }
-            }
-        }
-        else
-        {
-            eventData = Serializer.Deserialize(incomingEvent.EventData, eventType);
-            var exceptions = new List<Exception>();
-            using (CorrelationIdProvider.Change(incomingEvent.GetCorrelationId()))
-            {
-                await TriggerHandlersFromInboxAsync(eventType, eventData, exceptions, inboxConfig);
-            }
-            if (exceptions.Any())
-            {
-                ThrowOriginalExceptions(eventType, exceptions);
-            }
-        }
-    }
-
-    private async Task ProcessEventAsync(IModel channel, BasicDeliverEventArgs ea)
+    private async Task ProcessEventAsync(IChannel channel, BasicDeliverEventArgs ea)
     {
         var eventName = ea.RoutingKey;
         var eventType = EventTypes.GetOrDefault(eventName);

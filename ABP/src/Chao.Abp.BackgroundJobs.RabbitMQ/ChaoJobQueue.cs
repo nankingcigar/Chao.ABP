@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -46,17 +47,15 @@ public class ChaoJobQueue<TArgs>(IOptions<AbpBackgroundJobOptions> backgroundJob
                     await JobExecuter.ExecuteAsync(context);
                 }
             }
-            ChannelAccessor!.Channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+            await ChannelAccessor!.Channel.BasicAckAsync(deliveryTag: ea.DeliveryTag, multiple: false);
         }
         catch (BackgroundJobExecutionException)
         {
-            //TODO: Reject like that?
-            ChannelAccessor!.Channel.BasicReject(deliveryTag: ea.DeliveryTag, requeue: true);
+            await ChannelAccessor!.Channel.BasicRejectAsync(deliveryTag: ea.DeliveryTag, requeue: true);
         }
         catch (Exception)
         {
-            //TODO: Reject like that?
-            ChannelAccessor!.Channel.BasicReject(deliveryTag: ea.DeliveryTag, requeue: false);
+            await ChannelAccessor!.Channel.BasicRejectAsync(deliveryTag: ea.DeliveryTag, requeue: false);
         }
     }
 
@@ -68,21 +67,25 @@ public class ChaoJobQueue<TArgs>(IOptions<AbpBackgroundJobOptions> backgroundJob
             return;
         }
         var routingKey = QueueConfiguration.QueueName;
-        var basicProperties = CreateBasicPropertiesToPublish();
+        var basicProperties = new BasicProperties
+        {
+            Persistent = true
+        };
 
         if (delay.HasValue)
         {
             routingKey = QueueConfiguration.DelayedQueueName;
-            basicProperties.Expiration = delay.Value.TotalMilliseconds.ToString();
+            basicProperties.Expiration = delay.Value.TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
         }
 
         var newArg = chaoBackgroundEventArgBuilder.Configure(args);
 
-        ChannelAccessor!.Channel.BasicPublish(
+        await ChannelAccessor!.Channel.BasicPublishAsync(
             exchange: "",
             routingKey: routingKey,
+            mandatory: false,
             basicProperties: basicProperties,
-            body: Serializer.Serialize(newArg)
+            body: Serializer.Serialize(args!)
         );
     }
 }

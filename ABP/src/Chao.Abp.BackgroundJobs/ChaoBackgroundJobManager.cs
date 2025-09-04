@@ -10,7 +10,7 @@ using Volo.Abp.Timing;
 namespace Chao.Abp.BackgroundJobs;
 
 [Dependency(ReplaceServices = true)]
-public class ChaoBackgroundJobManager(IClock clock, IBackgroundJobSerializer serializer, IBackgroundJobStore store, IGuidGenerator guidGenerator, IOptions<AbpBackgroundJobWorkerOptions> backgroundJobWorkerOptions, IOptions<ChaoAbpBackgroundJobOption> chaoAbpBackgroundJobOptions, ChaoBackgroundEventArgBuilder chaoBackgroundEventArgBuilder) : DefaultBackgroundJobManager(clock, serializer, store, guidGenerator, backgroundJobWorkerOptions)
+public class ChaoBackgroundJobManager(IClock clock, IBackgroundJobSerializer serializer, IBackgroundJobStore store, IGuidGenerator guidGenerator, IOptions<AbpBackgroundJobOptions> backgroundJobOptions, IOptions<AbpBackgroundJobWorkerOptions> backgroundJobWorkerOptions, IOptions<ChaoAbpBackgroundJobOption> chaoAbpBackgroundJobOptions, ChaoBackgroundEventArgBuilder chaoBackgroundEventArgBuilder) : DefaultBackgroundJobManager(clock, serializer, store, guidGenerator, backgroundJobOptions, backgroundJobWorkerOptions)
 {
     protected override Task<Guid> EnqueueAsync(string jobName, object args, BackgroundJobPriority priority = BackgroundJobPriority.Normal, TimeSpan? delay = null)
     {

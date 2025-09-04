@@ -6,7 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="9.3.1" />
+		<PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="9.3.2" />
 		<ProjectReference Include="..\..\src\Chao.Abp.EntityFrameworkCore\Chao.Abp.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\Chao.Abp.AuditLogging.Domain\Chao.Abp.AuditLogging.Domain.csproj" />
 	</ItemGroup>
