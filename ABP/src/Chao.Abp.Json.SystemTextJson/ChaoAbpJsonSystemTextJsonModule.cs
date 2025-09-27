@@ -25,6 +25,7 @@ public class ChaoAbpJsonSystemTextJsonModule : AbpModule
         Configure<AbpSystemTextJsonSerializerOptions>(options =>
         {
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            options.JsonSerializerOptions.MaxDepth = 64;
         });
         context.Services.AddOptions<AbpSystemTextJsonSerializerOptions>()
             .Configure<IServiceProvider>((options, rootServiceProvider) =>

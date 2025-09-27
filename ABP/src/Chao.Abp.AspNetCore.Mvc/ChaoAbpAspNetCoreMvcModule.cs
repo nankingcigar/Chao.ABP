@@ -41,6 +41,7 @@ public class ChaoAbpAspNetCoreMvcModule : AbpModule
                 options.JsonSerializerOptions.Converters.Add(rootServiceProvider
                     .GetRequiredService<ChaoAbpNullableDateTimeConverter>());
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.MaxDepth = 64;
             });
     }
 }
