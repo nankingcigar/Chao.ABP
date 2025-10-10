@@ -85,7 +85,7 @@ public class ChaoJobQueue<TArgs>(IOptions<AbpBackgroundJobOptions> backgroundJob
             routingKey: routingKey,
             mandatory: false,
             basicProperties: basicProperties,
-            body: Serializer.Serialize(args!)
+            body: Serializer.Serialize(newArg!)
         );
     }
 }

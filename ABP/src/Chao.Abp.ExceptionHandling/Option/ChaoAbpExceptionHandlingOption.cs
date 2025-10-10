@@ -11,6 +11,6 @@ public class ChaoAbpExceptionHandlingOption
         ExceptionCodeJoinString = ".";
     }
 
-    public virtual IList<Type> ExcludeControllerTypes { get; set; }
     public virtual string ExceptionCodeJoinString { get; set; }
+    public virtual IList<Type> ExcludeControllerTypes { get; set; }
 }

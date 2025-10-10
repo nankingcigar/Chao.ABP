@@ -15,6 +15,8 @@ public interface IChaoRepository<TEntity> : IRepository<TEntity>
     Expression Expression { get; }
     IQueryProvider Provider { get; }
 
+    IQueryable<TEntity> AsNoTracking(IQueryable<TEntity> entities);
+
     Task BulkDelete(IList<TEntity> entities);
 
     Task BulkInsert(IList<TEntity> entities);
@@ -24,8 +26,6 @@ public interface IChaoRepository<TEntity> : IRepository<TEntity>
     IEnumerator<TEntity> GetEnumerator();
 
     Task<IQueryable<TEntity>> WithDetailsAndAsNoTrackingAsync(params Expression<Func<TEntity, object>>[] propertySelectors);
-
-    IQueryable<TEntity> AsNoTracking(IQueryable<TEntity> entities);
 }
 
 public interface IChaoRepository<TEntity, TKey> : IChaoRepository<TEntity>, IRepository<TEntity, TKey>

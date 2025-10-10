@@ -1,6 +1,6 @@
 {
   "name": "@nankingcigar/ng-wang-editor",
-  "version": "20.2.0",
+  "version": "20.3.0",
   "peerDependencies": {
     "@nankingcigar/ng.core": "^20.1.1",
     "@wangeditor/editor": "^5.1.23",

@@ -25,6 +25,31 @@ namespace Chao.Abp.EventBus;
 [Dependency(ReplaceServices = true)]
 public class ChaoLocalDistributedEventBus(IServiceScopeFactory serviceScopeFactory, ICurrentTenant currentTenant, IUnitOfWorkManager unitOfWorkManager, IOptions<AbpDistributedEventBusOptions> abpDistributedEventBusOptions, IGuidGenerator guidGenerator, IClock clock, IEventHandlerInvoker eventHandlerInvoker, ILocalEventBus localEventBus, ICorrelationIdProvider correlationIdProvider, ICurrentPrincipalAccessor currentPrincipalAccessor, IOptions<ChaoAbpEventBusOption> chaoAbpEventBusOptions, ChaoEventEtoBuilder chaoEventEtoBuilder, DefaultClaimBuilder defaultClaimBuilder) : LocalDistributedEventBus(serviceScopeFactory, currentTenant, unitOfWorkManager, abpDistributedEventBusOptions, guidGenerator, clock, eventHandlerInvoker, localEventBus, correlationIdProvider)
 {
+    public override async Task ProcessFromInboxAsync(IncomingEventInfo incomingEvent, InboxConfig inboxConfig)
+    {
+        var eventType = EventTypes.GetOrDefault(incomingEvent.EventName);
+        if (eventType == null)
+        {
+            return;
+        }
+        var newEventType = typeof(ChaoEventEto<>).MakeGenericType(eventType);
+        var eventData = JsonSerializer.Deserialize(incomingEvent.EventData, newEventType);
+
+        if (eventData is not IChaoEventEto chaoEventEto || chaoEventEto.Chao != true)
+        {
+            eventData = JsonSerializer.Deserialize(Encoding.UTF8.GetString(incomingEvent.EventData), eventType)!;
+        }
+        var exceptions = new List<Exception>();
+        using (CorrelationIdProvider.Change(incomingEvent.GetCorrelationId()))
+        {
+            await TriggerHandlersFromInboxAsync(eventType, eventData, exceptions, inboxConfig);
+        }
+        if (exceptions.Any())
+        {
+            ThrowOriginalExceptions(eventType, exceptions);
+        }
+    }
+
     public override async Task PublishAsync(Type eventType, object eventData, bool onUnitOfWorkComplete = true, bool useOutbox = true)
     {
         if (chaoAbpEventBusOptions.Value.BasicInfoEnable == false)
@@ -74,8 +99,43 @@ public class ChaoLocalDistributedEventBus(IServiceScopeFactory serviceScopeFacto
         await PublishToEventBusAsync(eventType, eventData);
     }
 
+    public override async Task PublishFromOutboxAsync(OutgoingEventInfo outgoingEvent, OutboxConfig outboxConfig)
+    {
+        await TriggerDistributedEventSentAsync(new DistributedEventSent()
+        {
+            Source = DistributedEventSource.Outbox,
+            EventName = outgoingEvent.EventName,
+            EventData = outgoingEvent.EventData
+        });
+
+        await TriggerDistributedEventReceivedAsync(new DistributedEventReceived
+        {
+            Source = DistributedEventSource.Direct,
+            EventName = outgoingEvent.EventName,
+            EventData = outgoingEvent.EventData
+        });
+
+        var eventType = EventTypes.GetOrDefault(outgoingEvent.EventName);
+        if (eventType == null)
+        {
+            return;
+        }
+        var newEventType = typeof(ChaoEventEto<>).MakeGenericType(eventType);
+        var eventData = JsonSerializer.Deserialize(outgoingEvent.EventData, newEventType);
+
+        if (eventData is not IChaoEventEto chaoEventEto || chaoEventEto.Chao != true)
+        {
+            eventData = JsonSerializer.Deserialize(Encoding.UTF8.GetString(outgoingEvent.EventData), eventType)!;
+        }
+        if (await AddToInboxAsync(Guid.NewGuid().ToString(), outgoingEvent.EventName, eventType, eventData, null))
+        {
+            return;
+        }
+        await LocalEventBus.PublishAsync(eventType, eventData, false);
+    }
+
     protected override async Task TriggerHandlerAsync(IEventHandlerFactory asyncHandlerFactory, Type eventType,
-        object eventData, List<Exception> exceptions, InboxConfig? inboxConfig = null)
+            object eventData, List<Exception> exceptions, InboxConfig? inboxConfig = null)
     {
         using (var eventHandlerWrapper = asyncHandlerFactory.GetHandler())
         {
@@ -117,66 +177,6 @@ public class ChaoLocalDistributedEventBus(IServiceScopeFactory serviceScopeFacto
             {
                 exceptions.Add(ex);
             }
-        }
-    }
-
-    public override async Task PublishFromOutboxAsync(OutgoingEventInfo outgoingEvent, OutboxConfig outboxConfig)
-    {
-        await TriggerDistributedEventSentAsync(new DistributedEventSent()
-        {
-            Source = DistributedEventSource.Outbox,
-            EventName = outgoingEvent.EventName,
-            EventData = outgoingEvent.EventData
-        });
-
-        await TriggerDistributedEventReceivedAsync(new DistributedEventReceived
-        {
-            Source = DistributedEventSource.Direct,
-            EventName = outgoingEvent.EventName,
-            EventData = outgoingEvent.EventData
-        });
-
-        var eventType = EventTypes.GetOrDefault(outgoingEvent.EventName);
-        if (eventType == null)
-        {
-            return;
-        }
-        var newEventType = typeof(ChaoEventEto<>).MakeGenericType(eventType);
-        var eventData = JsonSerializer.Deserialize(outgoingEvent.EventData, newEventType);
-
-        if (eventData is not IChaoEventEto chaoEventEto || chaoEventEto.Chao != true)
-        {
-            eventData = JsonSerializer.Deserialize(Encoding.UTF8.GetString(outgoingEvent.EventData), eventType)!;
-        }
-        if (await AddToInboxAsync(Guid.NewGuid().ToString(), outgoingEvent.EventName, eventType, eventData, null))
-        {
-            return;
-        }
-        await LocalEventBus.PublishAsync(eventType, eventData, false);
-    }
-
-    public override async Task ProcessFromInboxAsync(IncomingEventInfo incomingEvent, InboxConfig inboxConfig)
-    {
-        var eventType = EventTypes.GetOrDefault(incomingEvent.EventName);
-        if (eventType == null)
-        {
-            return;
-        }
-        var newEventType = typeof(ChaoEventEto<>).MakeGenericType(eventType);
-        var eventData = JsonSerializer.Deserialize(incomingEvent.EventData, newEventType);
-
-        if (eventData is not IChaoEventEto chaoEventEto || chaoEventEto.Chao != true)
-        {
-            eventData = JsonSerializer.Deserialize(Encoding.UTF8.GetString(incomingEvent.EventData), eventType)!;
-        }
-        var exceptions = new List<Exception>();
-        using (CorrelationIdProvider.Change(incomingEvent.GetCorrelationId()))
-        {
-            await TriggerHandlersFromInboxAsync(eventType, eventData, exceptions, inboxConfig);
-        }
-        if (exceptions.Any())
-        {
-            ThrowOriginalExceptions(eventType, exceptions);
         }
     }
 }

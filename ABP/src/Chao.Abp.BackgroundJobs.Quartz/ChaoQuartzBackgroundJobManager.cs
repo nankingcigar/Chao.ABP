@@ -7,8 +7,6 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.BackgroundJobs.Quartz;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Json;
-using Volo.Abp.MultiTenancy;
-using Volo.Abp.Security.Claims;
 
 namespace Chao.Abp.BackgroundJobs.Quartz;
 

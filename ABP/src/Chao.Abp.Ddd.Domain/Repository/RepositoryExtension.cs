@@ -23,6 +23,15 @@ public static class RepositoryExtension
         });
     }
 
+    public static IQueryable<TEntity> AsNoTracking<TEntity>(this IRepository<TEntity> repository, IQueryable<TEntity> entities) where TEntity : class, IEntity
+    {
+        if (repository is IChaoRepository<TEntity> chaoRepository)
+        {
+            return chaoRepository.AsNoTracking(entities);
+        }
+        throw new ArgumentException("Not IChaoRepository");
+    }
+
     public static async Task BulkDelete<TEntity>(this IRepository<TEntity> repository, IList<TEntity> entities) where TEntity : class, IEntity
     {
         if (repository is IChaoRepository<TEntity> chaoRepository)
@@ -93,15 +102,6 @@ public static class RepositoryExtension
         if (repository is IChaoRepository<TEntity> chaoRepository)
         {
             return await chaoRepository.WithDetailsAndAsNoTrackingAsync(propertySelectors);
-        }
-        throw new ArgumentException("Not IChaoRepository");
-    }
-
-    public static IQueryable<TEntity> AsNoTracking<TEntity>(this IRepository<TEntity> repository, IQueryable<TEntity> entities) where TEntity : class, IEntity
-    {
-        if (repository is IChaoRepository<TEntity> chaoRepository)
-        {
-            return chaoRepository.AsNoTracking(entities);
         }
         throw new ArgumentException("Not IChaoRepository");
     }
