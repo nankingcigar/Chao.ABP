@@ -10,7 +10,7 @@ import { ChaoTranslateService } from './service/chao-translate.service';
 export function provideChaoTranslate(folder?: string): Provider[] {
   return provideTranslateService({
     loader: provideTranslateHttpLoader({
-      prefix: `/assets/i18n/${folder ?? ''}`,
+      prefix: `assets/i18n/${folder ?? ''}`,
       suffix: '.json',
     }),
     fallbackLang: 'zh-cn',
