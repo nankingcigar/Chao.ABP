@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Json.SystemTextJson" Version="9.3.5" />
+    <PackageReference Include="Volo.Abp.Json.SystemTextJson" Version="10.0.0-rc.3" />
 	<ProjectReference Include="..\Chao.Abp.Timing\Chao.Abp.Timing.csproj" />
 	<ProjectReference Include="..\Chao.Abp.Json.Abstractions\Chao.Abp.Json.Abstractions.csproj" />
   </ItemGroup>

@@ -3,13 +3,13 @@
   <Import Project="..\..\..\common.props" />
   
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.TestBase" Version="9.3.5" />
+    <PackageReference Include="Volo.Abp.AspNetCore.TestBase" Version="10.0.0-rc.3" />
     <ProjectReference Include="..\Chao.Abp.AspNetCore\Chao.Abp.AspNetCore.csproj" />
     <ProjectReference Include="..\Chao.Abp.TestBase\Chao.Abp.TestBase.csproj" />
   </ItemGroup>
