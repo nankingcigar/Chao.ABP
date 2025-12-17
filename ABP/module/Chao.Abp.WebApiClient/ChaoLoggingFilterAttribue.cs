@@ -15,10 +15,11 @@ public class ChaoLoggingFilterAttribue : ApiFilterAttribute
 
     public ChaoLoggingFilterAttribue()
     {
-        this.OrderIndex = int.MaxValue;
-        this.isLoggingFilterAttribute = this.GetType() == typeof(LoggingFilterAttribute);
+        OrderIndex = int.MaxValue;
+        isLoggingFilterAttribute = GetType() == typeof(LoggingFilterAttribute);
     }
 
+    public Func<HttpContent, ValueTask<string?>>? CustomReadRequestContentAsync { get; set; } = null;
     public bool LogRequest { get; set; } = true;
     public bool LogResponse { get; set; } = true;
     public int MaxSuccessResponseSizeBytes { get; set; } = 10 * 1024;
@@ -28,20 +29,20 @@ public class ChaoLoggingFilterAttribue : ApiFilterAttribute
         if (context.HttpContext.HttpApiOptions.UseLogging == false)
             return;
 
-        if (this.isLoggingFilterAttribute && !IsLogEnable(context))
+        if (isLoggingFilterAttribute && !IsLogEnable(context))
             return;
 
         var logMessage = new LogMessage
         {
             RequestTime = DateTime.Now,
-            HasRequest = this.LogRequest
+            HasRequest = LogRequest
         };
 
-        if (this.LogRequest)
+        if (LogRequest)
         {
             var request = context.HttpContext.RequestMessage;
             logMessage.RequestHeaders = request.GetHeadersString();
-            logMessage.RequestContent = await ReadRequestContentAsync(request);
+            logMessage.RequestContent = await ReadRequestContentAsync(request, CustomReadRequestContentAsync);
         }
 
         context.Properties.Set(typeof(LogMessage), logMessage);
@@ -53,7 +54,7 @@ public class ChaoLoggingFilterAttribue : ApiFilterAttribute
         if (logMessage == null)
             return;
 
-        if (this.isLoggingFilterAttribute)
+        if (isLoggingFilterAttribute)
         {
             if (IsLogEnable(context, out var logger))
             {
@@ -96,10 +97,11 @@ public class ChaoLoggingFilterAttribue : ApiFilterAttribute
         return logger.IsEnabled(logLevel);
     }
 
-    private static async ValueTask<string?> ReadRequestContentAsync(HttpApiRequestMessage request)
+    private static async ValueTask<string?> ReadRequestContentAsync(HttpApiRequestMessage request, Func<HttpContent, ValueTask<string?>>? customReadRequestContentAsync)
     {
         if (request.Content == null) return null;
-        return request.Content is FormDataContent formDataContent ? await formDataContent.ToCustomHttpContext().ReadAsStringAsync() :
+        return customReadRequestContentAsync != null ? await customReadRequestContentAsync(request.Content) :
+            request.Content is FormDataContent formDataContent ? await formDataContent.ToCustomHttpContext().ReadAsStringAsync() :
                 request.Content is FormDataFileContent formDataFileContent ? await formDataFileContent.ToCustomHttpContext().ReadAsStringAsync() :
                 await request.Content.ReadAsStringAsync();
     }
