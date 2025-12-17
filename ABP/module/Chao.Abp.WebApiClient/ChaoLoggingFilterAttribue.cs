@@ -9,6 +9,7 @@ using WebApiClientCore.HttpContents;
 
 namespace Chao.Abp.WebApiClient;
 
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
 public class ChaoLoggingFilterAttribue : ApiFilterAttribute
 {
     private readonly bool isLoggingFilterAttribute;
