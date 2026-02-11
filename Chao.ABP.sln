@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.6.33829.357
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11505.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ABP", "ABP", "{3B9C61C1-4778-468D-9293-D703C5FA853D}"
 EndProject
@@ -84,6 +84,25 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.EventBus", "ABP\src\Chao.Abp.EventBus\Chao.Abp.EventBus.csproj", "{48D4E291-147F-46EB-88D6-E4CB542D0620}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.EventBus.RabbitMQ", "ABP\src\Chao.Abp.EventBus.RabbitMQ\Chao.Abp.EventBus.RabbitMQ.csproj", "{C12E4970-C0E3-4C1B-B6E0-4F578414B7FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.Account.Application", "ABP\module\Chao.Abp.Account.Application\Chao.Abp.Account.Application.csproj", "{3C269098-77EC-4724-94A6-9C852228DE1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.Identity.Application", "ABP\module\Chao.Abp.Identity.Application\Chao.Abp.Identity.Application.csproj", "{47AF1254-C4D5-4626-B36D-89400DFBF059}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.PermissionManagement.Application", "ABP\module\Chao.Abp.PermissionManagement.Application\Chao.Abp.PermissionManagement.Application.csproj", "{9C9DB33A-BFC3-44DA-B3CE-39A8C8F0DA9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.AutoMapper", "ABP\src\Chao.Abp.AutoMapper\Chao.Abp.AutoMapper.csproj", "{3ED1988F-C408-4078-B99F-BD569228A28C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.FeatureManagement.Application", "ABP\module\Chao.Abp.FeatureManagement.Application\Chao.Abp.FeatureManagement.Application.csproj", "{83B65043-857C-413E-BF95-C88DF40B30ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.SettingManagement.Application", "ABP\module\Chao.Abp.SettingManagement.Application\Chao.Abp.SettingManagement.Application.csproj", "{D5ABDBE4-6116-4EBC-9F7C-14725BCE0C9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chao.Abp.TenantManagement.Application", "ABP\module\Chao.Abp.TenantManagement.Application\Chao.Abp.TenantManagement.Application.csproj", "{F9C79F91-9186-4CB9-B2A4-40411140AB91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{302AFECF-5B41-4807-B100-45628414F99E}"
+	ProjectSection(SolutionItems) = preProject
+		common.props = common.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -227,6 +246,34 @@ Global
 		{C12E4970-C0E3-4C1B-B6E0-4F578414B7FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C12E4970-C0E3-4C1B-B6E0-4F578414B7FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C12E4970-C0E3-4C1B-B6E0-4F578414B7FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C269098-77EC-4724-94A6-9C852228DE1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C269098-77EC-4724-94A6-9C852228DE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C269098-77EC-4724-94A6-9C852228DE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C269098-77EC-4724-94A6-9C852228DE1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47AF1254-C4D5-4626-B36D-89400DFBF059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47AF1254-C4D5-4626-B36D-89400DFBF059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47AF1254-C4D5-4626-B36D-89400DFBF059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47AF1254-C4D5-4626-B36D-89400DFBF059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C9DB33A-BFC3-44DA-B3CE-39A8C8F0DA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C9DB33A-BFC3-44DA-B3CE-39A8C8F0DA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C9DB33A-BFC3-44DA-B3CE-39A8C8F0DA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C9DB33A-BFC3-44DA-B3CE-39A8C8F0DA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ED1988F-C408-4078-B99F-BD569228A28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ED1988F-C408-4078-B99F-BD569228A28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ED1988F-C408-4078-B99F-BD569228A28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ED1988F-C408-4078-B99F-BD569228A28C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B65043-857C-413E-BF95-C88DF40B30ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B65043-857C-413E-BF95-C88DF40B30ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B65043-857C-413E-BF95-C88DF40B30ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B65043-857C-413E-BF95-C88DF40B30ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5ABDBE4-6116-4EBC-9F7C-14725BCE0C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5ABDBE4-6116-4EBC-9F7C-14725BCE0C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5ABDBE4-6116-4EBC-9F7C-14725BCE0C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5ABDBE4-6116-4EBC-9F7C-14725BCE0C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C79F91-9186-4CB9-B2A4-40411140AB91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C79F91-9186-4CB9-B2A4-40411140AB91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C79F91-9186-4CB9-B2A4-40411140AB91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C79F91-9186-4CB9-B2A4-40411140AB91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -270,6 +317,13 @@ Global
 		{4CF38C30-5B15-4EFC-BCD1-CDDD87628084} = {0B9BC791-50A1-484C-9E78-3C76CF4B03C8}
 		{48D4E291-147F-46EB-88D6-E4CB542D0620} = {0B9BC791-50A1-484C-9E78-3C76CF4B03C8}
 		{C12E4970-C0E3-4C1B-B6E0-4F578414B7FA} = {0B9BC791-50A1-484C-9E78-3C76CF4B03C8}
+		{3C269098-77EC-4724-94A6-9C852228DE1E} = {7711D87C-7E00-42A2-A1E6-B63931745893}
+		{47AF1254-C4D5-4626-B36D-89400DFBF059} = {7711D87C-7E00-42A2-A1E6-B63931745893}
+		{9C9DB33A-BFC3-44DA-B3CE-39A8C8F0DA9A} = {7711D87C-7E00-42A2-A1E6-B63931745893}
+		{3ED1988F-C408-4078-B99F-BD569228A28C} = {0B9BC791-50A1-484C-9E78-3C76CF4B03C8}
+		{83B65043-857C-413E-BF95-C88DF40B30ED} = {7711D87C-7E00-42A2-A1E6-B63931745893}
+		{D5ABDBE4-6116-4EBC-9F7C-14725BCE0C9E} = {7711D87C-7E00-42A2-A1E6-B63931745893}
+		{F9C79F91-9186-4CB9-B2A4-40411140AB91} = {7711D87C-7E00-42A2-A1E6-B63931745893}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {137AB619-25F6-4870-9EEF-E9450C829E13}
