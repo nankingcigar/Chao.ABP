@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\..\common.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.TenantManagement.Application" Version="10.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Chao.Abp.AutoMapper\Chao.Abp.AutoMapper.csproj" />
+		<ProjectReference Include="..\Chao.Abp.TenantManagement.Domain\Chao.Abp.TenantManagement.Domain.csproj" />
+	</ItemGroup>
+
+</Project>
