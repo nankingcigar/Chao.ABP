@@ -1,5 +1,5 @@
 ﻿using Chao.Abp.Swashbuckle.Option;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
@@ -40,19 +40,9 @@ public static class ChaoAbpSwaggerGenServiceCollectionExtensions
                             }
                         });
                     }
-                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
                     {
-                            {
-                                new OpenApiSecurityScheme
-                                {
-                                    Reference = new OpenApiReference
-                                    {
-                                        Type = ReferenceType.SecurityScheme,
-                                        Id = "oauth2"
-                                    }
-                                },
-                                Array.Empty<string>()
-                            }
+                        [new OpenApiSecuritySchemeReference("oauth2", document)] = []
                     });
                     setupAction?.Invoke(options);
                 });

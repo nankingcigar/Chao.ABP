@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Volo.Abp.Data;
 using Volo.Abp.Json.SystemTextJson.JsonConverters;
 using Volo.Abp.ObjectExtending;
@@ -17,7 +18,10 @@ public class ChaoExtraPropertiesValueConverter : ValueConverter<ExtraPropertyDic
         }
     };
 
-    public static readonly JsonSerializerOptions SerializeOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+    public static readonly JsonSerializerOptions SerializeOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+    {
+        ReferenceHandler = ReferenceHandler.IgnoreCycles
+    };
 
     public ChaoExtraPropertiesValueConverter(Type entityType)
             : base(
