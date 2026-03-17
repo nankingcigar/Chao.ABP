@@ -10,7 +10,7 @@ public static class AutoMapperServiceCollectionExtensions
     {
         services.AddAutoMapper(cfg =>
         {
-            //cfg.LicenseKey = licenseKey;
+            cfg.LicenseKey = licenseKey;
         });
         return services;
     }
