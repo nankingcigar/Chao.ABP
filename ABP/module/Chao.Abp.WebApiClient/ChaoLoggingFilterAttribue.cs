@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using WebApiClientCore;
 using WebApiClientCore.Attributes;
 
@@ -11,7 +12,7 @@ public class ChaoLoggingFilterAttribue : LoggingFilterAttribute
     protected override async Task WriteLogAsync(ApiResponseContext context, LogMessage logMessage)
     {
         bool isSuccess = context.HttpContext.ResponseMessage?.IsSuccessStatusCode == true;
-        if (isSuccess && MaxSuccessResponseSizeBytes > 0 && System.Text.Encoding.UTF8.GetByteCount(logMessage.ResponseContent) > MaxSuccessResponseSizeBytes)
+        if (isSuccess && MaxSuccessResponseSizeBytes > 0 && logMessage.ResponseContent.IsNullOrEmpty() == false && System.Text.Encoding.UTF8.GetByteCount(logMessage.ResponseContent) > MaxSuccessResponseSizeBytes)
         {
             logMessage.ResponseContent = "...(too large)";
         }
