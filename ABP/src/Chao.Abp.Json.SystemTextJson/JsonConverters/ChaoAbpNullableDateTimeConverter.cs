@@ -1,5 +1,4 @@
 ﻿using Chao.Abp.Json.Abstractions;
-using Chao.Abp.Timing;
 using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
@@ -7,10 +6,13 @@ using System.Linq;
 using System.Text.Json;
 using Volo.Abp.Json;
 using Volo.Abp.Json.SystemTextJson.JsonConverters;
+using Volo.Abp.Timing;
 
 namespace Chao.Abp.Json.SystemTextJson.JsonConverters;
 
-public class ChaoAbpNullableDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions, IOptions<ChaoAbpJsonOption> chaoAbpJsonOptions) : AbpNullableDateTimeConverter(clock, abpJsonOptions)
+using Chao.Abp.Timing;
+
+public class ChaoAbpNullableDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions, ICurrentTimezoneProvider currentTimezoneProvider, ITimezoneProvider timezoneProvider, IOptions<ChaoAbpJsonOption> chaoAbpJsonOptions) : AbpNullableDateTimeConverter(clock, abpJsonOptions, currentTimezoneProvider, timezoneProvider)
 {
     private readonly AbpJsonOptions _options = abpJsonOptions.Value;
 

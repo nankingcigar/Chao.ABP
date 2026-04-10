@@ -14,10 +14,11 @@ using Volo.Abp.ExceptionHandling;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.RabbitMQ;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.Tracing;
 
 namespace Chao.Abp.BackgroundJobs.RabbitMQ;
 
-public class ChaoJobQueue<TArgs>(IOptions<AbpBackgroundJobOptions> backgroundJobOptions, IOptions<AbpRabbitMqBackgroundJobOptions> rabbitMqAbpBackgroundJobOptions, IChannelPool channelPool, IRabbitMqSerializer serializer, IBackgroundJobExecuter jobExecuter, IServiceScopeFactory serviceScopeFactory, IExceptionNotifier exceptionNotifier, IOptions<ChaoAbpBackgroundJobOption> chaoAbpBackgroundJobOptions, ChaoBackgroundEventArgBuilder chaoBackgroundEventArgBuilder) : JobQueue<TArgs>(backgroundJobOptions, rabbitMqAbpBackgroundJobOptions, channelPool, serializer, jobExecuter, serviceScopeFactory, exceptionNotifier)
+public class ChaoJobQueue<TArgs>(IOptions<AbpBackgroundJobOptions> backgroundJobOptions, IOptions<AbpRabbitMqBackgroundJobOptions> rabbitMqAbpBackgroundJobOptions, IChannelPool channelPool, IRabbitMqSerializer serializer, IBackgroundJobExecuter jobExecuter, IServiceScopeFactory serviceScopeFactory, IExceptionNotifier exceptionNotifier, ICorrelationIdProvider correlationIdProvider, IOptions<ChaoAbpBackgroundJobOption> chaoAbpBackgroundJobOptions, ChaoBackgroundEventArgBuilder chaoBackgroundEventArgBuilder) : JobQueue<TArgs>(backgroundJobOptions, rabbitMqAbpBackgroundJobOptions, channelPool, serializer, jobExecuter, serviceScopeFactory, exceptionNotifier, correlationIdProvider)
 {
     protected override async Task MessageReceived(object sender, BasicDeliverEventArgs ea)
     {

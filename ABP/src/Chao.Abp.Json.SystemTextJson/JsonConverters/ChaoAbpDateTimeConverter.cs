@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text.Json;
 using Volo.Abp.Json;
 using Volo.Abp.Json.SystemTextJson.JsonConverters;
+using Volo.Abp.Timing;
 
 namespace Chao.Abp.Json.SystemTextJson.JsonConverters;
 
-public class ChaoAbpDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions, IOptions<ChaoAbpJsonOption> chaoAbpJsonOptions) : AbpDateTimeConverter(clock, abpJsonOptions)
+public class ChaoAbpDateTimeConverter(IChaoClock clock, IOptions<AbpJsonOptions> abpJsonOptions, ICurrentTimezoneProvider currentTimezoneProvider, ITimezoneProvider timezoneProvider, IOptions<ChaoAbpJsonOption> chaoAbpJsonOptions) : AbpDateTimeConverter(clock, abpJsonOptions, currentTimezoneProvider, timezoneProvider)
 {
     private readonly AbpJsonOptions _options = abpJsonOptions.Value;
 

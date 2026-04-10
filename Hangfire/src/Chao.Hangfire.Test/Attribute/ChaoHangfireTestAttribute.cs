@@ -1,18 +1,18 @@
 ﻿using Hangfire;
 using System;
 using System.Reflection;
-using Xunit.Sdk;
+using Xunit.v3;
 
 namespace Chao.Hangfire.Test.Attribute;
 
 public class ChaoHangfireTestAttribute : BeforeAfterTestAttribute
 {
-    public override void Before(MethodInfo methodUnderTest)
+    public override void Before(MethodInfo methodUnderTest, IXunitTest test)
     {
         var backgroundJobClient = new BackgroundJobClient();
         var clientFactoryPropertyInfo = typeof(BackgroundJob).GetProperty("ClientFactory", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
         object o = (Func<IBackgroundJobClient>)(() => backgroundJobClient);
-        clientFactoryPropertyInfo.SetValue(null, o);
-        base.Before(methodUnderTest);
+        clientFactoryPropertyInfo?.SetValue(null, o);
+        base.Before(methodUnderTest, test);
     }
 }
