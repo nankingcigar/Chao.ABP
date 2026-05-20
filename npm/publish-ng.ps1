@@ -1,30 +1,47 @@
+$env:NODE_AUTH_TOKEN="access_token"
 
-$commands = (
+npm config set //registry.npmjs.org/:_authToken $env:NODE_AUTH_TOKEN
+
+$commands = @(
   "cd ng-packs",
   "npm install",
   "npm run build-module",
+
   "cd dist\nankingcigar\ng.core",
-  "npm publish",
+  "npm publish --access public",
+
   "cd ..\ng.translate",
-  "npm publish",
+  "npm publish --access public",
+
   "cd ..\ng-zorro-antd",
-  "npm publish",
+  "npm publish --access public",
+
   "cd ..\ng-monaco-editor",
-  "npm publish",
+  "npm publish --access public",
+
   "cd ..\ng-wang-editor",
-  "npm publish"
+  "npm publish --access public"
 )
 
-foreach ($command in $commands) { 
+foreach ($command in $commands) {
+
   $timer = [System.Diagnostics.Stopwatch]::StartNew()
+
+  Write-Host ""
+  Write-Host "=================================================="
   Write-Host $command
+  Write-Host "=================================================="
+
   Invoke-Expression $command
-  if ($LASTEXITCODE -ne '0' -And $command -notlike '*cd *') {
-    Write-Host ("Process failed! " + $command)
+
+  if ($LASTEXITCODE -ne 0 -and $command -notlike "cd *") {
+    Write-Host ""
+    Write-Host "FAILED: $command"
+    exit 1
   }
+
   $timer.Stop()
-  $total = $timer.Elapsed
-  Write-Output "-------------------------"
-  Write-Output "$command command took $total (Hours:Minutes:Seconds.Milliseconds)"
-  Write-Output "-------------------------"
+
+  Write-Host ""
+  Write-Host "Finished in $($timer.Elapsed)"
 }
