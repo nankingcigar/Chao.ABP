@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <Version>10.4.0</Version>
+    <Version>10.4.1</Version>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
     <NoWarn>$(NoWarn);CS1591;CS0436</NoWarn>
@@ -15,9 +15,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Include symbol files (*.pdb) in the built .nupkg -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <Authors>Chao Yang</Authors>
-    <Company>Chao Yang</Company>
-    <Copyright>Chao Yang 2025</Copyright>
+    <Authors>杨超</Authors>
+    <Company>杨超</Company>
+    <Copyright>杨超 2026</Copyright>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">

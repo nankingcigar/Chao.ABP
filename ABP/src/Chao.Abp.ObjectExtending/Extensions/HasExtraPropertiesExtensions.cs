@@ -27,7 +27,7 @@ public static class HasExtraPropertiesExtensions
 
             if (conversionType == typeof(Guid))
             {
-                return (TProperty)TypeDescriptor.GetConverter(conversionType).ConvertFromInvariantString(value.ToString());
+                return (TProperty)TypeDescriptor.GetConverter(conversionType).ConvertFromInvariantString(value.ToString()!)!;
             }
             if (conversionType.IsEnum == true)
             {
@@ -42,7 +42,7 @@ public static class HasExtraPropertiesExtensions
         {
             if (value is JsonElement)
             {
-                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
+                return JsonSerializer.Deserialize<TProperty>(value.ToString()!, new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
             }
             else
             {
@@ -53,7 +53,7 @@ public static class HasExtraPropertiesExtensions
         {
             if (value is JsonElement)
             {
-                return JsonSerializer.Deserialize<TProperty>(value.ToString(), new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
+                return JsonSerializer.Deserialize<TProperty>(value.ToString()!, new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
             }
             else
             {
