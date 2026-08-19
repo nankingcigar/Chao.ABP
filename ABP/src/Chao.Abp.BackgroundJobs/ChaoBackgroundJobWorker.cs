@@ -18,7 +18,7 @@ namespace Chao.Abp.BackgroundJobs;
 
 public class ChaoBackgroundJobWorker(AbpAsyncTimer timer, IOptions<AbpBackgroundJobOptions> jobOptions, IOptions<AbpBackgroundJobWorkerOptions> workerOptions, IServiceScopeFactory serviceScopeFactory, IAbpDistributedLock distributedLock, ICurrentTenant currentTenant, ICurrentPrincipalAccessor currentPrincipalAccessor) : BackgroundJobWorker(timer, jobOptions, workerOptions, serviceScopeFactory, distributedLock)
 {
-    protected override async Task DoWorkAsync(PeriodicBackgroundWorkerContext workerContext)
+    protected override async Task ExecuteJobsWithWorkerLockAsync(PeriodicBackgroundWorkerContext workerContext)
     {
         await using (var handler = await DistributedLock.TryAcquireAsync(WorkerOptions.DistributedLockName, cancellationToken: StoppingToken))
         {
